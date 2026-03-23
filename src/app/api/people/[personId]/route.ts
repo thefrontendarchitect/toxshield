@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
 const updateSchema = z.object({
-  name: z.string().max(100).optional(),
+  name: z.string().min(1).max(100).optional(),
   relationship: z.string().nullable().optional(),
 });
 
@@ -58,6 +58,42 @@ export async function PATCH(
     console.error('Update person error:', error);
     return NextResponse.json(
       { error: 'Update failed. Please try again.' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ personId: string }> }
+) {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { personId } = await params;
+
+    const { data: deleted, error } = await supabase
+      .from('people')
+      .delete()
+      .eq('id', personId)
+      .eq('user_id', user.id)
+      .select('id')
+      .single();
+
+    if (error || !deleted) {
+      return NextResponse.json({ error: 'Person not found' }, { status: 404 });
+    }
+
+    return new NextResponse(null, { status: 204 });
+  } catch (error) {
+    console.error('Delete person error:', error);
+    return NextResponse.json(
+      { error: 'Delete failed. Please try again.' },
       { status: 500 }
     );
   }
