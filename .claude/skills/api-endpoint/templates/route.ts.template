@@ -1,0 +1,58 @@
+import { createClient } from '@/lib/supabase/server';
+import { NextResponse } from 'next/server';
+import { z } from 'zod';
+
+// Request validation schema
+const requestSchema = z.object({
+  // TODO: Define request fields
+  // name: z.string().min(1).max(100),
+  // description: z.string().min(10).max(5000),
+});
+
+export async function POST(request: Request) {
+  try {
+    const supabase = await createClient();
+
+    // Check authentication
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Validate request body
+    const body = await request.json();
+    const parsed = requestSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: 'Invalid request', details: parsed.error.flatten() },
+        { status: 400 }
+      );
+    }
+
+    // TODO: Implement business logic
+    // const { data, error } = await supabase
+    //   .from('table_name')
+    //   .select('*')
+    //   .eq('user_id', user.id)
+    //   .returns<Array<RowType>>();
+    //
+    // if (error) throw error;
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error:', error);
+    return NextResponse.json(
+      { error: 'Something went wrong. Please try again.' },
+      { status: 500 }
+    );
+  }
+}
+
+// Optional: GET handler
+// export async function GET(request: Request) {
+//   ...
+// }

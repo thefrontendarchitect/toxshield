@@ -1,26 +1,234 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* ═══════════════════════════════════════════
+     MONOCHROME BRUTALIST — Black & White Only
+     ═══════════════════════════════════════════ */
+
+  /* Surfaces */
+  --color-black: #000000;
+  --color-surface: #0d0d0d;
+  --color-hover: #161616;
+  --color-line: #1a1a1a;
+
+  /* Text */
+  --color-white: #ffffff;
+  --color-dim: #666666;
+  --color-muted: #333333;
+
+  /* Legacy aliases (so Tailwind tokens resolve) */
+  --color-surface-0: #000000;
+  --color-surface-1: #0d0d0d;
+  --color-surface-2: #161616;
+  --color-surface-3: #1a1a1a;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #666666;
+
+  /* Background/foreground */
+  --color-background: #000000;
+  --color-foreground: #ffffff;
+
+  /* Fonts */
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Safe area variables */
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-bottom-reduced: max(0px, calc(env(safe-area-inset-bottom, 0px) - 14px));
+  --keyboard-height: 0px;
 }
 
+/* Prevent mobile browser text size adjustment */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Global styles */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #000;
+  color: #fff;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+}
+
+/* ═══════════════════════════
+   SAFE AREA
+   ═══════════════════════════ */
+.pt-safe {
+  padding-top: max(0.75rem, env(safe-area-inset-top));
+}
+.pb-safe {
+  padding-bottom: var(--safe-bottom-reduced);
+}
+
+/* ═══════════════════════════
+   WHITE GLOW — the signature effect
+   ═══════════════════════════ */
+.glow {
+  box-shadow:
+    0 0 5px #fff,
+    0 0 20px rgba(255, 255, 255, 0.3),
+    0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+.glow-subtle {
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+.glow-intense {
+  box-shadow:
+    0 0 8px #fff,
+    0 0 30px rgba(255, 255, 255, 0.5),
+    0 0 60px rgba(255, 255, 255, 0.15);
+}
+
+.text-glow {
+  text-shadow: 0 0 10px #fff, 0 0 30px rgba(255, 255, 255, 0.5);
+}
+
+.text-glow-subtle {
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.text-glow-intense {
+  text-shadow:
+    0 0 10px #fff,
+    0 0 40px rgba(255, 255, 255, 0.6),
+    0 0 80px rgba(255, 255, 255, 0.2);
+}
+
+/* ═══════════════════════════
+   SCANLINES — CRT surveillance aesthetic
+   ═══════════════════════════ */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.02) 2px,
+    rgba(255, 255, 255, 0.02) 4px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ═══════════════════════════
+   ANIMATIONS
+   ═══════════════════════════ */
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes score-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.score-pulse {
+  animation: score-pulse 2s ease-in-out infinite;
+}
+
+@keyframes line-pulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.5; }
+}
+.line-pulse {
+  animation: line-pulse 3s ease-in-out infinite;
+}
+
+@keyframes border-flash {
+  0% { border-color: rgba(255, 255, 255, 0.1); }
+  50% { border-color: rgba(255, 255, 255, 0.6); }
+  100% { border-color: rgba(255, 255, 255, 0.1); }
+}
+.border-flash {
+  animation: border-flash 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════
+   TOUCH INTERACTIONS
+   ═══════════════════════════ */
+.touch-active {
+  transition: transform 100ms ease;
+}
+.touch-active:active {
+  transform: scale(0.98);
+}
+
+.touch-ripple {
+  position: relative;
+  overflow: hidden;
+}
+.touch-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s ease-out;
+}
+.touch-ripple:active::after {
+  transform: translate(-50%, -50%) scale(2);
+}
+
+/* ═══════════════════════════
+   SCROLLBAR
+   ═══════════════════════════ */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ═══════════════════════════
+   SELECTION
+   ═══════════════════════════ */
+::selection {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+/* ═══════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .cursor-blink,
+  .score-pulse,
+  .line-pulse,
+  .border-flash {
+    animation: none !important;
+  }
 }

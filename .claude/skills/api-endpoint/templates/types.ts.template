@@ -1,0 +1,22 @@
+// Types for the feature
+// Add to src/types/ or extend existing type files
+
+export interface FeatureItem {
+  id: string;
+  user_id: string;
+  // TODO: Add feature-specific fields
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateFeatureData {
+  // TODO: Define creation payload
+  // name: string;
+  // description: string;
+}
+
+export interface FeatureResponse {
+  // TODO: Define API response shape
+  // data: FeatureItem;
+  success: boolean;
+}

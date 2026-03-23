@@ -1,0 +1,34 @@
+export type TraitSeverity = 'low' | 'moderate' | 'high' | 'critical';
+export type RiskLevel = 'low' | 'moderate' | 'high';
+export type StrategyPriority = 'essential' | 'recommended' | 'optional';
+export type InputType = 'text_description' | 'audio_transcription' | 'whatsapp_chat' | 'email' | 'sms' | 'incident';
+
+export interface ToxicTrait {
+  name: string;
+  severity: TraitSeverity;
+  description: string;
+  icon: string;
+}
+
+export interface ProtectionStrategy {
+  title: string;
+  description: string;
+  priority: StrategyPriority;
+}
+
+export interface SelfReflection {
+  message: string;
+  suggestions: string[];
+}
+
+export interface AnalysisResult {
+  toxicity_score: number;
+  risk_level: RiskLevel;
+  is_toxic: boolean;
+  detected_traits: ToxicTrait[];
+  pattern_analysis: string;
+  protection_strategies: ProtectionStrategy[];
+  self_reflection: SelfReflection | null;
+  headline: string;
+  tagline: string;
+}

@@ -1,0 +1,80 @@
+// hooks.ts template for ToxShield feature (client-side)
+// Replace {{ModuleName}} with PascalCase name
+// Replace {{moduleName}} with camelCase name
+
+'use client';
+
+import { useState, useEffect } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import type { {{ModuleName}} } from '@/types/{{module-name}}';
+
+/**
+ * Hook to fetch list of {{ModuleName}}s from Supabase
+ */
+export function use{{ModuleName}}s() {
+  const [data, setData] = useState<{{ModuleName}}[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetch() {
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Not authenticated');
+
+        const { data, error } = await supabase
+          .from('{{tableName}}')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+          .returns<{{ModuleName}}[]>();
+
+        if (error) throw error;
+        setData(data ?? []);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetch();
+  }, []);
+
+  return { data, loading, error };
+}
+
+/**
+ * Hook to create a new {{ModuleName}} via API route
+ */
+export function useCreate{{ModuleName}}() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const create = async (input: Record<string, unknown>) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/{{module-name}}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(input),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Failed to create');
+      }
+
+      return await res.json();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to create';
+      setError(message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { create, loading, error };
+}

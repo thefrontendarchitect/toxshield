@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ToxShield</string>
+    <string name="title_activity_main">ToxShield</string>
+    <string name="package_name">com.toxshield.app</string>
+    <string name="custom_url_scheme">com.toxshield.app</string>
+</resources>

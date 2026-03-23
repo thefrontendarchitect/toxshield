@@ -1,0 +1,16 @@
+// index.ts template - Public API for the feature module
+// Replace {{ModuleName}} with PascalCase name
+// Replace {{moduleName}} with camelCase name
+
+// Types
+export type {
+  {{ModuleName}},
+  {{ModuleName}}CreateData,
+  {{ModuleName}}UpdateData,
+} from './types';
+
+// Hooks (if client-side data fetching is used)
+// export { use{{ModuleName}}s, useCreate{{ModuleName}} } from './hooks';
+
+// Query keys (for cache management)
+// export { {{moduleName}}Keys } from './query-keys';

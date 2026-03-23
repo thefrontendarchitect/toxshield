@@ -1,0 +1,50 @@
+// api.ts template for ToxShield feature
+// Replace {{ModuleName}} with PascalCase name
+// Replace {{tableName}} with Supabase table name (snake_case)
+// This file should be used in API routes (server-side only)
+
+import { createClient } from '@/lib/supabase/server';
+import type { {{ModuleName}}, {{ModuleName}}CreateData } from '@/types/{{module-name}}';
+
+export async function get{{ModuleName}}s(userId: string): Promise<{{ModuleName}}[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('{{tableName}}')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .returns<{{ModuleName}}[]>();
+
+  if (error) throw error;
+  return data ?? [];
+}
+
+export async function get{{ModuleName}}(id: string, userId: string): Promise<{{ModuleName}} | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('{{tableName}}')
+    .select('*')
+    .eq('id', id)
+    .eq('user_id', userId)
+    .returns<{{ModuleName}}[]>()
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function create{{ModuleName}}(
+  userId: string,
+  input: {{ModuleName}}CreateData
+): Promise<{{ModuleName}}> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('{{tableName}}')
+    .insert({ user_id: userId, ...input } as Record<string, unknown>)
+    .select('*')
+    .returns<{{ModuleName}}[]>()
+    .single();
+
+  if (error) throw error;
+  return data;
+}

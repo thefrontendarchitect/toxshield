@@ -1,0 +1,19 @@
+import { z } from 'zod';
+
+// Request schemas
+export const createFeatureSchema = z.object({
+  // TODO: Define fields with validation
+  // name: z.string().min(1).max(100),
+  // description: z.string().min(10).max(5000),
+  // personId: z.string().uuid().optional(),
+});
+
+export const updateFeatureSchema = z.object({
+  // TODO: Define update fields (all optional)
+  // name: z.string().min(1).max(100).optional(),
+  // description: z.string().min(10).max(5000).optional(),
+});
+
+// Type inference from schemas
+export type CreateFeatureInput = z.infer<typeof createFeatureSchema>;
+export type UpdateFeatureInput = z.infer<typeof updateFeatureSchema>;

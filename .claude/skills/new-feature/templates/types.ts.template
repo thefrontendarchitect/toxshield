@@ -1,0 +1,18 @@
+// types.ts template for ToxShield feature
+// Replace {{ModuleName}} with PascalCase name (e.g., Tag)
+
+export interface {{ModuleName}} {
+  id: string;
+  user_id: string;
+  // TODO: Add feature-specific fields
+  created_at: string;
+  updated_at: string;
+}
+
+export interface {{ModuleName}}CreateData {
+  // TODO: Add required fields for creation
+}
+
+export interface {{ModuleName}}UpdateData {
+  // TODO: Add optional fields for updates (all optional)
+}

@@ -1,0 +1,19 @@
+// query-keys.ts template for ToxShield feature
+// Replace {{moduleName}} with camelCase name (e.g., tag)
+// Use these as cache keys if adding React Query / SWR later
+
+/**
+ * Query key factory for {{ModuleName}} module
+ *
+ * Pattern: ['entity', id?, filters?]
+ *
+ * Usage:
+ * - {{moduleName}}Keys.all            -> ['{{moduleName}}s']
+ * - {{moduleName}}Keys.list()         -> ['{{moduleName}}s', 'list']
+ * - {{moduleName}}Keys.detail(id)     -> ['{{moduleName}}s', 'detail', id]
+ */
+export const {{moduleName}}Keys = {
+  all: ['{{moduleName}}s'] as const,
+  list: () => [...{{moduleName}}Keys.all, 'list'] as const,
+  detail: (id: string) => [...{{moduleName}}Keys.all, 'detail', id] as const,
+};
