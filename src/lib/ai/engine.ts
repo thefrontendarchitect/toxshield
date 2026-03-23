@@ -1,13 +1,7 @@
-import Anthropic from '@anthropic-ai/sdk';
+import { getProvider } from './providers';
 import { analysisResultSchema, zodToJsonSchema } from './schemas';
 import { SYSTEM_PROMPT, buildUserPrompt, buildContextualPrompt, buildWhatsAppPrompt } from './prompts';
 import { AnalysisResult } from '@/types/analysis';
-
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY!,
-});
-
-const MODEL = 'claude-sonnet-4-5-20250514';
 
 interface AnalyzeParams {
   description: string;
@@ -55,45 +49,19 @@ export async function analyzePersonality({
   }
 
   const jsonSchema = zodToJsonSchema(analysisResultSchema);
+  const provider = getProvider();
 
-  const response = await anthropic.messages.create({
-    model: MODEL,
-    max_tokens: 2048,
-    system: SYSTEM_PROMPT,
-    messages: [
-      {
-        role: 'user',
-        content: userPrompt,
-      },
-    ],
-    temperature: 0.7,
-    // Use structured output via tool_use pattern for reliable JSON
-    tools: [
-      {
-        name: 'toxicity_analysis',
-        description: 'Output the complete toxicity analysis result',
-        input_schema: jsonSchema as Anthropic.Messages.Tool.InputSchema,
-      },
-    ],
-    tool_choice: { type: 'tool', name: 'toxicity_analysis' },
-  });
+  const { result: rawResult, model, promptTokens, completionTokens } =
+    await provider.call({
+      systemPrompt: SYSTEM_PROMPT,
+      userPrompt,
+      jsonSchema,
+      maxTokens: 2048,
+      temperature: 0.7,
+    });
 
-  // Extract the tool use result
-  const toolUseBlock = response.content.find(
-    (block) => block.type === 'tool_use'
-  );
+  // Validate with Zod regardless of provider
+  const result = analysisResultSchema.parse(rawResult);
 
-  if (!toolUseBlock || toolUseBlock.type !== 'tool_use') {
-    throw new Error('AI did not return a structured analysis result');
-  }
-
-  // Validate with Zod
-  const parsed = analysisResultSchema.parse(toolUseBlock.input);
-
-  return {
-    result: parsed,
-    model: MODEL,
-    promptTokens: response.usage.input_tokens,
-    completionTokens: response.usage.output_tokens,
-  };
+  return { result, model, promptTokens, completionTokens };
 }
