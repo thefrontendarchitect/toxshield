@@ -22,7 +22,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <AppHeader title={title} showBackButton={isDetailPage} />
-      <main className="min-h-screen bg-black pt-[calc(56px+env(safe-area-inset-top,0px))] pb-[calc(80px+env(safe-area-inset-bottom,0px))]">
+      <main className="min-h-screen bg-black pt-[calc(56px+env(safe-area-inset-top,0px))] pb-[calc(100px+env(safe-area-inset-bottom,0px))]">
         <div className="px-4 py-6">{children}</div>
       </main>
       <BottomNav />
