@@ -23,7 +23,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <>
       <AppHeader title={title} showBackButton={isDetailPage} />
       <main
-        className="min-h-screen bg-black"
+        className="bg-black"
         style={{
           paddingTop: 'calc(56px + env(safe-area-inset-top, 0px))',
           paddingBottom: 'calc(120px + env(safe-area-inset-bottom, 0px))',

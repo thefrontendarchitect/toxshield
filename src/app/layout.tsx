@@ -42,9 +42,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased dark`}
+      className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased dark overflow-x-hidden`}
     >
-      <body className="min-h-full bg-surface-0 text-text-primary overflow-x-hidden">
+      <body className="min-h-full bg-surface-0 text-text-primary">
         <AppProviders>{children}</AppProviders>
       </body>
     </html>
