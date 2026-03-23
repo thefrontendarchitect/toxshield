@@ -34,7 +34,8 @@ export async function POST(request: Request) {
       );
     }
 
-    let { name, relationship, description, personId, inputType } = parsed.data;
+    let { name, relationship: rawRelationship, description, personId, inputType } = parsed.data;
+    let relationship = rawRelationship?.trim() || null;
 
     // If updating existing person, fetch context and person details
     let previousInputs: Array<{ type: string; content: string; date: string }> = [];
@@ -109,6 +110,7 @@ export async function POST(request: Request) {
           current_toxicity_score: result.toxicity_score,
           current_risk_level: result.risk_level,
           is_toxic: result.is_toxic,
+          analysis_count: 1,
         } as Record<string, unknown>)
         .select('id')
         .returns<Array<{ id: string }>>()
