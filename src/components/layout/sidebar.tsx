@@ -9,6 +9,7 @@ const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: '>' },
   { href: '/analyze', label: 'New Analysis', icon: '+' },
   { href: '/people', label: 'People', icon: '#' },
+  { href: '/my-insights', label: 'My Mirror', icon: '◈' },
   { href: '/settings', label: 'Settings', icon: '*' },
 ];
 
@@ -26,7 +27,7 @@ export function Sidebar() {
     <aside className="w-56 bg-surface-1 border-r border-surface-3 flex flex-col font-mono text-sm">
       {/* Logo */}
       <div className="p-4 border-b border-surface-3">
-        <h1 className="text-lg font-bold text-toxic-green text-glow-green tracking-wider">
+        <h1 className="text-lg font-bold text-white text-glow-subtle tracking-wider">
           TOXSHIELD
         </h1>
         <p className="text-[10px] text-text-secondary mt-0.5">
@@ -44,11 +45,11 @@ export function Sidebar() {
               href={item.href}
               className={`flex items-center gap-2 px-3 py-2 rounded transition-colors ${
                 isActive
-                  ? 'bg-toxic-green/10 text-toxic-green'
-                  : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
+                  ? 'bg-white/10 text-white'
+                  : 'text-text-secondary hover:text-text-primary hover:bg-hover'
               }`}
             >
-              <span className={isActive ? 'text-toxic-green' : 'text-text-secondary'}>
+              <span className={isActive ? 'text-white' : 'text-text-secondary'}>
                 {item.icon}
               </span>
               {item.label}
@@ -61,7 +62,7 @@ export function Sidebar() {
       <div className="p-2 border-t border-surface-3">
         <button
           onClick={handleSignOut}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded text-text-secondary hover:text-danger-red hover:bg-surface-2 transition-colors"
+          className="w-full flex items-center gap-2 px-3 py-2 rounded text-text-secondary hover:text-white hover:bg-hover transition-colors"
         >
           <span>{'<'}</span>
           Sign Out

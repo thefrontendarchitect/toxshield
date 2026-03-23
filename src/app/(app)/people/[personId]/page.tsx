@@ -1,8 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { ThreatProfile } from '@/components/analysis/threat-profile';
+import { PersonHeader } from '@/components/people/person-header';
 import { PersonRow, AnalysisRow } from '@/types/database';
-import Link from 'next/link';
 
 interface PageProps { params: Promise<{ personId: string }>; }
 
@@ -20,20 +20,7 @@ export default async function PersonPage({ params }: PageProps) {
 
   return (
     <div>
-      <div className="flex items-center gap-2 mb-5">
-        <Link
-          href={`/people/${personId}/add-info`}
-          className="flex-1 py-3 border border-white/15 rounded-xl font-mono text-xs text-white active:bg-white/5 transition-colors text-center min-h-[44px] flex items-center justify-center touch-active"
-        >
-          + Add Intel
-        </Link>
-        <Link
-          href={`/people/${personId}/share`}
-          className="flex-1 py-3 bg-white text-black font-bold rounded-xl font-mono text-xs active:bg-white/90 transition-colors text-center min-h-[44px] flex items-center justify-center touch-active"
-        >
-          Share Report
-        </Link>
-      </div>
+      <PersonHeader personId={personId} relationship={person.relationship} />
       <ThreatProfile analysis={analysis} personName={person.name} relationship={person.relationship} />
     </div>
   );

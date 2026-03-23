@@ -54,7 +54,35 @@ Examples by score range:
 3. If is_toxic is false, self_reflection MUST be provided. If is_toxic is true, self_reflection MUST be null.
 4. Each detected trait needs a specific description tied to THIS person's behavior, not generic definitions.
 5. Pattern analysis should connect the dots between traits, showing how they work together.
-6. For scores 9+, mention that professional support (therapist, counselor, helpline) is recommended in the protection strategies.`;
+6. For scores 9+, mention that professional support (therapist, counselor, helpline) is recommended in the protection strategies.
+
+## USER INSIGHT (DUAL ANALYSIS)
+In addition to analyzing the subject, you ALSO analyze the USER who submitted the input. This is a "mirror" — you reflect back what their own input reveals about them.
+
+### What to analyze about the user:
+- **Communication Style**: How do they describe situations? Precise? Vague? Loaded language? Balanced? Defensive?
+- **Emotional Patterns**: Are they catastrophizing, minimizing, measured, reactive, hypervigilant, detached?
+- **Boundary Awareness**: Do they recognize boundary violations? Do they seem to set boundaries themselves? Strong, developing, or weak?
+- **Relationship Patterns**: Are they people-pleasing, avoidant, anxious, secure, enabling?
+- **Growth Areas**: What could they work on in their own approach? 2-3 actionable suggestions.
+
+### For TEXT descriptions:
+Analyze the user's language, framing, emotional tone, and word choices in how they describe the subject.
+
+### For WhatsApp chats:
+Analyze BOTH sides — the target's messages AND the user's own messages. The user's messages are the ones NOT marked [TARGET]. Look at how they respond, escalate/de-escalate, set or fail to set boundaries, and their overall communication patterns.
+
+### TONE for user insight:
+- Always compassionate and constructive, never judgmental
+- Frame observations as patterns, not character flaws
+- Growth areas should feel empowering, not critical
+- Use language that feels like a trusted friend giving honest feedback
+- If the user shows healthy patterns, celebrate that explicitly
+
+### IMPORTANT:
+- user_insight is ALWAYS provided, regardless of whether the subject is toxic or not
+- This is SEPARATE from self_reflection. self_reflection is about the SUBJECT's behavior being healthy. user_insight is about the USER's own patterns.
+- Be honest but kind. If the user shows concerning patterns (enabling, people-pleasing, trauma bonding), name them gently.`;
 
 export function buildUserPrompt(
   description: string,
@@ -68,7 +96,7 @@ export function buildUserPrompt(
 **Behavioral Description:**
 ${description}
 
-Provide a complete forensic behavioral analysis.`;
+Provide a complete forensic behavioral analysis of the subject. Also analyze the USER who wrote this description — their communication style, emotional patterns, boundary awareness, and growth areas are visible in how they frame this description. Include your observations in the user_insight field.`;
 }
 
 export function buildContextualPrompt(
@@ -110,7 +138,9 @@ Previous analysis: ${previousAnalysis.pattern_analysis}
 ${newInput}
 </new_input>
 
-Your updated analysis should incorporate ALL information — both old and new. The toxicity score may go UP or DOWN based on new evidence. Re-evaluate everything holistically.`;
+Your updated analysis should incorporate ALL information — both old and new. The toxicity score may go UP or DOWN based on new evidence. Re-evaluate everything holistically.
+
+Also analyze the USER who wrote this new input — their communication style, emotional patterns, boundary awareness, and growth areas are visible in how they describe situations across all inputs. Include your observations in the user_insight field.`;
 
   return prompt;
 }
@@ -120,10 +150,10 @@ export function buildWhatsAppPrompt(
   name: string,
   relationship: string | null
 ): string {
-  return `Analyze **${name}**${relationship ? ` (${relationship})` : ''} based on their actual WhatsApp messages below. Messages from the target person are marked with [TARGET].
+  return `Analyze **${name}**${relationship ? ` (${relationship})` : ''} based on their actual WhatsApp messages below. Messages from the target person are marked with [TARGET]. Messages from the USER (the person requesting this analysis) are NOT marked.
 
-## WHAT TO ANALYZE
-Focus exclusively on the **[TARGET] person's** communication patterns:
+## WHAT TO ANALYZE — SUBJECT (${name})
+Focus primarily on the **[TARGET] person's** communication patterns:
 - **Tone & Language**: Are they dismissive, passive-aggressive, controlling, sarcastic, guilt-tripping, or manipulative?
 - **Manipulation Tactics**: Look for gaslighting ("that never happened"), DARVO, love-bombing, silent treatment patterns, blame-shifting
 - **Control Patterns**: Excessive checking ("where are you?"), demands for immediate responses, punishing with delayed replies
@@ -132,8 +162,17 @@ Focus exclusively on the **[TARGET] person's** communication patterns:
 - **Message Timing**: Late-night guilt messages, weaponized read receipts, disappearing acts
 - **Context Awareness**: Consider that text lacks tone — some messages may read harsher than intended
 
+## WHAT TO ANALYZE — USER (the non-[TARGET] participant)
+Also analyze the USER's own messages in this conversation for the user_insight field:
+- **Communication Style**: How do they respond? Defensive? Accommodating? Assertive? Avoidant?
+- **Emotional Regulation**: Do they escalate, de-escalate, or match the target's energy?
+- **Boundary Setting**: Do they set boundaries? Cave to pressure? Ignore red flags?
+- **Enabling Patterns**: Are they inadvertently reinforcing problematic behavior?
+- **Strengths**: What are they doing well in this dynamic?
+
 ## IMPORTANT
-- Analyze the TARGET person's behavior, not the other participants
+- The primary analysis (toxicity_score, detected_traits, etc.) is about the TARGET person only
+- The user_insight field is about the USER's own patterns from their messages
 - Consider the FULL conversation context, not isolated messages
 - People can be blunt or sarcastic without being toxic — look for PATTERNS, not one-offs
 - If the conversation seems normal/healthy, say so honestly (set is_toxic: false)
@@ -142,5 +181,5 @@ Focus exclusively on the **[TARGET] person's** communication patterns:
 ${chatContent}
 </whatsapp_chat>
 
-Provide a complete forensic behavioral analysis of ${name}'s communication patterns.`;
+Provide a complete forensic behavioral analysis of ${name}'s communication patterns, AND analyze the user's own patterns in user_insight.`;
 }

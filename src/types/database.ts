@@ -1,4 +1,4 @@
-import { InputType, ToxicTrait, ProtectionStrategy, SelfReflection } from './analysis';
+import { InputType, ToxicTrait, ProtectionStrategy, SelfReflection, UserInsight } from './analysis';
 
 export interface Profile {
   id: string;
@@ -34,6 +34,7 @@ export interface AnalysisRow {
   self_reflection: SelfReflection | null;
   headline: string;
   tagline: string;
+  user_insight: UserInsight | null;
   input_summary: string | null;
   model_used: string | null;
   prompt_tokens: number | null;

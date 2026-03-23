@@ -56,7 +56,7 @@ export async function analyzePersonality({
       systemPrompt: SYSTEM_PROMPT,
       userPrompt,
       jsonSchema,
-      maxTokens: 2048,
+      maxTokens: 3072,
       temperature: 0.7,
     });
 

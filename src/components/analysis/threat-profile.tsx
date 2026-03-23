@@ -8,7 +8,8 @@ import { TraitList } from './trait-list';
 import { PatternAnalysis } from './pattern-analysis';
 import { ProtectionStrategies } from './protection-strategies';
 import { SelfReflectionCard } from './self-reflection-card';
-import { ToxicTrait, ProtectionStrategy, SelfReflection, RiskLevel } from '@/types/analysis';
+import { UserInsightCard } from './user-insight-card';
+import { ToxicTrait, ProtectionStrategy, SelfReflection, UserInsight, RiskLevel } from '@/types/analysis';
 
 interface ThreatProfileProps {
   analysis: AnalysisRow;
@@ -20,6 +21,7 @@ export function ThreatProfile({ analysis, personName, relationship }: ThreatProf
   const traits = analysis.detected_traits as unknown as ToxicTrait[];
   const strategies = analysis.protection_strategies as unknown as ProtectionStrategy[];
   const selfReflection = analysis.self_reflection as unknown as SelfReflection | null;
+  const userInsight = analysis.user_insight as unknown as UserInsight | null;
 
   return (
     <div className="space-y-6">
@@ -56,12 +58,20 @@ export function ThreatProfile({ analysis, personName, relationship }: ThreatProf
         </>
       )}
 
+      {/* User Mirror */}
+      {userInsight && (
+        <>
+          <div className="border-t border-white/[0.06] my-2" />
+          <UserInsightCard insight={userInsight} />
+        </>
+      )}
+
       {/* Disclaimer */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5 }}
-        className="p-4 bg-surface border border-white/[0.06] rounded-xl"
+        className="p-4 bg-surface-1 border border-line rounded-xl"
       >
         <p className="text-[10px] text-white/25 font-mono leading-relaxed text-center">
           ToxShield identifies behavioral patterns. It is not a substitute for professional

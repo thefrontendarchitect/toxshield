@@ -21,6 +21,24 @@ export interface SelfReflection {
   suggestions: string[];
 }
 
+export type InsightSentiment = 'positive' | 'neutral' | 'needs_attention';
+
+export interface UserPattern {
+  area: string;
+  observation: string;
+  sentiment: InsightSentiment;
+  icon: string;
+}
+
+export interface UserInsight {
+  communication_style: string;
+  emotional_patterns: string;
+  boundary_awareness: 'strong' | 'developing' | 'weak';
+  detected_patterns: UserPattern[];
+  growth_areas: string[];
+  overall_tone: string;
+}
+
 export interface AnalysisResult {
   toxicity_score: number;
   risk_level: RiskLevel;
@@ -31,4 +49,5 @@ export interface AnalysisResult {
   self_reflection: SelfReflection | null;
   headline: string;
   tagline: string;
+  user_insight: UserInsight;
 }

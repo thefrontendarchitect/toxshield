@@ -7,6 +7,7 @@ const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: '◇' },
   { href: '/analyze', label: 'Analyze', icon: '⊕' },
   { href: '/people', label: 'People', icon: '◎' },
+  { href: '/my-insights', label: 'Mirror', icon: '◈' },
   { href: '/settings', label: 'Settings', icon: '⚙' },
 ];
 
@@ -28,6 +29,7 @@ export function BottomNav() {
                 className="relative flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all active:bg-white/5"
               >
                 <span
+                  aria-hidden="true"
                   className={`text-lg transition-all ${
                     isActive ? 'text-white' : 'text-white/30'
                   }`}

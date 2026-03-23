@@ -42,11 +42,12 @@ export async function POST(request: Request) {
     let previousAnalysis = null;
 
     if (personId) {
-      // Fetch person details for name/relationship
+      // Fetch person details for name/relationship (scoped to current user)
       const { data: existingPerson } = await supabase
         .from('people')
         .select('name, relationship')
         .eq('id', personId)
+        .eq('user_id', user.id)
         .returns<Array<{ name: string; relationship: string | null }>>()
         .single();
 
@@ -55,11 +56,12 @@ export async function POST(request: Request) {
         relationship = existingPerson.relationship;
       }
 
-      // Fetch all prior inputs
+      // Fetch all prior inputs (scoped to current user)
       const { data: inputs } = await supabase
         .from('inputs')
         .select('input_type, content, created_at')
         .eq('person_id', personId)
+        .eq('user_id', user.id)
         .order('created_at', { ascending: true })
         .returns<Array<{ input_type: string; content: string; created_at: string }>>();
 
@@ -71,11 +73,12 @@ export async function POST(request: Request) {
         }));
       }
 
-      // Fetch latest analysis
+      // Fetch latest analysis (scoped to current user)
       const { data: latestAnalysis } = await supabase
         .from('analyses')
         .select('toxicity_score, detected_traits, pattern_analysis')
         .eq('person_id', personId)
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(1)
         .returns<Array<{ toxicity_score: number; detected_traits: Array<{ name: string }>; pattern_analysis: string }>>()
@@ -122,7 +125,7 @@ export async function POST(request: Request) {
 
       actualPersonId = person.id;
     } else {
-      // Update existing person's current scores
+      // Update existing person's current scores (scoped to current user)
       await supabase
         .from('people')
         .update({
@@ -131,7 +134,8 @@ export async function POST(request: Request) {
           is_toxic: result.is_toxic,
           analysis_count: previousInputs.length + 1,
         } as Record<string, unknown>)
-        .eq('id', actualPersonId);
+        .eq('id', actualPersonId)
+        .eq('user_id', user.id);
     }
 
     // Save analysis
@@ -149,6 +153,7 @@ export async function POST(request: Request) {
         self_reflection: result.self_reflection,
         headline: result.headline,
         tagline: result.tagline,
+        user_insight: result.user_insight,
         input_summary: description.substring(0, 200),
         model_used: model,
         prompt_tokens: promptTokens,
@@ -163,13 +168,17 @@ export async function POST(request: Request) {
     }
 
     // Save input
-    await supabase.from('inputs').insert({
+    const { error: inputError } = await supabase.from('inputs').insert({
       analysis_id: analysis.id,
       person_id: actualPersonId,
       user_id: user.id,
       input_type: inputType,
       content: description,
     } as Record<string, unknown>);
+
+    if (inputError) {
+      throw inputError;
+    }
 
     return NextResponse.json({
       personId: actualPersonId,
