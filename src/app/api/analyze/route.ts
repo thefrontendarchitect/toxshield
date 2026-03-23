@@ -100,20 +100,21 @@ export async function POST(request: Request) {
         previousAnalysis,
       });
 
-    // Create or get person record
+    // Create person record if new (with placeholder scores — updated after analysis is saved)
     let actualPersonId = personId;
+    const isNewPerson = !actualPersonId;
 
-    if (!actualPersonId) {
+    if (isNewPerson) {
       const { data: person, error: personError } = await supabase
         .from('people')
         .insert({
           user_id: user.id,
           name,
           relationship,
-          current_toxicity_score: result.toxicity_score,
-          current_risk_level: result.risk_level,
-          is_toxic: result.is_toxic,
-          analysis_count: 1,
+          current_toxicity_score: 0,
+          current_risk_level: 'low',
+          is_toxic: false,
+          analysis_count: 0,
         } as Record<string, unknown>)
         .select('id')
         .returns<Array<{ id: string }>>()
@@ -124,18 +125,6 @@ export async function POST(request: Request) {
       }
 
       actualPersonId = person.id;
-    } else {
-      // Update existing person's current scores (scoped to current user)
-      await supabase
-        .from('people')
-        .update({
-          current_toxicity_score: result.toxicity_score,
-          current_risk_level: result.risk_level,
-          is_toxic: result.is_toxic,
-          analysis_count: previousInputs.length + 1,
-        } as Record<string, unknown>)
-        .eq('id', actualPersonId)
-        .eq('user_id', user.id);
     }
 
     // Save analysis
@@ -164,6 +153,10 @@ export async function POST(request: Request) {
       .single();
 
     if (analysisError) {
+      // Clean up the person record if we just created it
+      if (isNewPerson) {
+        await supabase.from('people').delete().eq('id', actualPersonId).eq('user_id', user.id);
+      }
       throw analysisError;
     }
 
@@ -179,6 +172,24 @@ export async function POST(request: Request) {
     if (inputError) {
       throw inputError;
     }
+
+    // Update person with actual scores AFTER analysis + input are saved
+    const { count: analysisCount } = await supabase
+      .from('analyses')
+      .select('*', { count: 'exact', head: true })
+      .eq('person_id', actualPersonId)
+      .eq('user_id', user.id);
+
+    await supabase
+      .from('people')
+      .update({
+        current_toxicity_score: result.toxicity_score,
+        current_risk_level: result.risk_level,
+        is_toxic: result.is_toxic,
+        analysis_count: analysisCount ?? 1,
+      } as Record<string, unknown>)
+      .eq('id', actualPersonId)
+      .eq('user_id', user.id);
 
     return NextResponse.json({
       personId: actualPersonId,

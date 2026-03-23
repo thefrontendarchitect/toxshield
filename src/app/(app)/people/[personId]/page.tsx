@@ -15,11 +15,15 @@ export default async function PersonPage({ params }: PageProps) {
   const { data: person } = await supabase.from('people').select('*').eq('id', personId).returns<PersonRow[]>().single();
   if (!person) redirect('/people');
 
-  const { data: analysis } = await supabase.from('analyses').select('*').eq('person_id', personId).order('created_at', { ascending: false }).limit(1).returns<AnalysisRow[]>().single();
+  const { data: analysis, error: analysisError } = await supabase.from('analyses').select('*').eq('person_id', personId).order('created_at', { ascending: false }).limit(1).returns<AnalysisRow[]>().single();
+
+  if (analysisError) {
+    console.error('Analysis query failed for person', personId, analysisError);
+  }
 
   return (
     <div>
-      <PersonHeader personId={personId} relationship={person.relationship} />
+      <PersonHeader personId={personId} personName={person.name} relationship={person.relationship} />
       {analysis ? (
         <ThreatProfile analysis={analysis} personName={person.name} relationship={person.relationship} />
       ) : (
