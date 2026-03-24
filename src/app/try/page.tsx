@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { AppHeader } from '@/components/layout/app-header';
 import { TextModeForm } from '@/components/analysis/text-mode-form';
 import { ChatModeForm } from '@/components/analysis/chat-mode-form';
+import { SlackModeForm } from '@/components/analysis/slack-mode-form';
 import { ThreatProfile } from '@/components/analysis/threat-profile';
 import { RiskBadge } from '@/components/analysis/risk-badge';
 import { AnalysisResult, RiskLevel } from '@/types/analysis';
@@ -18,7 +19,7 @@ interface TryEntry {
   timestamp: Date;
 }
 
-type Mode = 'text' | 'chat';
+type Mode = 'text' | 'chat' | 'slack';
 
 function toAnalysisRow(result: AnalysisResult): AnalysisRow {
   return {
@@ -141,7 +142,7 @@ export default function TryPage() {
 
             {/* Mode tabs */}
             <div className="flex items-center gap-1 bg-surface-1 rounded-xl p-1">
-              {(['text', 'chat'] as Mode[]).map((m) => (
+              {(['text', 'chat', 'slack'] as Mode[]).map((m) => (
                 <button
                   type="button"
                   key={m}
@@ -152,7 +153,7 @@ export default function TryPage() {
                       : 'text-text-secondary active:bg-surface-2'
                   }`}
                 >
-                  {m === 'text' ? 'DESCRIBE' : 'WHATSAPP'}
+                  {m === 'text' ? 'DESCRIBE' : m === 'chat' ? 'WHATSAPP' : 'SLACK'}
                 </button>
               ))}
             </div>
@@ -163,8 +164,13 @@ export default function TryPage() {
                 apiEndpoint="/api/try-analyze"
                 onResult={handleResult}
               />
-            ) : (
+            ) : mode === 'chat' ? (
               <ChatModeForm
+                apiEndpoint="/api/try-analyze"
+                onResult={handleResult}
+              />
+            ) : (
+              <SlackModeForm
                 apiEndpoint="/api/try-analyze"
                 onResult={handleResult}
               />

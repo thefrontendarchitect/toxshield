@@ -8,7 +8,7 @@ const requestSchema = z.object({
   relationship: z.string().trim().nullable(),
   description: z.string().min(10).max(50000),
   inputType: z
-    .enum(['text_description', 'whatsapp_chat'])
+    .enum(['text_description', 'whatsapp_chat', 'slack_chat'])
     .default('text_description'),
 });
 
