@@ -43,7 +43,7 @@ export function StatsGrid({ totalPeople, highRiskCount, totalAnalyses }: StatsGr
         >
           <div className="flex items-center justify-center gap-1 mb-1">
             <span className={`font-mono text-xs text-white/40`}>{stat.icon}</span>
-            <span className="text-[10px] text-white/30 font-mono uppercase">
+            <span className="text-[14px] text-white/30 font-mono uppercase">
               {stat.label}
             </span>
           </div>

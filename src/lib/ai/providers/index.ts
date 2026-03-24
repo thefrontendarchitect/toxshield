@@ -4,19 +4,19 @@ export type ProviderName = 'openai' | 'anthropic';
 
 let cachedProvider: LLMProvider | null = null;
 
-export function getProvider(): LLMProvider {
+export async function getProvider(): Promise<LLMProvider> {
   if (cachedProvider) return cachedProvider;
 
   const providerName = (process.env.ACTIVE_LLM_PROVIDER || 'openai') as ProviderName;
 
   switch (providerName) {
     case 'openai': {
-      const { OpenAIProvider } = require('./openai');
+      const { OpenAIProvider } = await import('./openai');
       cachedProvider = new OpenAIProvider();
       break;
     }
     case 'anthropic': {
-      const { AnthropicProvider } = require('./anthropic');
+      const { AnthropicProvider } = await import('./anthropic');
       cachedProvider = new AnthropicProvider();
       break;
     }

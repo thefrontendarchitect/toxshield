@@ -2,7 +2,7 @@
 name: typecheck
 description: Run TypeScript type checking and fix any errors found.
 disable-model-invocation: true
-allowed-tools: Bash(npm *), Bash(npx *), Read, Edit, Glob, Grep
+allowed-tools: Bash(pnpm *), Read, Edit, Glob, Grep
 ---
 
 # TypeScript Type Check
@@ -86,5 +86,5 @@ const toolUseBlock = response.content.find(
 ## After Fixing
 
 1. Re-run `npx tsc --noEmit` to verify fixes
-2. Run `npm run lint` to catch any lint issues
-3. Run `npm run build` to verify full build succeeds
+2. Run `pnpm lint` to catch any lint issues
+3. Run `pnpm build` to verify full build succeeds

@@ -24,13 +24,13 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="w-56 bg-surface-1 border-r border-surface-3 flex flex-col font-mono text-sm">
+    <aside className="w-56 bg-surface border-r border-line flex flex-col font-mono text-sm">
       {/* Logo */}
-      <div className="p-4 border-b border-surface-3">
+      <div className="p-4 border-b border-line">
         <h1 className="text-lg font-bold text-white text-glow-subtle tracking-wider">
           TOXSHIELD
         </h1>
-        <p className="text-[10px] text-text-secondary mt-0.5">
+        <p className="text-[14px] text-text-secondary mt-0.5">
           BEHAVIORAL THREAT ANALYSIS
         </p>
       </div>
@@ -59,7 +59,7 @@ export function Sidebar() {
       </nav>
 
       {/* Sign out */}
-      <div className="p-2 border-t border-surface-3">
+      <div className="p-2 border-t border-line">
         <button
           onClick={handleSignOut}
           className="w-full flex items-center gap-2 px-3 py-2 rounded text-text-secondary hover:text-white hover:bg-hover transition-colors"

@@ -10,7 +10,7 @@ AI-powered forensic behavioral analyzer. Users log descriptions of people in the
 - **Styling**: Tailwind CSS 4 with OKLch color theme (dark terminal aesthetic)
 - **Forms**: React Hook Form + Zod validation
 - **Other**: Framer Motion, Recharts, date-fns, html2canvas, whatsapp-chat-parser
-- **Package Manager**: npm
+- **Package Manager**: pnpm
 
 ## Architecture
 Single Next.js app (NOT a monorepo). No separate backend.
@@ -22,7 +22,7 @@ src/
     (auth)/         # Auth routes (login, signup)
     api/analyze/    # POST endpoint — main AI analysis pipeline
     auth/callback/  # Supabase OAuth callback
-  components/       # React components (analysis/, dashboard/, layout/, ui/)
+  components/       # React components (analysis/, dashboard/, insights/, layout/, people/, ui/)
   lib/
     ai/             # AI engine (engine.ts, prompts.ts, schemas.ts, scoring.ts)
     supabase/       # Supabase clients (client.ts, server.ts)
@@ -57,8 +57,8 @@ Dark terminal aesthetic with neon accents:
 
 ## Commands
 ```bash
-npm run dev      # Start dev server
-npm run build    # Production build
-npm run lint     # ESLint
-npx tsc --noEmit # Type check
+pnpm dev         # Start dev server
+pnpm build       # Production build
+pnpm lint        # ESLint
+pnpm tsc --noEmit # Type check
 ```

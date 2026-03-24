@@ -16,7 +16,7 @@ export function AppHeader({
   const router = useRouter();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex min-h-[56px] items-center gap-3 px-4 bg-black/95 backdrop-blur-md border-b border-white/[0.06] pt-safe">
+    <header className="fixed top-0 left-0 right-0 z-50 flex min-h-[56px] items-center gap-3 px-4 bg-surface-0/95 backdrop-blur-md border-b border-white/[0.06] pt-safe">
       {showBackButton && (
         <button
           type="button"

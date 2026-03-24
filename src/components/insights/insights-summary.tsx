@@ -35,16 +35,16 @@ export function InsightsSummary({
         className="p-4 bg-white/[0.02] border border-white/[0.08] rounded-xl space-y-3"
       >
         <div className="flex items-center justify-between">
-          <p className="text-[10px] text-white/30 font-mono uppercase tracking-wider">
+          <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider">
             Latest Snapshot
           </p>
-          <span className="text-[10px] font-mono text-white/30 bg-white/5 px-2 py-0.5 rounded-full">
+          <span className="text-[14px] font-mono text-white/30 bg-white/5 px-2 py-0.5 rounded-full">
             {latestInsight.overall_tone}
           </span>
         </div>
 
         <div>
-          <p className="text-[10px] text-white/30 font-mono uppercase tracking-wider mb-1">
+          <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider mb-1">
             Communication Style
           </p>
           <p className="text-sm text-white/60 leading-relaxed">
@@ -53,7 +53,7 @@ export function InsightsSummary({
         </div>
 
         <div>
-          <p className="text-[10px] text-white/30 font-mono uppercase tracking-wider mb-1">
+          <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider mb-1">
             Emotional Patterns
           </p>
           <p className="text-sm text-white/60 leading-relaxed">
@@ -71,7 +71,7 @@ export function InsightsSummary({
           transition={{ delay: 0.1 }}
           className="p-4 bg-white/[0.02] border border-white/[0.08] rounded-xl"
         >
-          <p className="text-[10px] text-white/30 font-mono uppercase tracking-wider mb-3">
+          <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider mb-3">
             Boundary Awareness
           </p>
           <p className={`text-lg font-mono font-bold ${BOUNDARY_COLORS[dominantBoundary[0]]} mb-2`}>
@@ -94,7 +94,7 @@ export function InsightsSummary({
                       style={{ width: `${pct}%` }}
                     />
                   </div>
-                  <span className="text-[10px] text-white/30 font-mono w-8 text-right">
+                  <span className="text-[14px] text-white/30 font-mono w-8 text-right">
                     {pct}%
                   </span>
                 </div>
@@ -102,9 +102,9 @@ export function InsightsSummary({
             })}
           </div>
           <div className="flex justify-between mt-1" aria-hidden="true">
-            <span className="text-[10px] text-white/20 font-mono">strong</span>
-            <span className="text-[10px] text-white/20 font-mono">developing</span>
-            <span className="text-[10px] text-white/20 font-mono">weak</span>
+            <span className="text-[14px] text-white/20 font-mono">strong</span>
+            <span className="text-[14px] text-white/20 font-mono">developing</span>
+            <span className="text-[14px] text-white/20 font-mono">weak</span>
           </div>
         </motion.div>
 
@@ -115,7 +115,7 @@ export function InsightsSummary({
           transition={{ delay: 0.2 }}
           className="p-4 bg-white/[0.02] border border-white/[0.08] rounded-xl"
         >
-          <p className="text-[10px] text-white/30 font-mono uppercase tracking-wider mb-3">
+          <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider mb-3">
             Recurring Growth Areas
           </p>
           {allGrowthAreas.length === 0 ? (

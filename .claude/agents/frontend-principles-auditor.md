@@ -18,7 +18,7 @@ Analyze frontend code in `src/` for violations of ToxShield's engineering princi
 - **AI**: Anthropic Claude API via @anthropic-ai/sdk
 - **Styling**: Tailwind CSS 4 with custom OKLch dark terminal theme (src/app/globals.css)
 - **Forms**: React Hook Form + Zod
-- **Package Manager**: npm (NOT pnpm)
+- **Package Manager**: pnpm
 
 ## Audit Checklist
 

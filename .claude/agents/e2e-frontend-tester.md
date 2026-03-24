@@ -23,7 +23,7 @@ You are an End-to-End Frontend Testing Expert for the ToxShield application. You
 
 ### Startup
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ## Application Routes

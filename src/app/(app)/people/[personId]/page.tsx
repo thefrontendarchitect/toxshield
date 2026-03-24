@@ -17,7 +17,7 @@ export default async function PersonPage({ params }: PageProps) {
 
   const { data: analysis, error: analysisError } = await supabase.from('analyses').select('*').eq('person_id', personId).order('created_at', { ascending: false }).limit(1).returns<AnalysisRow[]>().single();
 
-  if (analysisError) {
+  if (analysisError && process.env.NODE_ENV === 'development') {
     console.error('Analysis query failed for person', personId, analysisError);
   }
 

@@ -45,7 +45,7 @@ export function InsightsTimeline({ timeline, allPatterns }: InsightsTimelineProp
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <p className="text-[10px] text-white/30 font-mono uppercase tracking-wider mb-3">
+          <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider mb-3">
             Observed Patterns Across Analyses
           </p>
           <div className="space-y-2">
@@ -64,7 +64,7 @@ export function InsightsTimeline({ timeline, allPatterns }: InsightsTimelineProp
                       <span className="text-xs font-mono text-white/50">
                         {pattern.area}
                       </span>
-                      <span className="text-[10px] text-white/20 font-mono">
+                      <span className="text-[14px] text-white/20 font-mono">
                         re: {pattern.personName}
                       </span>
                     </div>
@@ -85,7 +85,7 @@ export function InsightsTimeline({ timeline, allPatterns }: InsightsTimelineProp
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        <p className="text-[10px] text-white/30 font-mono uppercase tracking-wider mb-3">
+        <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider mb-3">
           Analysis Timeline
         </p>
         <div className="space-y-2">
@@ -95,17 +95,17 @@ export function InsightsTimeline({ timeline, allPatterns }: InsightsTimelineProp
               <Link
                 key={`${entry.personId}-${entry.date}`}
                 href={`/people/${entry.personId}`}
-                className="flex items-center justify-between p-3 bg-white/[0.02] border border-white/[0.08] rounded-lg hover:bg-white/[0.04] transition-colors"
+                className="flex items-center justify-between p-3 bg-white/[0.02] border border-white/[0.08] rounded-lg hover:bg-white/[0.04] active:bg-white/[0.06] transition-colors"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <span className="text-[10px] text-white/20 font-mono flex-shrink-0 w-10">
+                  <span className="text-[14px] text-white/20 font-mono flex-shrink-0 w-10">
                     {formatDate(entry.date)}
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="text-xs font-mono text-white/60 truncate">
                       {entry.personName}
                     </p>
-                    <p className="text-[10px] text-white/30 truncate">
+                    <p className="text-[14px] text-white/30 truncate">
                       {entry.overallTone}
                     </p>
                   </div>
@@ -114,7 +114,7 @@ export function InsightsTimeline({ timeline, allPatterns }: InsightsTimelineProp
                   {[1, 2, 3].map((dot) => (
                     <span
                       key={dot}
-                      className={`text-[8px] ${dot <= filled ? 'text-white/50' : 'text-white/15'}`}
+                      className={`text-[10px] ${dot <= filled ? 'text-white/50' : 'text-white/15'}`}
                     >
                       {dot <= filled ? '\u25CF' : '\u25CB'}
                     </span>

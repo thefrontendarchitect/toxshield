@@ -18,8 +18,9 @@ export function useAppLifecycle() {
         const { App } = await import('@capacitor/app');
 
         const handle = await App.addListener('appStateChange', ({ isActive }) => {
-          // Could be used for analytics, refresh data, etc.
-          console.log(`[ToxShield] App ${isActive ? 'foregrounded' : 'backgrounded'}`);
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`[ToxShield] App ${isActive ? 'foregrounded' : 'backgrounded'}`);
+          }
         });
 
         listenerRef.current = handle;

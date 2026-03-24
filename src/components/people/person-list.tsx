@@ -16,6 +16,7 @@ export function PersonList({ people: initialPeople }: PersonListProps) {
   const [people, setPeople] = useState(initialPeople);
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const handleDelete = async (e: React.MouseEvent, person: PersonRow) => {
     e.preventDefault();
@@ -27,14 +28,17 @@ export function PersonList({ people: initialPeople }: PersonListProps) {
     }
 
     setDeletingId(person.id);
+    setDeleteError(null);
     try {
       const res = await fetch(`/api/people/${person.id}`, { method: 'DELETE' });
       if (res.ok) {
         setPeople((prev) => prev.filter((p) => p.id !== person.id));
         router.refresh();
+      } else {
+        setDeleteError(`Failed to delete ${person.name}`);
       }
     } catch {
-      // silently fail
+      setDeleteError(`Failed to delete ${person.name}`);
     } finally {
       setDeletingId(null);
       setConfirmId(null);
@@ -58,6 +62,11 @@ export function PersonList({ people: initialPeople }: PersonListProps) {
 
   return (
     <div className="space-y-2">
+      {deleteError && (
+        <div className="p-3 bg-white/10 border border-white/30 rounded-xl text-white text-xs font-mono font-bold">
+          {deleteError}
+        </div>
+      )}
       {people.map((person) => {
         const riskLevel = (person.current_risk_level ?? 'low') as RiskLevel;
         const riskStyle = RISK_STYLES[riskLevel];

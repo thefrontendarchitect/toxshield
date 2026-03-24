@@ -22,7 +22,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <AppHeader title={title} showBackButton={isDetailPage} />
-      <main className="bg-black pt-[72px] pb-[100px]">
+      <main className="bg-surface-0 pt-[72px] pb-[100px]">
         <div className="px-4 py-6">{children}</div>
       </main>
       <BottomNav />

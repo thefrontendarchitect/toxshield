@@ -75,7 +75,7 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          <p className="text-[10px] text-white/20 font-mono">
+          <p className="text-[14px] text-white/20 font-mono">
             ToxShield identifies behavioral patterns. Not a substitute for professional counseling.
           </p>
         </div>

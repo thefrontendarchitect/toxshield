@@ -1,8 +1,9 @@
 # Stage 1: Install dependencies
 FROM node:20-alpine AS deps
+RUN corepack enable pnpm
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 # Stage 2: Build the application
 FROM node:20-alpine AS builder
@@ -19,7 +20,7 @@ ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
 ENV BUILD_MODE=docker
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN npm run build
+RUN corepack enable pnpm && pnpm build
 
 # Stage 3: Production runner
 FROM node:20-alpine AS runner

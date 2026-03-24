@@ -1,4 +1,4 @@
-import { InputType, ToxicTrait, ProtectionStrategy, SelfReflection, UserInsight } from './analysis';
+import { InputType, RiskLevel, ToxicTrait, ProtectionStrategy, SelfReflection, UserInsight } from './analysis';
 
 export interface Profile {
   id: string;
@@ -14,7 +14,7 @@ export interface PersonRow {
   name: string;
   relationship: string | null;
   current_toxicity_score: number | null;
-  current_risk_level: 'low' | 'moderate' | 'high' | null;
+  current_risk_level: RiskLevel | null;
   is_toxic: boolean;
   analysis_count: number;
   created_at: string;

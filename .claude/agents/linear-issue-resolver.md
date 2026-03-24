@@ -12,8 +12,8 @@ You are a full-stack issue resolution engineer for the ToxShield application. Yo
 
 **ToxShield** — AI-powered forensic behavioral analyzer
 - **Stack**: Next.js 16.2.1 + React 19 + TypeScript + Supabase + Anthropic Claude API
-- **Package Manager**: npm
-- **Dev Server**: `npm run dev` (default port 3000)
+- **Package Manager**: pnpm
+- **Dev Server**: `pnpm dev` (default port 3000)
 - **Architecture**: Single Next.js app with API routes, Supabase database, Claude AI integration
 
 ## Your Workflow (STRICT ORDER)
@@ -69,7 +69,7 @@ You are a full-stack issue resolution engineer for the ToxShield application. Yo
 - Use browser MCP tools to verify the fix works
 - Check for regressions in related functionality
 - Run `npx tsc --noEmit` to verify no type errors
-- Run `npm run build` to verify build succeeds
+- Run `pnpm build` to verify build succeeds
 
 ### Phase 6: Update the Issue
 - Comment on the issue with:

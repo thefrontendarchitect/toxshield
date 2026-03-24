@@ -2,6 +2,7 @@
   "name": "toxshield-temp",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.12.4",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,11 +10,11 @@
     "build:docker": "BUILD_MODE=docker next build",
     "start": "next start",
     "lint": "eslint",
-    "cap:sync": "npx cap sync",
-    "cap:open": "npx cap open android",
-    "cap:run": "npx cap run android",
-    "android:sync": "npx cap sync android",
-    "android:build": "npx cap build android"
+    "cap:sync": "pnpm cap sync",
+    "cap:open": "pnpm cap open android",
+    "cap:run": "pnpm cap run android",
+    "android:sync": "pnpm cap sync android",
+    "android:build": "pnpm cap build android"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",

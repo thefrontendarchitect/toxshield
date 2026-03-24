@@ -35,33 +35,6 @@ export const RISK_BG: Record<RiskLevel, string> = {
   high: 'border-white bg-white',
 };
 
-// Legacy exports for backward compatibility
-export const SEVERITY_COLORS: Record<TraitSeverity, string> = {
-  low: 'text-white/40',
-  moderate: 'text-white/70',
-  high: 'text-white',
-  critical: 'text-white',
-};
-
-export const SEVERITY_BG_COLORS: Record<TraitSeverity, string> = {
-  low: 'bg-white/5 border-white/10',
-  moderate: 'bg-white/8 border-white/15',
-  high: 'bg-white/12 border-white/25',
-  critical: 'bg-white/20 border-white/40',
-};
-
-export const RISK_COLORS: Record<RiskLevel, string> = {
-  low: 'text-white/40',
-  moderate: 'text-white/70',
-  high: 'text-white',
-};
-
-export const RISK_BG_COLORS: Record<RiskLevel, string> = {
-  low: 'bg-white/5 border-white/20',
-  moderate: 'bg-white/8 border-white/40',
-  high: 'bg-white/15 border-white/60',
-};
-
 export const RISK_LABELS: Record<RiskLevel, string> = {
   low: 'LOW RISK',
   moderate: 'MODERATE RISK',
@@ -83,9 +56,3 @@ export const RELATIONSHIP_OPTIONS = [
   'Acquaintance',
   'Other',
 ] as const;
-
-export const SCORE_TO_RISK = (score: number): RiskLevel => {
-  if (score < 4) return 'low';
-  if (score < 7) return 'moderate';
-  return 'high';
-};

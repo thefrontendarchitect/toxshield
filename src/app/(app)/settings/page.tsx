@@ -16,16 +16,16 @@ export default async function SettingsPage() {
         <h2 className="text-xs text-white/30 font-mono uppercase tracking-[0.15em]">Agent Profile</h2>
         <div className="space-y-3">
           <div>
-            <label className="text-[10px] text-white/20 font-mono uppercase">Name</label>
+            <label className="text-[14px] text-white/20 font-mono uppercase">Name</label>
             <p className="font-mono text-sm text-white">{profile?.display_name ?? 'Unknown Agent'}</p>
           </div>
           <div>
-            <label className="text-[10px] text-white/20 font-mono uppercase">Email</label>
+            <label className="text-[14px] text-white/20 font-mono uppercase">Email</label>
             <p className="font-mono text-sm text-white">{user.email}</p>
           </div>
           <div>
-            <label className="text-[10px] text-white/20 font-mono uppercase">Agent ID</label>
-            <p className="font-mono text-[10px] text-white/30 break-all">{user.id}</p>
+            <label className="text-[14px] text-white/20 font-mono uppercase">Agent ID</label>
+            <p className="font-mono text-[14px] text-white/30 break-all">{user.id}</p>
           </div>
         </div>
       </div>

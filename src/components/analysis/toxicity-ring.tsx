@@ -1,13 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { AnimatedRing } from '@/components/ui/animated-ring';
 
 interface ToxicityRingProps {
   score: number;
   size?: number;
 }
 
-/** Score intensity: higher score = thicker stroke, brighter glow */
 function getStrokeWidth(score: number): number {
   if (score < 4) return 3;
   if (score < 7) return 5;
@@ -28,59 +28,19 @@ function getGlow(score: number): string {
 
 export function ToxicityRing({ score, size = 160 }: ToxicityRingProps) {
   const strokeWidth = getStrokeWidth(score);
-  const radius = (size - strokeWidth - 4) / 2;
-  const circumference = 2 * Math.PI * radius;
-  const progress = (score / 10) * circumference;
-  const offset = circumference - progress;
-  const center = size / 2;
   const opacity = getOpacity(score);
   const glow = getGlow(score);
 
   return (
     <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
-      <svg width={size} height={size} className="transform -rotate-90">
-        {/* Decorative concentric circles */}
-        {[0.85, 0.7, 0.55].map((scale) => (
-          <circle
-            key={scale}
-            cx={center}
-            cy={center}
-            r={radius * scale}
-            fill="none"
-            stroke="rgba(255,255,255,0.03)"
-            strokeWidth={0.5}
-          />
-        ))}
-
-        {/* Background track */}
-        <circle
-          cx={center}
-          cy={center}
-          r={radius}
-          fill="none"
-          stroke="#1a1a1a"
-          strokeWidth={strokeWidth}
-        />
-
-        {/* Animated progress ring — pure white */}
-        <motion.circle
-          cx={center}
-          cy={center}
-          r={radius}
-          fill="none"
-          stroke="#ffffff"
-          strokeWidth={strokeWidth}
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          initial={{ strokeDashoffset: circumference }}
-          animate={{ strokeDashoffset: offset }}
-          transition={{ duration: 1.5, ease: 'easeOut', delay: 0.3 }}
-          style={{
-            opacity,
-            filter: glow,
-          }}
-        />
-      </svg>
+      <AnimatedRing
+        progress={score / 10}
+        size={size}
+        strokeWidth={strokeWidth}
+        opacity={opacity}
+        glowFilter={glow}
+        showDecorative
+      />
 
       {/* Score text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">

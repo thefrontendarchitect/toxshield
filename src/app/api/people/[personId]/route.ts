@@ -55,7 +55,7 @@ export async function PATCH(
 
     return NextResponse.json(person);
   } catch (error) {
-    console.error('Update person error:', error);
+    if (process.env.NODE_ENV === 'development') console.error('Update person error:', error);
     return NextResponse.json(
       { error: 'Update failed. Please try again.' },
       { status: 500 }
@@ -91,7 +91,7 @@ export async function DELETE(
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {
-    console.error('Delete person error:', error);
+    if (process.env.NODE_ENV === 'development') console.error('Delete person error:', error);
     return NextResponse.json(
       { error: 'Delete failed. Please try again.' },
       { status: 500 }

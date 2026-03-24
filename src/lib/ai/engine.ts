@@ -49,7 +49,7 @@ export async function analyzePersonality({
   }
 
   const jsonSchema = zodToJsonSchema(analysisResultSchema);
-  const provider = getProvider();
+  const provider = await getProvider();
 
   const { result: rawResult, model, promptTokens, completionTokens } =
     await provider.call({

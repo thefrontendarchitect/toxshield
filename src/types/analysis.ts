@@ -39,6 +39,22 @@ export interface UserInsight {
   overall_tone: string;
 }
 
+export interface AggregatedInsights {
+  totalAnalyses: number;
+  boundaryBreakdown: { strong: number; developing: number; weak: number };
+  allPatterns: Array<UserPattern & { personName: string; date: string }>;
+  allGrowthAreas: Array<{ area: string; count: number }>;
+  timeline: Array<{
+    personName: string;
+    personId: string;
+    date: string;
+    overallTone: string;
+    communicationStyle: string;
+    boundaryAwareness: 'strong' | 'developing' | 'weak';
+  }>;
+  latestInsight: UserInsight | null;
+}
+
 export interface AnalysisResult {
   toxicity_score: number;
   risk_level: RiskLevel;

@@ -71,7 +71,7 @@ Run `npx tsc --noEmit`. If errors found:
 
 ### Phase 6: Build Verification
 
-Run `npm run build`. If build fails:
+Run `pnpm build`. If build fails:
 1. Fix build errors
 2. Re-run build
 3. Repeat until clean (max 3 iterations)

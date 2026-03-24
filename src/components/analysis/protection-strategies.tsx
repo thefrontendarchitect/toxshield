@@ -47,7 +47,7 @@ export function ProtectionStrategies({ strategies }: ProtectionStrategiesProps) 
                   {strategy.title}
                 </h4>
                 <span
-                  className={`text-[10px] px-2 py-0.5 rounded-full font-mono uppercase tracking-wider flex-shrink-0 ${styles.badge}`}
+                  className={`text-[14px] px-2 py-0.5 rounded-full font-mono uppercase tracking-wider flex-shrink-0 ${styles.badge}`}
                 >
                   {strategy.priority}
                 </span>

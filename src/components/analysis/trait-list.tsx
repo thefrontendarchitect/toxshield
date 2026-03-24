@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ToxicTrait } from '@/types/analysis';
-import { SEVERITY_STYLES, SEVERITY_BG, SEVERITY_SYMBOLS, SEVERITY_COLORS } from '@/lib/constants';
+import { SEVERITY_STYLES, SEVERITY_BG, SEVERITY_SYMBOLS } from '@/lib/constants';
 
 interface TraitListProps {
   traits: ToxicTrait[];
@@ -25,7 +25,7 @@ export function TraitList({ traits }: TraitListProps) {
               transition={{ delay: 0.8 + index * 0.15 }}
               className={`flex items-start gap-3 p-3 rounded-xl border ${SEVERITY_BG[trait.severity]}`}
             >
-              <span className={`text-lg flex-shrink-0 mt-0.5 ${SEVERITY_COLORS[trait.severity]}`}>
+              <span className={`text-lg flex-shrink-0 mt-0.5 text-white ${SEVERITY_STYLES[trait.severity]}`}>
                 {SEVERITY_SYMBOLS[trait.severity]}
               </span>
               <div className="flex-1 min-w-0">
@@ -34,7 +34,7 @@ export function TraitList({ traits }: TraitListProps) {
                     {trait.name}
                   </span>
                   <span
-                    className={`text-[10px] px-1.5 py-0.5 rounded font-mono uppercase tracking-wider ${
+                    className={`text-[14px] px-1.5 py-0.5 rounded font-mono uppercase tracking-wider ${
                       isCritical
                         ? 'bg-white text-black font-bold'
                         : 'bg-white/10 text-white/50'

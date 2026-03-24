@@ -21,7 +21,7 @@ export function PageContainer({
 
   return (
     <div
-      className={`min-h-screen bg-black pt-[calc(56px+var(--safe-top,0px))] ${className}`}
+      className={`min-h-screen bg-surface-0 pt-[calc(56px+var(--safe-top,0px))] ${className}`}
       style={bottomPadding ? { paddingBottom: bottomPadding } : undefined}
     >
       {children}

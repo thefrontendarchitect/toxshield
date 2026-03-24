@@ -4,7 +4,7 @@ description: Validate that the app is ready for deployment by running all checks
 disable-model-invocation: true
 context: fork
 agent: general-purpose
-allowed-tools: Bash(npm *), Bash(npx *), Read
+allowed-tools: Bash(pnpm *), Read
 ---
 
 # Pre-Deployment Validation
@@ -24,7 +24,7 @@ Expected: No type errors
 ### 2. Lint Check
 
 ```bash
-npm run lint
+pnpm lint
 ```
 
 Expected: No lint errors (warnings acceptable)
@@ -32,7 +32,7 @@ Expected: No lint errors (warnings acceptable)
 ### 3. Build
 
 ```bash
-npm run build
+pnpm build
 ```
 
 Expected: Successful build with no errors
@@ -64,14 +64,14 @@ npx vercel deploy
 
 ### Other Platforms
 ```bash
-npm run build
+pnpm build
 # Deploy .next/ output
 ```
 
 ## Common Issues
 
 ### Build Fails with Module Not Found
-- Run `npm install` to ensure dependencies
+- Run `pnpm install` to ensure dependencies
 - Check `tsconfig.json` paths
 
 ### Environment Variable Errors

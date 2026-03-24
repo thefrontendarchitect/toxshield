@@ -15,7 +15,7 @@ You are a test engineering specialist for the ToxShield application. You write t
 - **AI**: Anthropic Claude API via @anthropic-ai/sdk
 - **Validation**: Zod schemas
 - **Forms**: React Hook Form + Zod
-- **Package Manager**: npm
+- **Package Manager**: pnpm
 
 ## Test Categories
 

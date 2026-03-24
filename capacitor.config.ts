@@ -9,7 +9,7 @@ const config: CapacitorConfig = {
     // Point to deployed ToxShield web app
     // For local dev: use your machine's IP (not localhost — Android can't reach it)
     // For production: replace with your deployed URL
-    url: process.env.CAPACITOR_SERVER_URL || 'https://toxshield.app',
+    url: process.env.CAPACITOR_SERVER_URL || 'https://www.toxshield.in/',
     androidScheme: 'https',
     cleartext: false,
   },
