@@ -34,19 +34,21 @@ export async function POST(request: Request) {
       );
     }
 
-    let { name, relationship: rawRelationship, description, personId, inputType } = parsed.data;
+    let { name } = parsed.data;
+    const { relationship: rawRelationship, description, personId, inputType } = parsed.data;
     let relationship = rawRelationship?.trim() || null;
 
-    // If updating existing person, fetch context and person details
+    // Resolve person: explicit personId, name-based dedup, or new person
     let previousInputs: Array<{ type: string; content: string; date: string }> = [];
     let previousAnalysis = null;
+    let resolvedPersonId = personId;
 
-    if (personId) {
-      // Fetch person details for name/relationship (scoped to current user)
+    // If personId provided explicitly, use it
+    if (resolvedPersonId) {
       const { data: existingPerson } = await supabase
         .from('people')
         .select('name, relationship')
-        .eq('id', personId)
+        .eq('id', resolvedPersonId)
         .eq('user_id', user.id)
         .returns<Array<{ name: string; relationship: string | null }>>()
         .maybeSingle();
@@ -55,12 +57,30 @@ export async function POST(request: Request) {
         name = existingPerson.name;
         relationship = existingPerson.relationship;
       }
+    }
 
-      // Fetch all prior inputs (scoped to current user)
+    // Safety-net dedup: if no personId, check for existing person by name
+    if (!resolvedPersonId && name) {
+      const escapedName = name.replace(/[%_\\]/g, '\\$&');
+      const { data: existingPeople } = await supabase
+        .from('people')
+        .select('id, name, relationship')
+        .eq('user_id', user.id)
+        .ilike('name', escapedName)
+        .limit(1)
+        .returns<Array<{ id: string; name: string; relationship: string | null }>>();
+
+      if (existingPeople && existingPeople.length > 0) {
+        resolvedPersonId = existingPeople[0].id;
+      }
+    }
+
+    // Fetch prior context if we have an existing person (explicit or dedup-matched)
+    if (resolvedPersonId) {
       const { data: inputs } = await supabase
         .from('inputs')
         .select('input_type, content, created_at')
-        .eq('person_id', personId)
+        .eq('person_id', resolvedPersonId)
         .eq('user_id', user.id)
         .order('created_at', { ascending: true })
         .returns<Array<{ input_type: string; content: string; created_at: string }>>();
@@ -73,11 +93,10 @@ export async function POST(request: Request) {
         }));
       }
 
-      // Fetch latest analysis (scoped to current user)
       const { data: latestAnalysis } = await supabase
         .from('analyses')
         .select('toxicity_score, detected_traits, pattern_analysis')
-        .eq('person_id', personId)
+        .eq('person_id', resolvedPersonId)
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(1)
@@ -89,7 +108,7 @@ export async function POST(request: Request) {
       }
     }
 
-    // Run AI analysis
+    // Run AI analysis (with prior context if existing person)
     const { result, model, promptTokens, completionTokens } =
       await analyzePersonality({
         description,
@@ -101,7 +120,7 @@ export async function POST(request: Request) {
       });
 
     // Create person record if new (with placeholder scores — updated after analysis is saved)
-    let actualPersonId = personId;
+    let actualPersonId = resolvedPersonId;
     const isNewPerson = !actualPersonId;
 
     if (isNewPerson) {
@@ -180,7 +199,7 @@ export async function POST(request: Request) {
       .eq('person_id', actualPersonId)
       .eq('user_id', user.id);
 
-    await supabase
+    const { error: updateError } = await supabase
       .from('people')
       .update({
         current_toxicity_score: result.toxicity_score,
@@ -190,6 +209,10 @@ export async function POST(request: Request) {
       } as Record<string, unknown>)
       .eq('id', actualPersonId)
       .eq('user_id', user.id);
+
+    if (updateError) {
+      console.error('Failed to update person scores:', updateError);
+    }
 
     return NextResponse.json({
       personId: actualPersonId,

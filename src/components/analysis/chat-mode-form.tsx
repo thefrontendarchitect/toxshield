@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { RELATIONSHIP_OPTIONS } from '@/lib/constants';
 import {
@@ -14,6 +14,8 @@ import {
 import { FormSelect } from '@/components/ui/form-input';
 import { ErrorAlert } from '@/components/ui/error-alert';
 import { Spinner } from '@/components/ui/spinner';
+import { PersonMatchBanner } from '@/components/ui/person-match-banner';
+import { usePersonMatch } from '@/hooks/use-person-match';
 import { AnalysisResult } from '@/types/analysis';
 
 interface ChatModeFormProps {
@@ -31,6 +33,17 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
   const [parseError, setParseError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const personMatch = usePersonMatch();
+
+  // Check for existing person when participant is selected
+  useEffect(() => {
+    if (selectedPerson && apiEndpoint === '/api/analyze') {
+      personMatch.checkName(selectedPerson);
+    } else {
+      personMatch.reset();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPerson]);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -74,14 +87,16 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
         parsedChat.messagesByParticipant
       );
 
+      const submitName = personMatch.resolvedName || selectedPerson;
       const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: selectedPerson,
+          name: submitName,
           relationship: relationship || null,
           description: formatted,
           inputType: 'whatsapp_chat',
+          ...(personMatch.resolvedPersonId && { personId: personMatch.resolvedPersonId }),
         }),
       });
 
@@ -98,6 +113,7 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
         setParticipants([]);
         setSelectedPerson(null);
         setRelationship('');
+        personMatch.reset();
         setLoading(false);
       } else {
         router.push(`/people/${data.personId}`);
@@ -192,6 +208,21 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
         </div>
       )}
 
+      {/* Person match detection */}
+      {selectedPerson && apiEndpoint === '/api/analyze' && personMatch.matchedPerson && (
+        <PersonMatchBanner
+          matchedPerson={personMatch.matchedPerson}
+          isChecking={personMatch.isChecking}
+          isDifferentPerson={personMatch.isDifferentPerson}
+          suggestedNames={personMatch.suggestedNames}
+          selectedName={personMatch.selectedName}
+          inputType="whatsapp_chat"
+          relationship={relationship}
+          onMarkDifferent={personMatch.markAsDifferent}
+          onSelectName={personMatch.selectAlternateName}
+        />
+      )}
+
       {/* Relationship (after selecting person) */}
       {selectedPerson && (
         <FormSelect
@@ -230,7 +261,7 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
           <button
             type="button"
             onClick={handleSubmit}
-            disabled={loading}
+            disabled={loading || (personMatch.isDifferentPerson && !personMatch.selectedName)}
             className="w-full py-4 bg-white text-background font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
           >
             {loading ? (

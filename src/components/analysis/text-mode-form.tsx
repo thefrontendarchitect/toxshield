@@ -6,6 +6,8 @@ import { RELATIONSHIP_OPTIONS } from '@/lib/constants';
 import { FormInput, FormTextarea, FormSelect } from '@/components/ui/form-input';
 import { ErrorAlert } from '@/components/ui/error-alert';
 import { Spinner } from '@/components/ui/spinner';
+import { PersonMatchBanner } from '@/components/ui/person-match-banner';
+import { usePersonMatch } from '@/hooks/use-person-match';
 import { AnalysisResult } from '@/types/analysis';
 
 interface TextModeFormProps {
@@ -20,6 +22,13 @@ export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextMod
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const personMatch = usePersonMatch();
+
+  const handleNameBlur = () => {
+    if (name.trim() && apiEndpoint === '/api/analyze') {
+      personMatch.checkName(name.trim());
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,10 +36,16 @@ export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextMod
     setLoading(true);
 
     try {
+      const submitName = personMatch.resolvedName || name;
       const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, relationship: relationship || null, description }),
+        body: JSON.stringify({
+          name: submitName,
+          relationship: relationship || null,
+          description,
+          ...(personMatch.resolvedPersonId && { personId: personMatch.resolvedPersonId }),
+        }),
       });
 
       if (!response.ok) {
@@ -45,6 +60,7 @@ export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextMod
         setName('');
         setRelationship('');
         setDescription('');
+        personMatch.reset();
         setLoading(false);
       } else {
         router.push(`/people/${data.personId}`);
@@ -69,9 +85,25 @@ export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextMod
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        onBlur={handleNameBlur}
         placeholder="Who are we analyzing?"
         required
       />
+
+      {/* Person match detection */}
+      {apiEndpoint === '/api/analyze' && personMatch.matchedPerson && (
+        <PersonMatchBanner
+          matchedPerson={personMatch.matchedPerson}
+          isChecking={personMatch.isChecking}
+          isDifferentPerson={personMatch.isDifferentPerson}
+          suggestedNames={personMatch.suggestedNames}
+          selectedName={personMatch.selectedName}
+          inputType="text_description"
+          relationship={relationship}
+          onMarkDifferent={personMatch.markAsDifferent}
+          onSelectName={personMatch.selectAlternateName}
+        />
+      )}
 
       <FormSelect
         label="Relationship"
@@ -98,7 +130,7 @@ export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextMod
 
       <button
         type="submit"
-        disabled={loading || !name || !description || description.length < 10}
+        disabled={loading || !name || !description || description.length < 10 || (personMatch.isDifferentPerson && !personMatch.selectedName)}
         className="w-full py-4 bg-white text-background font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
       >
         {loading ? (

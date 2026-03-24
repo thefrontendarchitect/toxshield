@@ -21,6 +21,8 @@ export interface PersonRow {
   updated_at: string;
 }
 
+export type MatchedPerson = Pick<PersonRow, 'id' | 'name' | 'relationship' | 'analysis_count'>;
+
 export interface AnalysisRow {
   id: string;
   person_id: string;
