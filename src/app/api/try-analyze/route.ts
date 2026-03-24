@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 const requestSchema = z.object({
   name: z.string().trim().max(100).default(''),
-  relationship: z.string().trim().nullable(),
+  relationship: z.string().trim().nullable().transform((v) => v || null),
   description: z.string().min(10).max(50000),
   inputType: z
     .enum(['text_description', 'whatsapp_chat', 'slack_chat'])
@@ -45,20 +45,7 @@ function checkRateLimit(ipHash: string): boolean {
 
 export async function POST(request: Request) {
   try {
-    // Rate limit by hashed IP
-    const rawIp =
-      request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-      request.headers.get('x-real-ip') ||
-      'unknown';
-    const ipHash = hashIp(rawIp);
-
-    if (!checkRateLimit(ipHash)) {
-      return NextResponse.json(
-        { error: 'Rate limit exceeded. Sign up for unlimited analyses.' },
-        { status: 429 }
-      );
-    }
-
+    // Parse and validate body before rate limiting — don't penalise malformed requests
     let body: unknown;
     try {
       body = await request.json();
@@ -78,6 +65,20 @@ export async function POST(request: Request) {
       );
     }
 
+    // Rate limit by hashed IP — only valid requests count toward the limit
+    const rawIp =
+      request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      request.headers.get('x-real-ip') ||
+      'unknown';
+    const ipHash = hashIp(rawIp);
+
+    if (!checkRateLimit(ipHash)) {
+      return NextResponse.json(
+        { error: 'Rate limit exceeded. Sign up for unlimited analyses.' },
+        { status: 429 }
+      );
+    }
+
     const { name, relationship, description, inputType } = parsed.data;
 
     // Run AI analysis — no auth, no DB, no context from previous analyses
@@ -85,7 +86,7 @@ export async function POST(request: Request) {
       await analyzePersonality({
         description,
         name,
-        relationship: relationship || null,
+        relationship,
         inputType,
       });
 

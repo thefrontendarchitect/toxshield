@@ -8,7 +8,7 @@ import { ChatModeForm } from '@/components/analysis/chat-mode-form';
 import { SlackModeForm } from '@/components/analysis/slack-mode-form';
 import { ThreatProfile } from '@/components/analysis/threat-profile';
 import { RiskBadge } from '@/components/analysis/risk-badge';
-import { AnalysisResult, RiskLevel } from '@/types/analysis';
+import { AnalysisResult } from '@/types/analysis';
 import { AnalysisRow } from '@/types/database';
 
 interface TryEntry {
@@ -87,7 +87,7 @@ export default function TryPage() {
               </p>
               <Link
                 href="/signup"
-                className="inline-block px-8 py-3.5 bg-foreground text-background font-bold rounded-xl font-mono text-sm tracking-wider active:opacity-90 transition-all min-h-[48px] touch-active"
+                className="inline-block px-8 py-3.5 bg-toxic-green text-surface-0 font-bold rounded-xl font-mono text-sm tracking-wider active:opacity-90 transition-all min-h-[48px] touch-active"
               >
                 SIGN UP FREE
               </Link>
@@ -124,7 +124,7 @@ export default function TryPage() {
                         <span className="font-mono text-sm text-text-primary truncate">
                           {entry.name}
                         </span>
-                        <RiskBadge level={entry.result.risk_level as RiskLevel} />
+                        <RiskBadge level={entry.result.risk_level} />
                       </div>
                       <span className="font-mono text-xs text-text-secondary shrink-0 ml-2">
                         {entry.result.toxicity_score.toFixed(1)}/10
@@ -149,7 +149,7 @@ export default function TryPage() {
                   onClick={() => setMode(m)}
                   className={`flex-1 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all min-h-[40px] ${
                     mode === m
-                      ? 'bg-foreground text-background font-bold'
+                      ? 'bg-toxic-green text-surface-0 font-bold'
                       : 'text-text-secondary active:bg-surface-2'
                   }`}
                 >
