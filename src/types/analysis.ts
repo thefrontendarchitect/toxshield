@@ -1,7 +1,7 @@
 export type TraitSeverity = 'low' | 'moderate' | 'high' | 'critical';
 export type RiskLevel = 'low' | 'moderate' | 'high';
 export type StrategyPriority = 'essential' | 'recommended' | 'optional';
-export type InputType = 'text_description' | 'audio_transcription' | 'whatsapp_chat' | 'email' | 'sms' | 'incident';
+export type InputType = 'text_description' | 'audio_transcription' | 'whatsapp_chat' | 'slack_chat' | 'email' | 'sms' | 'incident';
 
 export interface ToxicTrait {
   name: string;

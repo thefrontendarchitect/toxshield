@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-black">
+    <div className="min-h-screen flex flex-col bg-background">
       {/* Minimal header */}
       <div className="flex items-center gap-2 px-4 py-2 bg-surface border-b border-white/[0.06] font-mono text-xs">
         <div className="flex items-center gap-1.5 text-white/15">
@@ -63,7 +63,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/signup"
-              className="px-8 py-3.5 bg-white text-black font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-all glow-subtle min-h-[48px] flex items-center touch-active"
+              className="px-8 py-3.5 bg-white text-background font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-all glow-subtle min-h-[48px] flex items-center touch-active"
             >
               START ANALYZING →
             </Link>
@@ -73,9 +73,15 @@ export default function LandingPage() {
             >
               LOGIN
             </Link>
+            <Link
+              href="/try"
+              className="px-8 py-3.5 border border-white/10 rounded-xl font-mono text-sm text-white/50 active:bg-white/5 transition-colors min-h-[48px] flex items-center touch-active"
+            >
+              TRY WITHOUT SIGNING UP
+            </Link>
           </div>
 
-          <p className="text-[14px] text-white/20 font-mono">
+          <p className="text-xs text-white/20 font-mono">
             ToxShield identifies behavioral patterns. Not a substitute for professional counseling.
           </p>
         </div>

@@ -6,8 +6,14 @@ import { RELATIONSHIP_OPTIONS } from '@/lib/constants';
 import { FormInput, FormTextarea, FormSelect } from '@/components/ui/form-input';
 import { ErrorAlert } from '@/components/ui/error-alert';
 import { Spinner } from '@/components/ui/spinner';
+import { AnalysisResult } from '@/types/analysis';
 
-export function TextModeForm() {
+interface TextModeFormProps {
+  apiEndpoint?: string;
+  onResult?: (name: string, relationship: string | null, result: AnalysisResult) => void;
+}
+
+export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextModeFormProps) {
   const [name, setName] = useState('');
   const [relationship, setRelationship] = useState('');
   const [description, setDescription] = useState('');
@@ -21,7 +27,7 @@ export function TextModeForm() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/analyze', {
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, relationship: relationship || null, description }),
@@ -33,7 +39,16 @@ export function TextModeForm() {
       }
 
       const data = await response.json();
-      router.push(`/people/${data.personId}`);
+
+      if (onResult) {
+        onResult(name, relationship || null, data.result);
+        setName('');
+        setRelationship('');
+        setDescription('');
+        setLoading(false);
+      } else {
+        router.push(`/people/${data.personId}`);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
       setLoading(false);
@@ -84,7 +99,7 @@ export function TextModeForm() {
       <button
         type="submit"
         disabled={loading || !name || !description || description.length < 10}
-        className="w-full py-4 bg-white text-black font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
+        className="w-full py-4 bg-white text-background font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
       >
         {loading ? (
           <span className="flex items-center justify-center gap-2">

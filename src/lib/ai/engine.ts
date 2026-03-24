@@ -1,13 +1,13 @@
 import { getProvider } from './providers';
 import { analysisResultSchema, zodToJsonSchema } from './schemas';
-import { SYSTEM_PROMPT, buildUserPrompt, buildContextualPrompt, buildWhatsAppPrompt } from './prompts';
+import { SYSTEM_PROMPT, buildUserPrompt, buildContextualPrompt, buildWhatsAppPrompt, buildSlackPrompt } from './prompts';
 import { AnalysisResult } from '@/types/analysis';
 
 interface AnalyzeParams {
   description: string;
   name: string;
   relationship: string | null;
-  inputType?: 'text_description' | 'whatsapp_chat';
+  inputType?: 'text_description' | 'whatsapp_chat' | 'slack_chat';
   previousInputs?: Array<{ type: string; content: string; date: string }>;
   previousAnalysis?: {
     toxicity_score: number;
@@ -44,6 +44,8 @@ export async function analyzePersonality({
     );
   } else if (inputType === 'whatsapp_chat') {
     userPrompt = buildWhatsAppPrompt(description, name, relationship);
+  } else if (inputType === 'slack_chat') {
+    userPrompt = buildSlackPrompt(description, name, relationship);
   } else {
     userPrompt = buildUserPrompt(description, name, relationship);
   }

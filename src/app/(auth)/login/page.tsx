@@ -33,10 +33,11 @@ export default function LoginPage() {
   };
 
   const handleGoogleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
+    if (error) setError(error.message);
   };
 
   return (
@@ -79,7 +80,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-white text-black font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed min-h-[48px] touch-active"
+            className="w-full py-3 bg-white text-background font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed min-h-[48px] touch-active"
           >
             {loading ? 'AUTHENTICATING...' : 'ACCESS SYSTEM →'}
           </button>
@@ -104,11 +105,17 @@ export default function LoginPage() {
         </form>
 
         {/* Footer */}
-        <div className="p-4 border-t border-white/[0.06] text-center">
+        <div className="p-4 border-t border-white/[0.06] text-center space-y-2">
           <p className="text-xs text-white/30 font-mono">
             No clearance?{' '}
             <Link href="/signup" className="text-white underline underline-offset-2">
               Request Access
+            </Link>
+          </p>
+          <p className="text-xs text-white/20 font-mono">
+            or{' '}
+            <Link href="/try" className="text-white/50 underline underline-offset-2">
+              Try without signing up
             </Link>
           </p>
         </div>

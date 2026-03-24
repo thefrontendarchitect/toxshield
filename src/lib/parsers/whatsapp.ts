@@ -1,4 +1,5 @@
 import { parseString } from 'whatsapp-chat-parser';
+import { unzipSync } from 'fflate';
 
 interface ParsedMessage {
   date: Date;
@@ -17,6 +18,17 @@ export interface ParticipantSummary {
   messageCount: number;
   firstMessage: Date;
   lastMessage: Date;
+}
+
+/**
+ * Extract the .txt chat file from a WhatsApp ZIP export.
+ * WhatsApp ZIPs contain the chat .txt plus optional media files.
+ */
+export function extractWhatsAppZip(zipBuffer: ArrayBuffer): string {
+  const files = unzipSync(new Uint8Array(zipBuffer));
+  const txtEntry = Object.entries(files).find(([name]) => name.endsWith('.txt'));
+  if (!txtEntry) throw new Error('No .txt chat file found in ZIP');
+  return new TextDecoder().decode(txtEntry[1]);
 }
 
 /**
@@ -137,8 +149,8 @@ export function formatChatForAnalysis(
   }
 
   // Early messages (first 20% of budget) — only if we didn't already include them
-  const earliestIncluded = result.length > 0 ? 0 : -1;
-  if (earliestIncluded >= 0 && formatted.length > result.length + 10) {
+  const hasRecentMessages = result.length > 0;
+  if (hasRecentMessages && formatted.length > result.length + 10) {
     const earlyMessages: string[] = [];
     let earlyChars = 0;
 

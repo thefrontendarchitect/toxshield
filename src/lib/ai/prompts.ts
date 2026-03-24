@@ -84,6 +84,10 @@ Analyze BOTH sides — the target's messages AND the user's own messages. The us
 - This is SEPARATE from self_reflection. self_reflection is about the SUBJECT's behavior being healthy. user_insight is about the USER's own patterns.
 - Be honest but kind. If the user shows concerning patterns (enabling, people-pleasing, trauma bonding), name them gently.`;
 
+function escapeXml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 export function buildUserPrompt(
   description: string,
   name: string,
@@ -116,8 +120,8 @@ export function buildContextualPrompt(
 `;
 
   for (const input of previousInputs) {
-    prompt += `<input type="${input.type}" date="${input.date}">
-${input.content}
+    prompt += `<input type="${escapeXml(input.type)}" date="${escapeXml(input.date)}">
+${escapeXml(input.content)}
 </input>
 `;
   }
@@ -135,7 +139,7 @@ Previous analysis: ${previousAnalysis.pattern_analysis}
   prompt += `</previous_context>
 
 <new_input>
-${newInput}
+${escapeXml(newInput)}
 </new_input>
 
 Your updated analysis should incorporate ALL information — both old and new. The toxicity score may go UP or DOWN based on new evidence. Re-evaluate everything holistically.
@@ -178,8 +182,57 @@ Also analyze the USER's own messages in this conversation for the user_insight f
 - If the conversation seems normal/healthy, say so honestly (set is_toxic: false)
 
 <whatsapp_chat>
-${chatContent}
+${escapeXml(chatContent)}
 </whatsapp_chat>
 
 Provide a complete forensic behavioral analysis of ${name}'s communication patterns, AND analyze the user's own patterns in user_insight.`;
+}
+
+export function buildSlackPrompt(
+  chatContent: string,
+  name: string,
+  relationship: string | null
+): string {
+  return `Analyze **${name}**${relationship ? ` (${relationship})` : ''} based on their actual Slack workplace messages below. Messages from the target person are marked with [TARGET]. Messages from the USER (the person requesting this analysis) are NOT marked.
+
+## WORKPLACE CONTEXT
+These are Slack workplace messages. Analyze within the context of professional workplace dynamics, power structures, and office communication norms. Workplace messages are naturally more terse, directive, and transactional than personal messages. Brief or direct messages are NORMAL in work contexts — evaluate against PROFESSIONAL norms, not personal relationship norms.
+
+Consider the hierarchical relationship carefully. A manager being directive is normal; a manager being controlling is different. A peer taking credit is problematic; a peer disagreeing is normal. Power dynamics matter — the same behavior carries different weight depending on who holds authority.
+
+## WHAT TO ANALYZE — SUBJECT (${name})
+Focus primarily on the **[TARGET] person's** workplace communication patterns:
+- **Passive-Aggressive Professionalism**: "Per my last message...", "As previously discussed...", "Just following up for the nth time", "Going forward, please..." used as weapons
+- **Credit & Idea Theft**: Taking credit for others' work, presenting ideas as their own, minimizing contributions
+- **Micromanagement**: Excessive checking disguised as "just making sure", demanding unnecessary updates, controlling workflows
+- **Information Gatekeeping**: Withholding information, "I'll loop you in later" (never does), hoarding knowledge as power
+- **Public Shaming**: Calling out mistakes in public channels, criticism in group settings vs. private feedback
+- **Strategic Ambiguity**: Vague instructions that create plausible deniability, moving goalposts, "that's not what I meant"
+- **Weaponized Deadlines**: Impossible timelines, scope creep without acknowledgment, last-minute changes
+- **Triangulation**: Playing people against each other across channels/DMs, selective information sharing
+- **Exclusion Tactics**: Leaving people off threads, not inviting to meetings, creating side channels
+- **Gaslighting**: "We never agreed to that", "That was always the plan", denying previous decisions
+
+## WHAT TO ANALYZE — USER (the non-[TARGET] participant)
+Also analyze the USER's own messages in this conversation for the user_insight field:
+- **Professional Assertiveness**: Do they advocate for themselves? Push back on unreasonable requests?
+- **Conflict Resolution**: Do they address issues directly or avoid confrontation?
+- **Boundary Setting**: Do they set professional boundaries? Accept unreasonable workloads without pushback?
+- **Communication Clarity**: Are they clear and direct, or passive and ambiguous themselves?
+- **Signs of Burnout**: Over-accommodation, people-pleasing at work, loss of professional boundaries
+- **Strengths**: What are they doing well in this workplace dynamic?
+
+## IMPORTANT
+- The primary analysis (toxicity_score, detected_traits, etc.) is about the TARGET person only
+- The user_insight field is about the USER's own professional patterns
+- Consider the FULL conversation context, not isolated messages
+- A toxicity score of 3-4 in a workplace context may be MORE concerning than in personal relationships — workplaces have inherent power imbalances with real consequences (career impact, livelihood)
+- Protection strategies should be WORKPLACE-APPROPRIATE: "document interactions in writing", "CC relevant stakeholders", "establish paper trail", "escalate to HR/management", "request directives in writing" — not personal relationship advice like "go no contact"
+- If the conversation seems like normal professional communication, say so honestly (set is_toxic: false)
+
+<slack_chat>
+${escapeXml(chatContent)}
+</slack_chat>
+
+Provide a complete forensic behavioral analysis of ${name}'s workplace communication patterns, AND analyze the user's own professional patterns in user_insight.`;
 }

@@ -8,7 +8,7 @@ const requestSchema = z.object({
   relationship: z.string().nullable(),
   description: z.string().min(10).max(50000),
   personId: z.string().uuid().optional(),
-  inputType: z.enum(['text_description', 'whatsapp_chat']).default('text_description'),
+  inputType: z.enum(['text_description', 'whatsapp_chat', 'slack_chat']).default('text_description'),
 });
 
 export async function POST(request: Request) {
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
         .eq('id', personId)
         .eq('user_id', user.id)
         .returns<Array<{ name: string; relationship: string | null }>>()
-        .single();
+        .maybeSingle();
 
       if (existingPerson) {
         name = existingPerson.name;
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
         .order('created_at', { ascending: false })
         .limit(1)
         .returns<Array<{ toxicity_score: number; detected_traits: Array<{ name: string }>; pattern_analysis: string }>>()
-        .single();
+        .maybeSingle();
 
       if (latestAnalysis) {
         previousAnalysis = latestAnalysis;
