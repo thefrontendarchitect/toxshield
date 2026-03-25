@@ -154,14 +154,14 @@ export function SlackModeForm({ apiEndpoint = '/api/analyze', onResult }: SlackM
 
   return (
     <div className="space-y-5">
-      <p className="text-sm text-white/40 font-mono">
-        Import a Slack workspace export to analyze someone based on their workplace messages.
+      <p className="label-section mb-1">
+        IMPORT A SLACK WORKSPACE EXPORT TO ANALYZE WORKPLACE MESSAGES.
       </p>
 
       {/* Instructions */}
-      <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 space-y-2">
-        <p className="text-xs text-white/50 font-mono font-bold">HOW TO EXPORT:</p>
-        <div className="text-xs text-white/30 font-mono space-y-1">
+      <div className="card-dashed space-y-2">
+        <p className="font-mono text-[10px] font-bold text-white/50 uppercase tracking-wider">HOW TO EXPORT:</p>
+        <div className="font-mono text-[10px] text-white/30 space-y-1">
           <p>1. Go to your Slack workspace settings</p>
           <p>2. Import/Export Data → Export</p>
           <p>3. Select date range and start export</p>
@@ -182,7 +182,7 @@ export function SlackModeForm({ apiEndpoint = '/api/analyze', onResult }: SlackM
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="w-full py-4 border-2 border-dashed border-white/15 rounded-xl font-mono text-sm text-white/50 active:bg-white/5 transition-colors min-h-[60px] touch-active"
+          className="w-full py-4 border border-dashed border-surface-3 rounded-lg font-mono text-xs text-white/40 uppercase tracking-wider active:bg-surface-2 transition-colors min-h-[60px] touch-active"
         >
           {zipData
             ? `✓ ${zipData.channels.length} channel${zipData.channels.length !== 1 ? 's' : ''} found`
@@ -195,9 +195,9 @@ export function SlackModeForm({ apiEndpoint = '/api/analyze', onResult }: SlackM
       {/* Channel picker */}
       {zipData && zipData.channels.length > 0 && (
         <div className="space-y-2">
-          <label className="block text-xs text-white/30 font-mono uppercase tracking-wider">
+          <p className="label-section mb-2">
             SELECT CHANNEL
-          </label>
+          </p>
           <div className="max-h-[240px] overflow-y-auto space-y-1.5">
             {zipData.channels.map((ch) => {
               const isSelected = selectedChannel === ch;
@@ -207,10 +207,10 @@ export function SlackModeForm({ apiEndpoint = '/api/analyze', onResult }: SlackM
                   key={ch}
                   type="button"
                   onClick={() => handleChannelSelect(ch)}
-                  className={`w-full flex items-center justify-between p-3.5 rounded-xl border transition-all touch-active min-h-[48px] text-left ${
+                  className={`w-full flex items-center justify-between p-3.5 rounded-lg border transition-all touch-active min-h-[48px] text-left ${
                     isSelected
                       ? 'border-white bg-white/10'
-                      : 'border-white/[0.06] bg-surface active:bg-hover'
+                      : 'border-surface-3 bg-surface-1 active:bg-surface-2'
                   }`}
                 >
                   <p className={`font-mono text-sm ${isSelected ? 'text-white font-bold' : 'text-white/70'}`}>
@@ -227,9 +227,9 @@ export function SlackModeForm({ apiEndpoint = '/api/analyze', onResult }: SlackM
       {/* Participant picker */}
       {participants.length > 0 && (
         <div className="space-y-2">
-          <label className="block text-xs text-white/30 font-mono uppercase tracking-wider">
+          <p className="label-section mb-2">
             SELECT WHO TO ANALYZE
-          </label>
+          </p>
           {participants.map((p) => {
             const isSelected = selectedPerson === p.name;
             const months = Math.max(
@@ -245,10 +245,10 @@ export function SlackModeForm({ apiEndpoint = '/api/analyze', onResult }: SlackM
                 key={p.name}
                 type="button"
                 onClick={() => setSelectedPerson(p.name)}
-                className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all touch-active min-h-[56px] text-left ${
+                className={`w-full flex items-center justify-between p-4 rounded-lg border transition-all touch-active min-h-[56px] text-left ${
                   isSelected
                     ? 'border-white bg-white/10'
-                    : 'border-white/[0.06] bg-surface active:bg-hover'
+                    : 'border-surface-3 bg-surface-1 active:bg-surface-2'
                 }`}
               >
                 <div>
@@ -299,7 +299,7 @@ export function SlackModeForm({ apiEndpoint = '/api/analyze', onResult }: SlackM
       {/* Preview & submit */}
       {selectedSummary && (
         <>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-center">
+          <div className="card-dashed text-center">
             <p className="text-xs text-white/50 font-mono">
               Analyzing <span className="text-white font-bold">{selectedSummary.messageCount}</span> messages
               from <span className="text-white font-bold">{selectedPerson}</span>
@@ -325,7 +325,7 @@ export function SlackModeForm({ apiEndpoint = '/api/analyze', onResult }: SlackM
             type="button"
             onClick={handleSubmit}
             disabled={loading || (personMatch.isDifferentPerson && !personMatch.selectedName)}
-            className="w-full py-4 bg-white text-background font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
+            className="w-full py-4 bg-white text-surface-0 font-bold rounded-lg font-mono text-xs uppercase tracking-[0.15em] active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -333,15 +333,15 @@ export function SlackModeForm({ apiEndpoint = '/api/analyze', onResult }: SlackM
                 ANALYZING WORKPLACE PATTERNS...
               </span>
             ) : (
-              'ANALYZE SLACK MESSAGES →'
+              'ANALYZE SLACK MESSAGES \u2192'
             )}
           </button>
 
           {loading && (
-            <div className="text-center font-mono text-xs text-white/30 space-y-1">
-              <p>▸ Reading workplace communication patterns...</p>
-              <p>▸ Detecting office manipulation tactics...</p>
-              <p>▸ Building professional behavioral profile...</p>
+            <div className="text-center font-mono text-[10px] text-white/30 uppercase tracking-wider space-y-1">
+              <p>&gt;&gt; Reading workplace communication patterns...</p>
+              <p>&gt;&gt; Detecting office manipulation tactics...</p>
+              <p>&gt;&gt; Building professional behavioral profile...</p>
             </div>
           )}
         </>

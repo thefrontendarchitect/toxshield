@@ -3,8 +3,22 @@ import { redirect } from 'next/navigation';
 import { calculateEnvironmentHealth } from '@/lib/ai/scoring';
 import { StatsGrid } from '@/components/dashboard/stats-grid';
 import { EnvironmentHealth } from '@/components/dashboard/environment-health';
+import { PolaroidCard } from '@/components/ui/polaroid-card';
 import { PersonRow } from '@/types/database';
+import { WarningIcon } from '@/components/ui/dossier-icons';
 import Link from 'next/link';
+
+function getInitials(name: string) {
+  return name.split(/\s+/).map(w => w[0]).join('').toUpperCase().slice(0, 2);
+}
+
+function getStatusLabel(riskLevel: string | null) {
+  if (riskLevel === 'high') return { label: 'CRITICAL', variant: 'critical' as const };
+  if (riskLevel === 'moderate') return { label: 'MONITORED', variant: 'stable' as const };
+  return { label: 'STABLE', variant: 'default' as const };
+}
+
+const rotations = [-2, 1.5, -1, 2.5, -1.5, 2];
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -16,7 +30,8 @@ export default async function DashboardPage() {
     .order('updated_at', { ascending: false }).returns<PersonRow[]>();
 
   const allPeople = people ?? [];
-  const highRiskCount = allPeople.filter((p) => p.current_risk_level === 'high').length;
+  const highRiskPeople = allPeople.filter((p) => p.current_risk_level === 'high');
+  const highRiskCount = highRiskPeople.length;
   const { count: totalAnalyses } = await supabase
     .from('analyses').select('*', { count: 'exact', head: true }).eq('user_id', user.id);
 
@@ -24,60 +39,74 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      {/* Stats + Health */}
       <div className="space-y-4">
         <StatsGrid totalPeople={allPeople.length} highRiskCount={highRiskCount} totalAnalyses={totalAnalyses ?? 0} />
         <EnvironmentHealth health={health} />
       </div>
 
-      {/* Primary CTA — inverted white */}
-      <Link
-        href="/analyze"
-        className="flex items-center justify-center gap-2 w-full py-4 bg-white text-black font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-all touch-active min-h-[48px]"
-      >
-        + New Analysis
-      </Link>
+      {/* High-Risk Threats */}
+      {highRiskPeople.length > 0 && (
+        <div>
+          <p className="label-section mb-3">HIGH-RISK THREATS</p>
+          <div className="bg-surface-1 border border-surface-3 rounded-lg overflow-hidden">
+            {highRiskPeople.slice(0, 5).map((person, i) => (
+              <Link
+                key={person.id}
+                href={`/people/${person.id}`}
+                className={`flex items-center justify-between px-4 py-3 min-h-[56px] active:bg-surface-2 transition-colors ${
+                  i < highRiskPeople.length - 1 ? 'border-b border-surface-3' : ''
+                }`}
+              >
+                <div>
+                  <p className="font-mono text-sm font-bold text-white uppercase">
+                    {person.name.toUpperCase().replace(/\s/g, '_')}
+                  </p>
+                  <p className="font-mono text-[10px] text-white/30 uppercase">
+                    {person.relationship ?? 'UNKNOWN'} &middot; SCORE: {person.current_toxicity_score?.toFixed(1) ?? '?'}
+                  </p>
+                </div>
+                <WarningIcon size={20} className="text-badge-pink shrink-0" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
-      {/* Recent People */}
+      {/* Subject Feed */}
       <div>
-        <h2 className="text-xs text-white/30 font-mono uppercase tracking-[0.15em] mb-3">
-          Recent Subjects
-        </h2>
+        <div className="mb-3">
+          <h2 className="hero-title text-3xl mb-1">SUBJECT FEED</h2>
+          <p className="font-mono text-[10px] text-white/30 uppercase tracking-[0.15em]">
+            SURVEILLANCE DATA // SECURE_CHANNEL
+          </p>
+        </div>
+
         {allPeople.length === 0 ? (
-          <div className="bg-surface border border-white/[0.06] rounded-xl p-8 text-center">
-            <p className="text-white/40 font-mono text-sm mb-4">No subjects logged yet.</p>
+          <div className="card-dashed text-center py-10">
+            <p className="font-mono text-sm text-white/30 mb-4">NO SUBJECTS IN REGISTRY</p>
             <Link
               href="/analyze"
-              className="inline-block px-4 py-3 bg-white text-black font-bold rounded-xl font-mono text-sm min-h-[44px]"
+              className="inline-block card-dashed px-6 py-3 font-mono text-xs uppercase tracking-[0.15em] text-white/60 hover:text-white transition-colors"
             >
-              + Analyze Someone
+              + INITIATE ANALYSIS
             </Link>
           </div>
         ) : (
-          <div className="space-y-2">
-            {allPeople.slice(0, 10).map((person) => {
-              const isHigh = person.current_risk_level === 'high';
-              const isModerate = person.current_risk_level === 'moderate';
-              const scoreOpacity = isHigh ? 'opacity-100' : isModerate ? 'opacity-70' : 'opacity-40';
-
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4">
+            {allPeople.slice(0, 8).map((person, i) => {
+              const status = getStatusLabel(person.current_risk_level);
               return (
-                <Link
+                <PolaroidCard
                   key={person.id}
+                  name={person.name}
+                  initials={getInitials(person.name)}
+                  status={status.label}
+                  statusVariant={status.variant}
+                  rotation={rotations[i % rotations.length]}
                   href={`/people/${person.id}`}
-                  className="flex items-center justify-between p-4 bg-surface border border-white/[0.06] rounded-xl active:bg-hover transition-colors touch-active min-h-[64px]"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-mono text-sm font-bold border border-white/20 text-white ${scoreOpacity} ${isHigh ? 'glow-subtle' : ''}`}>
-                      {person.current_toxicity_score?.toFixed(1) ?? '?'}
-                    </div>
-                    <div>
-                      <p className="font-mono text-sm text-white">{person.name}</p>
-                      <p className="text-xs text-white/30">
-                        {person.relationship ?? 'Unknown'} · {person.analysis_count} analysis{person.analysis_count !== 1 ? 'es' : ''}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="text-white/20 font-mono text-sm">→</span>
-                </Link>
+                  relationship={person.relationship ?? undefined}
+                />
               );
             })}
           </div>

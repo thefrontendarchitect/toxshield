@@ -23,7 +23,7 @@ function getOpacity(score: number): number {
 function getGlow(score: number): string {
   if (score < 4) return 'drop-shadow(0 0 2px rgba(255,255,255,0.1))';
   if (score < 7) return 'drop-shadow(0 0 4px rgba(255,255,255,0.25))';
-  return 'drop-shadow(0 0 8px rgba(255,255,255,0.5)) drop-shadow(0 0 20px rgba(255,255,255,0.2))';
+  return 'drop-shadow(0 0 8px rgba(245,198,198,0.4)) drop-shadow(0 0 20px rgba(245,198,198,0.15))';
 }
 
 export function ToxicityRing({ score, size = 160 }: ToxicityRingProps) {
@@ -45,7 +45,7 @@ export function ToxicityRing({ score, size = 160 }: ToxicityRingProps) {
       {/* Score text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <motion.span
-          className="font-bold font-mono text-white"
+          className="font-black font-mono italic text-white"
           style={{
             fontSize: score >= 7 ? '2.5rem' : score >= 4 ? '2rem' : '1.5rem',
             opacity,
@@ -56,7 +56,7 @@ export function ToxicityRing({ score, size = 160 }: ToxicityRingProps) {
         >
           {score.toFixed(1)}
         </motion.span>
-        <span className="text-xs text-white/30 font-mono mt-0.5">/10.0</span>
+        <span className="font-mono text-[10px] text-white/30 uppercase tracking-[0.1em] mt-0.5">TOX_SCORE</span>
       </div>
     </div>
   );

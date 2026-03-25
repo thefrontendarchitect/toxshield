@@ -18,16 +18,16 @@ interface InsightsTimelineProps {
   allPatterns: Array<UserPattern & { personName: string; date: string }>;
 }
 
-const BOUNDARY_DOTS: Record<string, number> = {
-  strong: 3,
-  developing: 2,
-  weak: 1,
+const BOUNDARY_LABELS: Record<string, { label: string; style: string }> = {
+  strong: { label: 'FIXED', style: 'bg-white/5 text-white/40' },
+  developing: { label: 'MONITORED', style: 'bg-white/10 text-white/60' },
+  weak: { label: 'BREACHED', style: 'badge-status' },
 };
 
 const SENTIMENT_STYLES: Record<UserPattern['sentiment'], string> = {
-  positive: 'bg-white/5 border-white/10',
-  neutral: 'bg-white/5 border-white/15',
-  needs_attention: 'bg-white/10 border-white/25',
+  positive: 'bg-surface-1 border-surface-3',
+  neutral: 'bg-surface-1 border-surface-3',
+  needs_attention: 'card-dashed !bg-surface-1',
 };
 
 function formatDate(dateStr: string): string {
@@ -45,7 +45,7 @@ export function InsightsTimeline({ timeline, allPatterns }: InsightsTimelineProp
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider mb-3">
+          <p className="label-section mb-3">
             Observed Patterns Across Analyses
           </p>
           <div className="space-y-2">
@@ -61,10 +61,10 @@ export function InsightsTimeline({ timeline, allPatterns }: InsightsTimelineProp
                   <span className="text-sm flex-shrink-0">{pattern.icon}</span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className="text-xs font-mono text-white/50">
+                      <span className="font-mono text-[10px] text-white/50 uppercase tracking-wider">
                         {pattern.area}
                       </span>
-                      <span className="text-[14px] text-white/20 font-mono">
+                      <span className="font-mono text-[10px] text-white/20">
                         re: {pattern.personName}
                       </span>
                     </div>
@@ -85,41 +85,34 @@ export function InsightsTimeline({ timeline, allPatterns }: InsightsTimelineProp
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider mb-3">
+        <p className="label-section mb-3">
           Analysis Timeline
         </p>
         <div className="space-y-2">
           {timeline.map((entry) => {
-            const filled = BOUNDARY_DOTS[entry.boundaryAwareness];
+            const boundary = BOUNDARY_LABELS[entry.boundaryAwareness];
             return (
               <Link
                 key={`${entry.personId}-${entry.date}`}
                 href={`/people/${entry.personId}`}
-                className="flex items-center justify-between p-3 bg-white/[0.02] border border-white/[0.08] rounded-lg hover:bg-white/[0.04] active:bg-white/[0.06] transition-colors"
+                className="flex items-center justify-between p-3 bg-surface-1 border border-surface-3 rounded-lg hover:bg-surface-2 active:bg-surface-2 transition-colors"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <span className="text-[14px] text-white/20 font-mono flex-shrink-0 w-10">
+                  <span className="font-mono text-[10px] text-white/20 flex-shrink-0 w-10">
                     {formatDate(entry.date)}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-mono text-white/60 truncate">
+                    <p className="font-mono text-xs text-white/60 truncate uppercase">
                       {entry.personName}
                     </p>
-                    <p className="text-[14px] text-white/30 truncate">
+                    <p className="font-mono text-[10px] text-white/30 truncate">
                       {entry.overallTone}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-1 flex-shrink-0 ml-2">
-                  {[1, 2, 3].map((dot) => (
-                    <span
-                      key={dot}
-                      className={`text-[10px] ${dot <= filled ? 'text-white/50' : 'text-white/15'}`}
-                    >
-                      {dot <= filled ? '\u25CF' : '\u25CB'}
-                    </span>
-                  ))}
-                </div>
+                <span className={`font-mono text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-sm flex-shrink-0 ml-2 ${boundary.style}`}>
+                  {boundary.label}
+                </span>
               </Link>
             );
           })}

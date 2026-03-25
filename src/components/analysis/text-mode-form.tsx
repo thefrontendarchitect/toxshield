@@ -73,8 +73,8 @@ export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextMod
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      <p className="text-sm text-white/40 font-mono">
-        Describe the subject. The more detail, the sharper the profile.
+      <p className="label-section mb-1">
+        DESCRIBE THE SUBJECT. THE MORE DETAIL, THE SHARPER THE PROFILE.
       </p>
 
       {error && <ErrorAlert message={error} />}
@@ -131,21 +131,21 @@ export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextMod
       <button
         type="submit"
         disabled={loading || !name || !description || description.length < 10 || (personMatch.isDifferentPerson && !personMatch.selectedName)}
-        className="w-full py-4 bg-white text-background font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
+        className="w-full py-4 bg-white text-surface-0 font-bold rounded-lg font-mono text-xs uppercase tracking-[0.15em] active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
       >
         {loading ? (
           <span className="flex items-center justify-center gap-2">
             <Spinner />
             RUNNING ANALYSIS...
           </span>
-        ) : 'INITIATE THREAT ANALYSIS →'}
+        ) : 'INITIATE THREAT ANALYSIS \u2192'}
       </button>
 
       {loading && (
-        <div className="text-center font-mono text-xs text-white/30 space-y-1">
-          <p>▸ Scanning behavioral patterns...</p>
-          <p>▸ Cross-referencing manipulation frameworks...</p>
-          <p>▸ Generating threat profile...</p>
+        <div className="text-center font-mono text-[10px] text-white/30 uppercase tracking-wider space-y-1">
+          <p>&gt;&gt; Scanning behavioral patterns...</p>
+          <p>&gt;&gt; Cross-referencing manipulation frameworks...</p>
+          <p>&gt;&gt; Generating threat profile...</p>
         </div>
       )}
     </form>

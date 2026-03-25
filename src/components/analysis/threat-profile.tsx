@@ -18,8 +18,8 @@ interface ThreatProfileProps {
 }
 
 export function ThreatProfile({ analysis, personName, relationship }: ThreatProfileProps) {
-  const traits = analysis.detected_traits;
-  const strategies = analysis.protection_strategies;
+  const traits = analysis.detected_traits ?? [];
+  const strategies = analysis.protection_strategies ?? [];
   const selfReflection = analysis.self_reflection;
   const userInsight = analysis.user_insight;
 
@@ -29,16 +29,17 @@ export function ThreatProfile({ analysis, personName, relationship }: ThreatProf
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center space-y-2"
+        className="text-center space-y-3"
       >
-        <p className="text-[14px] text-white/30 font-mono uppercase tracking-[0.2em]">
-          {personName}
-          {relationship && ` · ${relationship}`}
+        <span className="tag-badge">THREAT ASSESSMENT</span>
+        <p className="label-section">
+          {personName.toUpperCase()}
+          {relationship && ` \u00B7 ${relationship.toUpperCase()}`}
         </p>
-        <h1 className="text-xl font-bold font-mono text-white">
+        <h1 className="font-mono text-xl font-bold uppercase text-white">
           &ldquo;{analysis.headline}&rdquo;
         </h1>
-        <p className="text-xs text-white/40 italic">{analysis.tagline}</p>
+        <p className="font-mono text-xs italic text-white/40">{analysis.tagline}</p>
       </motion.div>
 
       {/* Score + Risk Level */}
@@ -61,7 +62,7 @@ export function ThreatProfile({ analysis, personName, relationship }: ThreatProf
       {/* User Mirror */}
       {userInsight && (
         <>
-          <div className="border-t border-white/[0.06] my-2" />
+          <div className="border-t border-surface-3 my-2" />
           <UserInsightCard insight={userInsight} />
         </>
       )}
@@ -71,9 +72,9 @@ export function ThreatProfile({ analysis, personName, relationship }: ThreatProf
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5 }}
-        className="p-4 bg-surface border border-line rounded-xl"
+        className="card-dashed"
       >
-        <p className="text-[14px] text-white/25 font-mono leading-relaxed text-center">
+        <p className="font-mono text-[10px] text-white/25 leading-relaxed text-center uppercase tracking-wider">
           ToxShield identifies behavioral patterns. It is not a substitute for professional
           counseling. If you are in danger, contact emergency services.
         </p>

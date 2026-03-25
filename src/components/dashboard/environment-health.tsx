@@ -1,57 +1,46 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { AnimatedRing } from '@/components/ui/animated-ring';
+import { HeartCrackIcon } from '@/components/ui/dossier-icons';
+import { StatusBadge } from '@/components/ui/status-badge';
 
 interface EnvironmentHealthProps {
   health: number;
 }
 
-function getStrokeIntensity(health: number) {
-  if (health >= 70) return { width: 3, opacity: 0.35, glow: 'drop-shadow(0 0 2px rgba(255,255,255,0.1))' };
-  if (health >= 40) return { width: 5, opacity: 0.65, glow: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))' };
-  return { width: 7, opacity: 1, glow: 'drop-shadow(0 0 8px rgba(255,255,255,0.5))' };
+function getHealthStatus(health: number) {
+  if (health >= 70) return { label: 'STABLE ENVIRONMENT', variant: 'stable' as const };
+  if (health >= 40) return { label: 'ELEVATED RISK DETECTED', variant: 'warning' as const };
+  return { label: 'CRITICAL FRACTURE DETECTED', variant: 'critical' as const };
 }
 
 export function EnvironmentHealth({ health }: EnvironmentHealthProps) {
-  const size = 100;
-  const { width: strokeWidth, opacity, glow } = getStrokeIntensity(health);
+  const status = getHealthStatus(health);
 
   return (
-    <div className="bg-surface border border-white/[0.06] rounded-xl p-5 flex items-center gap-4">
-      <div className="relative shrink-0 inline-flex items-center justify-center" style={{ width: size, height: size }}>
-        <AnimatedRing
-          progress={health / 100}
-          size={size}
-          strokeWidth={strokeWidth}
-          opacity={opacity}
-          glowFilter={glow}
-        />
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <motion.span
-            className="text-lg font-bold font-mono text-white"
-            style={{ opacity }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity }}
-            transition={{ delay: 0.8 }}
-          >
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.1 }}
+      className="card-dashed"
+    >
+      {/* Section label */}
+      <p className="label-section mb-4">ENV. HEALTH SCORE</p>
+
+      {/* Heart + Score */}
+      <div className="flex items-center gap-5 mb-4">
+        <div className="relative shrink-0">
+          <HeartCrackIcon size={56} className={health < 40 ? 'opacity-100' : 'opacity-60'} />
+        </div>
+        <div>
+          <span className="font-mono text-5xl font-black italic text-white leading-none">
             {health}%
-          </motion.span>
+          </span>
         </div>
       </div>
 
-      <div className="flex-1 min-w-0">
-        <h3 className="text-xs text-white/30 font-mono uppercase tracking-wider mb-1">
-          Environment Health
-        </h3>
-        <p className="text-xs text-white/40 font-mono leading-relaxed">
-          {health >= 70
-            ? 'Your circle is relatively healthy'
-            : health >= 40
-            ? 'Some toxic patterns detected'
-            : 'High toxicity — consider boundaries'}
-        </p>
-      </div>
-    </div>
+      {/* Status badge */}
+      <StatusBadge label={status.label} variant={status.variant} />
+    </motion.div>
   );
 }

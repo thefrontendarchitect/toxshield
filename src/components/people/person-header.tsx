@@ -68,20 +68,19 @@ export function PersonHeader({ personId, personName, relationship: initialRelati
       <div className="flex items-center gap-2">
         <Link
           href={`/people/${personId}/add-info`}
-          className="flex-1 py-3 border border-white/15 rounded-xl font-mono text-xs text-white active:bg-white/5 transition-colors text-center min-h-[44px] flex items-center justify-center touch-active"
+          className="flex-1 py-3 card-dashed font-mono text-[10px] uppercase tracking-[0.15em] text-white/60 active:bg-surface-2 transition-colors text-center min-h-[44px] flex items-center justify-center touch-active"
         >
-          + Add Intel
+          + ADD INTEL
         </Link>
         <Link
           href={`/people/${personId}/share`}
-          className="flex-1 py-3 bg-white text-black font-bold rounded-xl font-mono text-xs active:bg-white/90 transition-colors text-center min-h-[44px] flex items-center justify-center touch-active"
+          className="flex-1 py-3 bg-white text-surface-0 font-bold rounded-lg font-mono text-[10px] uppercase tracking-[0.15em] active:bg-white/90 transition-colors text-center min-h-[44px] flex items-center justify-center touch-active"
         >
-          Share Report
+          SHARE REPORT
         </Link>
       </div>
 
       <div className="flex items-center justify-between">
-        {/* Editable relationship */}
         {editing ? (
           <select
             aria-label="Relationship type"
@@ -89,7 +88,7 @@ export function PersonHeader({ personId, personName, relationship: initialRelati
             value={relationship ?? ''}
             onChange={(e) => handleChange(e.target.value)}
             onBlur={() => setEditing(false)}
-            className="w-full px-3 py-2 bg-black border border-white/20 rounded-lg font-mono text-xs text-white focus:outline-none focus:border-white/40 transition-colors appearance-none"
+            className="w-full py-2 bg-transparent border-b border-white/20 font-mono text-xs text-white focus:outline-none focus:border-white/40 transition-colors appearance-none"
           >
             <option value="">No relationship</option>
             {RELATIONSHIP_OPTIONS.map((opt) => (
@@ -102,16 +101,15 @@ export function PersonHeader({ personId, personName, relationship: initialRelati
             aria-label={`Edit relationship${relationship ? `: ${relationship}` : ''}`}
             onClick={() => setEditing(true)}
             disabled={saving}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-xs transition-colors active:bg-white/5 touch-active"
+            className="flex items-center gap-1.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] transition-colors active:bg-white/5 touch-active rounded"
           >
             <span className={relationship ? 'text-white/40' : 'text-white/20 italic'}>
-              {saving ? 'Saving...' : relationship ?? 'Set relationship'}
+              {saving ? 'SAVING...' : relationship?.toUpperCase() ?? 'SET RELATIONSHIP'}
             </span>
-            <span className="text-white/15 text-xs">✎</span>
+            <span className="text-white/15 text-[10px]">&#9998;</span>
           </button>
         )}
 
-        {/* Delete button */}
         {!editing && (
           <button
             type="button"
@@ -123,13 +121,13 @@ export function PersonHeader({ personId, personName, relationship: initialRelati
               confirmDelete ? `Confirm delete ${personName}` :
               `Delete ${personName}`
             }
-            className={`px-3 py-2 rounded-lg font-mono text-xs transition-colors min-h-[44px] touch-active ${
+            className={`px-3 py-2 rounded-sm font-mono text-[10px] uppercase tracking-wider transition-colors min-h-[44px] touch-active ${
               confirmDelete
-                ? 'text-white bg-white/10 border border-white/30'
+                ? 'badge-status'
                 : 'text-white/25 active:bg-white/5'
             }`}
           >
-            {deleting ? 'Deleting...' : confirmDelete ? `Delete ${personName}?` : 'Delete'}
+            {deleting ? 'DELETING...' : confirmDelete ? `DELETE ${personName.toUpperCase()}?` : 'DELETE'}
           </button>
         )}
       </div>

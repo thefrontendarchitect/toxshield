@@ -7,20 +7,20 @@ interface UserInsightCardProps {
   insight: UserInsight;
 }
 
-const BOUNDARY_INDICATORS: Record<UserInsight['boundary_awareness'], { filled: number; label: string }> = {
-  strong: { filled: 3, label: 'Strong' },
-  developing: { filled: 2, label: 'Developing' },
-  weak: { filled: 1, label: 'Weak' },
+const BOUNDARY_LABELS: Record<UserInsight['boundary_awareness'], { label: string; variant: string }> = {
+  strong: { label: 'STRONG', variant: 'bg-white/5 text-white/40' },
+  developing: { label: 'DEVELOPING', variant: 'bg-white/10 text-white/60' },
+  weak: { label: 'WEAK', variant: 'badge-status' },
 };
 
 const SENTIMENT_STYLES: Record<UserPattern['sentiment'], string> = {
-  positive: 'bg-white/5 border-white/10',
-  neutral: 'bg-white/5 border-white/15',
-  needs_attention: 'bg-white/10 border-white/25',
+  positive: 'bg-surface-1 border-surface-3',
+  neutral: 'bg-surface-1 border-surface-3',
+  needs_attention: 'card-dashed !bg-surface-1',
 };
 
 export function UserInsightCard({ insight }: UserInsightCardProps) {
-  const boundary = BOUNDARY_INDICATORS[insight.boundary_awareness];
+  const boundary = BOUNDARY_LABELS[insight.boundary_awareness];
 
   return (
     <motion.div
@@ -32,12 +32,12 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-base text-white/50">&#x25C8;</span>
-          <h3 className="font-mono text-xs font-bold text-white/70 uppercase tracking-[0.15em]">
+          <span className="text-sm text-white/40">&#9672;</span>
+          <h3 className="label-section">
             Your Mirror
           </h3>
         </div>
-        <span className="text-[14px] font-mono text-white/30 bg-white/5 px-2 py-0.5 rounded-full">
+        <span className="font-mono text-[10px] text-white/30 bg-white/5 px-2.5 py-1 rounded-sm uppercase tracking-wider">
           {insight.overall_tone}
         </span>
       </div>
@@ -47,10 +47,10 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.2 }}
-        className="p-4 bg-white/[0.02] border border-white/[0.08] rounded-lg space-y-3"
+        className="card-dashed space-y-4"
       >
         <div>
-          <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider mb-1">
+          <p className="label-section mb-1">
             Communication Style
           </p>
           <p className="text-sm text-white/60 leading-relaxed">
@@ -58,7 +58,7 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
           </p>
         </div>
         <div>
-          <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider mb-1">
+          <p className="label-section mb-1">
             Emotional Patterns
           </p>
           <p className="text-sm text-white/60 leading-relaxed">
@@ -68,29 +68,19 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
 
         {/* Boundary Awareness */}
         <div className="flex items-center justify-between">
-          <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider">
+          <p className="label-section">
             Boundary Awareness
           </p>
-          <div className="flex items-center gap-1.5">
-            {[1, 2, 3].map((i) => (
-              <span
-                key={i}
-                className={`text-xs ${i <= boundary.filled ? 'text-white/60' : 'text-white/15'}`}
-              >
-                {i <= boundary.filled ? '\u25CF' : '\u25CB'}
-              </span>
-            ))}
-            <span className="text-[14px] text-white/40 font-mono ml-1">
-              {boundary.label}
-            </span>
-          </div>
+          <span className={`font-mono text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-sm ${boundary.variant}`}>
+            {boundary.label}
+          </span>
         </div>
       </motion.div>
 
       {/* Detected Patterns */}
       {insight.detected_patterns.length > 0 && (
         <div className="space-y-2">
-          <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider">
+          <p className="label-section">
             Observed Patterns
           </p>
           {insight.detected_patterns.map((pattern, index) => (
@@ -104,7 +94,7 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
               <div className="flex items-start gap-2">
                 <span className="text-sm flex-shrink-0">{pattern.icon}</span>
                 <div>
-                  <p className="text-xs font-mono text-white/50 mb-0.5">
+                  <p className="font-mono text-[10px] text-white/40 uppercase tracking-wider mb-0.5">
                     {pattern.area}
                   </p>
                   <p className="text-sm text-white/60 leading-relaxed">
@@ -125,7 +115,7 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
           transition={{ delay: 2.8 }}
           className="space-y-2"
         >
-          <p className="text-[14px] text-white/30 font-mono uppercase tracking-wider">
+          <p className="label-section">
             Growth Areas
           </p>
           {insight.growth_areas.map((area, index) => (
@@ -133,7 +123,7 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
               key={`growth-${index}`}
               className="flex items-start gap-2 text-sm text-white/50"
             >
-              <span className="text-white/40 font-mono flex-shrink-0">&rarr;</span>
+              <span className="text-white/30 font-mono flex-shrink-0">&gt;&gt;</span>
               <span>{area}</span>
             </div>
           ))}

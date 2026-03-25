@@ -13,22 +13,22 @@ export function SelfReflectionCard({ reflection }: SelfReflectionCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.8 }}
-      className="p-6 bg-white/5 border border-white/15 rounded-xl"
+      className="card-dashed"
     >
       <div className="flex items-start gap-3 mb-4">
-        <span className="text-xl text-white/60">◇</span>
+        <span className="text-lg text-white/40">&#9671;</span>
         <div>
-          <h3 className="font-mono text-sm font-bold text-white mb-1">
+          <h3 className="label-section mb-2">
             SELF-REFLECTION MODE
           </h3>
-          <p className="text-sm text-white/70 leading-relaxed">
+          <p className="text-sm text-white/60 leading-relaxed">
             {reflection.message}
           </p>
         </div>
       </div>
 
-      <div className="space-y-2 pl-9">
-        <p className="text-xs text-white/30 font-mono uppercase tracking-wider mb-2">
+      <div className="space-y-2 pl-8">
+        <p className="label-section mb-2">
           Suggested Approaches
         </p>
         {reflection.suggestions.map((suggestion, index) => (
@@ -39,7 +39,7 @@ export function SelfReflectionCard({ reflection }: SelfReflectionCardProps) {
             transition={{ delay: 1.2 + index * 0.15 }}
             className="flex items-start gap-2 text-sm text-white/50"
           >
-            <span className="text-white/60 font-mono flex-shrink-0">→</span>
+            <span className="text-white/40 font-mono flex-shrink-0">&gt;&gt;</span>
             <span>{suggestion}</span>
           </motion.div>
         ))}

@@ -1,6 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
 import { PersonRow } from '@/types/database';
 import { PersonList } from '@/components/people/person-list';
 
@@ -16,17 +15,14 @@ export default async function PeoplePage() {
   const allPeople = people ?? [];
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-5">
-        <p className="text-xs text-white/30 font-mono">
-          {allPeople.length} subject{allPeople.length !== 1 ? 's' : ''} logged
+    <div className="space-y-6">
+      {/* Hero Section */}
+      <div className="space-y-3">
+        <span className="tag-badge">SUBJECT REGISTRY</span>
+        <h1 className="hero-title">PERSONNEL<br />MONITORING</h1>
+        <p className="border-l-2 border-white/20 pl-4 text-sm italic text-white/40 leading-relaxed">
+          &ldquo;Trust is a luxury the data suggests we cannot afford. Watch the fluctuations. Verify the anomalies.&rdquo;
         </p>
-        <Link
-          href="/analyze"
-          className="px-3 py-2 bg-white text-black font-bold rounded-lg font-mono text-xs active:bg-white/90 transition-colors min-h-[36px] flex items-center touch-active"
-        >
-          + New
-        </Link>
       </div>
 
       <PersonList people={allPeople} />

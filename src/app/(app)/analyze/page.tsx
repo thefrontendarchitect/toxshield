@@ -17,20 +17,30 @@ export default function AnalyzePage() {
   const [mode, setMode] = useState<Mode>('text');
 
   return (
-    <div>
-      <h1 className="sr-only">New Analysis</h1>
+    <div className="space-y-6">
+      {/* Hero Section */}
+      <div className="space-y-3">
+        <span className="tag-badge">SUBJECT: TOXIC INFLUENCE MAPPING</span>
+        <h1 className="hero-title">
+          ANALYZE<br />INPUT<span className="cursor-blink">_</span>
+        </h1>
+        <p className="text-sm text-white/40 leading-relaxed">
+          Deconstruct the behavioral patterns of the target subject. Select your capture medium and input forensic data for real-time de-escalation mapping.
+        </p>
+      </div>
+
       {/* Mode tabs */}
-      <div role="tablist" className="flex items-center gap-1 mb-6 bg-white/5 rounded-xl p-1">
+      <div role="tablist" className="flex items-center gap-2">
         {(['text', 'chat', 'slack'] as Mode[]).map((m) => (
           <button
             key={m}
             role="tab"
             aria-selected={mode === m}
             onClick={() => setMode(m)}
-            className={`flex-1 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all min-h-[40px] ${
+            className={`px-5 py-2.5 rounded font-mono text-xs uppercase tracking-[0.15em] border transition-all min-h-[40px] ${
               mode === m
-                ? 'bg-white text-background font-bold'
-                : 'text-white/40 active:bg-white/10'
+                ? 'bg-white text-surface-0 font-bold border-white'
+                : 'bg-surface-2 text-white/40 border-surface-3 active:bg-surface-3'
             }`}
           >
             {MODE_LABELS[m]}

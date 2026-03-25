@@ -128,14 +128,14 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
 
   return (
     <div className="space-y-5">
-      <p className="text-sm text-white/40 font-mono">
-        Import a WhatsApp chat export to analyze someone based on their actual messages.
+      <p className="label-section mb-1">
+        IMPORT A WHATSAPP CHAT EXPORT TO ANALYZE BASED ON ACTUAL MESSAGES.
       </p>
 
       {/* Instructions */}
-      <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 space-y-2">
-        <p className="text-xs text-white/50 font-mono font-bold">HOW TO EXPORT:</p>
-        <div className="text-xs text-white/30 font-mono space-y-1">
+      <div className="card-dashed space-y-2">
+        <p className="font-mono text-[10px] font-bold text-white/50 uppercase tracking-wider">HOW TO EXPORT:</p>
+        <div className="font-mono text-[10px] text-white/30 space-y-1">
           <p>1. Open the WhatsApp chat</p>
           <p>2. Tap ⋮ Menu → More → Export Chat</p>
           <p>3. Choose &quot;Without Media&quot;</p>
@@ -156,7 +156,7 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="w-full py-4 border-2 border-dashed border-white/15 rounded-xl font-mono text-sm text-white/50 active:bg-white/5 transition-colors min-h-[60px] touch-active"
+          className="w-full py-4 border border-dashed border-surface-3 rounded-lg font-mono text-xs text-white/40 uppercase tracking-wider active:bg-surface-2 transition-colors min-h-[60px] touch-active"
         >
           {parsedChat
             ? `✓ ${parsedChat.totalMessages} messages from ${parsedChat.participants.length} people`
@@ -169,9 +169,9 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
       {/* Participant picker */}
       {participants.length > 0 && (
         <div className="space-y-2">
-          <label className="block text-xs text-white/30 font-mono uppercase tracking-wider">
+          <p className="label-section mb-2">
             SELECT WHO TO ANALYZE
-          </label>
+          </p>
           {participants.map((p) => {
             const isSelected = selectedPerson === p.name;
             const months = Math.max(
@@ -187,21 +187,21 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
                 key={p.name}
                 type="button"
                 onClick={() => setSelectedPerson(p.name)}
-                className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all touch-active min-h-[56px] text-left ${
+                className={`w-full flex items-center justify-between p-4 rounded-lg border transition-all touch-active min-h-[56px] text-left ${
                   isSelected
                     ? 'border-white bg-white/10'
-                    : 'border-white/[0.06] bg-surface active:bg-hover'
+                    : 'border-surface-3 bg-surface-1 active:bg-surface-2'
                 }`}
               >
                 <div>
-                  <p className={`font-mono text-sm ${isSelected ? 'text-white font-bold' : 'text-white/70'}`}>
+                  <p className={`font-mono text-sm ${isSelected ? 'text-white font-bold' : 'text-white/50'}`}>
                     {p.name}
                   </p>
-                  <p className="text-xs text-white/30 font-mono mt-0.5">
-                    {p.messageCount} messages · {months} month{months !== 1 ? 's' : ''}
+                  <p className="font-mono text-[10px] text-white/30 mt-0.5">
+                    {p.messageCount} messages &middot; {months} month{months !== 1 ? 's' : ''}
                   </p>
                 </div>
-                {isSelected && <span className="text-white font-mono">●</span>}
+                {isSelected && <span className="text-white font-mono text-xs">&#9679;</span>}
               </button>
             );
           })}
@@ -241,7 +241,7 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
       {/* Preview & submit */}
       {selectedSummary && (
         <>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-center">
+          <div className="card-dashed text-center">
             <p className="text-xs text-white/50 font-mono">
               Analyzing <span className="text-white font-bold">{selectedSummary.messageCount}</span> messages
               from <span className="text-white font-bold">{selectedPerson}</span>
@@ -262,7 +262,7 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
             type="button"
             onClick={handleSubmit}
             disabled={loading || (personMatch.isDifferentPerson && !personMatch.selectedName)}
-            className="w-full py-4 bg-white text-background font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
+            className="w-full py-4 bg-white text-surface-0 font-bold rounded-lg font-mono text-xs uppercase tracking-[0.15em] active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -270,15 +270,15 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
                 ANALYZING CHAT PATTERNS...
               </span>
             ) : (
-              'ANALYZE CHAT →'
+              'ANALYZE CHAT \u2192'
             )}
           </button>
 
           {loading && (
-            <div className="text-center font-mono text-xs text-white/30 space-y-1">
-              <p>▸ Reading conversation patterns...</p>
-              <p>▸ Detecting manipulation tactics...</p>
-              <p>▸ Building behavioral profile...</p>
+            <div className="text-center font-mono text-[10px] text-white/30 uppercase tracking-wider space-y-1">
+              <p>&gt;&gt; Reading conversation patterns...</p>
+              <p>&gt;&gt; Detecting manipulation tactics...</p>
+              <p>&gt;&gt; Building behavioral profile...</p>
             </div>
           )}
         </>

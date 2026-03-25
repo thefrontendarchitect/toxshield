@@ -2,20 +2,20 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { FingerprintIcon, BrainIcon, EyeIcon, DocumentIcon } from '@/components/ui/dossier-icons';
 
 const navItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: '◇' },
-  { href: '/analyze', label: 'Analyze', icon: '⊕' },
-  { href: '/people', label: 'People', icon: '◎' },
-  { href: '/my-insights', label: 'Mirror', icon: '◈' },
-  { href: '/settings', label: 'Settings', icon: '⚙' },
+  { href: '/dashboard', label: 'DOSSIER', Icon: FingerprintIcon },
+  { href: '/analyze', label: 'ANALYSIS', Icon: BrainIcon },
+  { href: '/people', label: 'EVIDENCE', Icon: EyeIcon },
+  { href: '/my-insights', label: 'FILES', Icon: DocumentIcon },
 ];
 
 export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/[0.06] bg-surface-0/95 backdrop-blur-md pb-safe">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/[0.06] bg-surface-0 pb-safe">
       <ul className="flex h-16 items-center justify-around">
         {navItems.map((item) => {
           const isActive =
@@ -26,28 +26,25 @@ export function BottomNav() {
               <Link
                 href={item.href}
                 aria-current={isActive ? 'page' : undefined}
-                className="relative flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all active:bg-white/5"
+                className="relative flex min-h-[44px] min-w-[56px] flex-col items-center justify-center gap-1 px-3 py-2 transition-all active:opacity-70"
               >
-                <span
-                  aria-hidden="true"
-                  className={`text-lg transition-all ${
-                    isActive ? 'text-white' : 'text-white/30'
+                <div
+                  className={`flex items-center justify-center w-8 h-8 rounded-lg transition-all ${
+                    isActive ? 'bg-white' : ''
                   }`}
                 >
-                  {item.icon}
-                </span>
+                  <item.Icon
+                    size={18}
+                    className={isActive ? 'text-black' : 'text-white/30'}
+                  />
+                </div>
                 <span
-                  className={`text-[14px] font-mono transition-all ${
-                    isActive
-                      ? 'text-white font-bold'
-                      : 'text-white/30'
+                  className={`font-mono text-[10px] uppercase tracking-[0.15em] transition-all ${
+                    isActive ? 'text-white font-bold' : 'text-white/30'
                   }`}
                 >
                   {item.label}
                 </span>
-                {isActive && (
-                  <div className="absolute -top-0.5 left-3 right-3 h-[2px] bg-white rounded-full" />
-                )}
               </Link>
             </li>
           );

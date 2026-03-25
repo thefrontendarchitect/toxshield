@@ -9,26 +9,23 @@ interface ProtectionStrategiesProps {
 
 const priorityStyles = {
   essential: {
-    border: 'border-white/40',
-    bg: 'bg-white/[0.06]',
-    badge: 'bg-white text-black font-bold',
+    card: 'card-dashed',
+    badge: 'badge-status',
   },
   recommended: {
-    border: 'border-white/20',
-    bg: 'bg-white/[0.03]',
-    badge: 'border border-white/40 text-white/70',
+    card: 'bg-surface-1 border border-surface-3 rounded-lg p-5',
+    badge: 'bg-white/10 text-white/60 font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm',
   },
   optional: {
-    border: 'border-white/10',
-    bg: 'bg-white/[0.02]',
-    badge: 'text-white/30',
+    card: 'bg-surface-1/50 border border-surface-3/50 rounded-lg p-5',
+    badge: 'bg-white/5 text-white/30 font-mono text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-sm',
   },
 };
 
 export function ProtectionStrategies({ strategies }: ProtectionStrategiesProps) {
   return (
     <div className="space-y-3">
-      <h3 className="text-xs text-white/40 font-mono uppercase tracking-[0.15em]">
+      <h3 className="label-section">
         Protection Strategies
       </h3>
       <div className="grid gap-3">
@@ -40,15 +37,13 @@ export function ProtectionStrategies({ strategies }: ProtectionStrategiesProps) 
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.5 + index * 0.2 }}
-              className={`p-4 rounded-xl border ${styles.border} ${styles.bg}`}
+              className={styles.card}
             >
               <div className="flex items-start justify-between gap-2 mb-2">
-                <h4 className="font-mono text-sm font-bold text-white">
+                <h4 className="font-mono text-sm font-bold text-white uppercase">
                   {strategy.title}
                 </h4>
-                <span
-                  className={`text-[14px] px-2 py-0.5 rounded-full font-mono uppercase tracking-wider flex-shrink-0 ${styles.badge}`}
-                >
+                <span className={`flex-shrink-0 ${styles.badge}`}>
                   {strategy.priority}
                 </span>
               </div>
