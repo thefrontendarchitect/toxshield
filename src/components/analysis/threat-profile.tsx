@@ -36,10 +36,21 @@ export function ThreatProfile({ analysis, personName, relationship }: ThreatProf
           {personName.toUpperCase()}
           {relationship && ` \u00B7 ${relationship.toUpperCase()}`}
         </p>
-        <h1 className="font-mono text-xl font-bold uppercase text-white">
+        <h1 className="font-mono text-xl font-bold uppercase text-text-primary">
           &ldquo;{analysis.headline}&rdquo;
         </h1>
-        <p className="font-mono text-xs italic text-white/40">{analysis.tagline}</p>
+        <p className="font-mono text-xs italic text-text-secondary">{analysis.tagline}</p>
+        {analysis.threat_type && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            <span className="inline-block px-4 py-1.5 border border-neon-cyan/20 rounded-full font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-neon-cyan text-glow-subtle">
+              {analysis.threat_type}
+            </span>
+          </motion.div>
+        )}
       </motion.div>
 
       {/* Score + Risk Level */}
@@ -74,7 +85,7 @@ export function ThreatProfile({ analysis, personName, relationship }: ThreatProf
         transition={{ delay: 2.5 }}
         className="card-dashed"
       >
-        <p className="font-mono text-[10px] text-white/25 leading-relaxed text-center uppercase tracking-wider">
+        <p className="font-mono text-[10px] text-text-secondary leading-relaxed text-center uppercase tracking-wider">
           ToxShield identifies behavioral patterns. It is not a substitute for professional
           counseling. If you are in danger, contact emergency services.
         </p>

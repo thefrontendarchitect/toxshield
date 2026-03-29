@@ -1,11 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import { AppHeader } from '@/components/layout/app-header';
+import { useSearchParams } from 'next/navigation';
 import { TextModeForm } from '@/components/analysis/text-mode-form';
 import { ChatModeForm } from '@/components/analysis/chat-mode-form';
 import { SlackModeForm } from '@/components/analysis/slack-mode-form';
+import { QuickModeForm } from '@/components/analysis/quick-mode-form';
 import { ThreatProfile } from '@/components/analysis/threat-profile';
 import { RiskBadge } from '@/components/analysis/risk-badge';
 import { AnalysisResult } from '@/types/analysis';
@@ -19,7 +21,7 @@ interface TryEntry {
   timestamp: Date;
 }
 
-type Mode = 'text' | 'chat' | 'slack';
+type Mode = 'quick' | 'text' | 'chat' | 'slack';
 
 function toAnalysisRow(result: AnalysisResult): AnalysisRow {
   return {
@@ -35,6 +37,7 @@ function toAnalysisRow(result: AnalysisResult): AnalysisRow {
     self_reflection: result.self_reflection,
     headline: result.headline,
     tagline: result.tagline,
+    threat_type: result.threat_type ?? null,
     user_insight: result.user_insight,
     input_summary: null,
     model_used: null,
@@ -44,10 +47,29 @@ function toAnalysisRow(result: AnalysisResult): AnalysisRow {
   };
 }
 
+const MODE_LABELS: Record<Mode, string> = {
+  quick: 'QUICK',
+  text: 'DESCRIBE',
+  chat: 'WHATSAPP',
+  slack: 'SLACK',
+};
+
 export default function TryPage() {
+  return (
+    <Suspense>
+      <TryPageContent />
+    </Suspense>
+  );
+}
+
+function TryPageContent() {
+  const searchParams = useSearchParams();
+  const initialMode = (searchParams.get('mode') as Mode) || 'quick';
   const [analyses, setAnalyses] = useState<TryEntry[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [mode, setMode] = useState<Mode>('text');
+  const [mode, setMode] = useState<Mode>(
+    ['quick', 'text', 'chat', 'slack'].includes(initialMode) ? initialMode : 'quick'
+  );
 
   const handleResult = (name: string, relationship: string | null, result: AnalysisResult) => {
     const entry: TryEntry = {
@@ -142,24 +164,26 @@ export default function TryPage() {
 
             {/* Mode tabs */}
             <div className="flex items-center gap-1 bg-surface-1 rounded-xl p-1">
-              {(['text', 'chat', 'slack'] as Mode[]).map((m) => (
+              {(['quick', 'text', 'chat', 'slack'] as Mode[]).map((m) => (
                 <button
                   type="button"
                   key={m}
                   onClick={() => setMode(m)}
-                  className={`flex-1 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all min-h-[40px] ${
+                  className={`flex-1 py-2.5 rounded-lg font-mono text-[10px] tracking-wider transition-all min-h-[40px] ${
                     mode === m
                       ? 'bg-toxic-green text-surface-0 font-bold'
                       : 'text-text-secondary active:bg-surface-2'
                   }`}
                 >
-                  {m === 'text' ? 'DESCRIBE' : m === 'chat' ? 'WHATSAPP' : 'SLACK'}
+                  {MODE_LABELS[m]}
                 </button>
               ))}
             </div>
 
             {/* Form */}
-            {mode === 'text' ? (
+            {mode === 'quick' ? (
+              <QuickModeForm />
+            ) : mode === 'text' ? (
               <TextModeForm
                 apiEndpoint="/api/try-analyze"
                 onResult={handleResult}

@@ -3,6 +3,10 @@ import { redirect } from 'next/navigation';
 import { calculateEnvironmentHealth } from '@/lib/ai/scoring';
 import { StatsGrid } from '@/components/dashboard/stats-grid';
 import { EnvironmentHealth } from '@/components/dashboard/environment-health';
+import { StreakCounter } from '@/components/dashboard/streak-counter';
+import { BadgeShelf } from '@/components/dashboard/badge-shelf';
+import { HealthTrend } from '@/components/dashboard/health-trend';
+import { NotificationPrompt } from '@/components/ui/notification-prompt';
 import { PolaroidCard } from '@/components/ui/polaroid-card';
 import { PersonRow } from '@/types/database';
 import { WarningIcon } from '@/components/ui/dossier-icons';
@@ -37,36 +41,81 @@ export default async function DashboardPage() {
 
   const health = calculateEnvironmentHealth(allPeople);
 
+  // Fetch streak + badges + health checkins (parallel, non-blocking if tables don't exist yet)
+  const today = new Date().toISOString().split('T')[0];
+  const [{ data: streak }, { data: earnedBadges }, { data: allBadges }, { data: checkins }] = await Promise.all([
+    supabase.from('streaks').select('*').eq('user_id', user.id).maybeSingle(),
+    supabase.from('user_badges').select('badge_id, earned_at').eq('user_id', user.id),
+    supabase.from('badge_definitions').select('*').order('threshold'),
+    supabase.from('health_checkins').select('*').eq('user_id', user.id).order('checked_in_at', { ascending: false }).limit(30),
+  ]).catch(() => [{ data: null }, { data: null }, { data: null }, { data: null }]);
+
+  const earnedIds = new Set((earnedBadges ?? []).map((b: { badge_id: string }) => b.badge_id));
+  const badges = (allBadges ?? []).map((badge: { id: string; name: string; description: string; icon: string; category: string; threshold: number | null }) => ({
+    ...badge,
+    earned: earnedIds.has(badge.id),
+  }));
+
   return (
     <div className="space-y-6">
+      {/* Push notification prompt */}
+      <NotificationPrompt />
+
       {/* Stats + Health */}
       <div className="space-y-4">
         <StatsGrid totalPeople={allPeople.length} highRiskCount={highRiskCount} totalAnalyses={totalAnalyses ?? 0} />
-        <EnvironmentHealth health={health} />
+        <EnvironmentHealth
+          health={health}
+          todayMood={(checkins ?? []).find((c: { checked_in_at: string }) => c.checked_in_at === today)?.mood ?? null}
+        />
+        {(checkins ?? []).length >= 2 && (
+          <HealthTrend checkins={(checkins ?? []).map((c: { checked_in_at: string; mood: number }) => ({ checked_in_at: c.checked_in_at, mood: c.mood }))} />
+        )}
       </div>
+
+      {/* Streak + Badges */}
+      {streak && (
+        <div className="space-y-3">
+          <StreakCounter
+            currentStreak={streak.current_streak ?? 0}
+            longestStreak={streak.longest_streak ?? 0}
+          />
+          {badges.length > 0 && <BadgeShelf badges={badges} />}
+        </div>
+      )}
+
+      {/* Wrapped CTA */}
+      {(totalAnalyses ?? 0) > 0 && (
+        <Link
+          href="/wrapped"
+          className="block card-dashed text-center py-4 font-mono text-xs text-neon-cyan/60 active:text-neon-cyan transition-colors touch-active"
+        >
+          VIEW YOUR WRAPPED REPORT &rarr;
+        </Link>
+      )}
 
       {/* High-Risk Threats */}
       {highRiskPeople.length > 0 && (
         <div>
           <p className="label-section mb-3">HIGH-RISK THREATS</p>
-          <div className="bg-surface-1 border border-surface-3 rounded-lg overflow-hidden">
+          <div className="arcane-glass overflow-hidden">
             {highRiskPeople.slice(0, 5).map((person, i) => (
               <Link
                 key={person.id}
                 href={`/people/${person.id}`}
-                className={`flex items-center justify-between px-4 py-3 min-h-[56px] active:bg-surface-2 transition-colors ${
-                  i < highRiskPeople.length - 1 ? 'border-b border-surface-3' : ''
+                className={`flex items-center justify-between px-4 py-3 min-h-[56px] active:bg-neon-cyan/5 transition-colors ${
+                  i < highRiskPeople.length - 1 ? 'border-b border-neon-cyan/[0.06]' : ''
                 }`}
               >
                 <div>
-                  <p className="font-mono text-sm font-bold text-white uppercase">
+                  <p className="font-mono text-sm font-bold text-text-primary uppercase">
                     {person.name.toUpperCase().replace(/\s/g, '_')}
                   </p>
-                  <p className="font-mono text-[10px] text-white/30 uppercase">
+                  <p className="font-mono text-[10px] text-text-secondary uppercase">
                     {person.relationship ?? 'UNKNOWN'} &middot; SCORE: {person.current_toxicity_score?.toFixed(1) ?? '?'}
                   </p>
                 </div>
-                <WarningIcon size={20} className="text-badge-pink shrink-0" />
+                <WarningIcon size={20} className="text-neon-magenta shrink-0" />
               </Link>
             ))}
           </div>
@@ -77,17 +126,17 @@ export default async function DashboardPage() {
       <div>
         <div className="mb-3">
           <h2 className="hero-title text-3xl mb-1">SUBJECT FEED</h2>
-          <p className="font-mono text-[10px] text-white/30 uppercase tracking-[0.15em]">
+          <p className="font-mono text-[10px] text-neon-cyan/30 uppercase tracking-[0.15em]">
             SURVEILLANCE DATA // SECURE_CHANNEL
           </p>
         </div>
 
         {allPeople.length === 0 ? (
           <div className="card-dashed text-center py-10">
-            <p className="font-mono text-sm text-white/30 mb-4">NO SUBJECTS IN REGISTRY</p>
+            <p className="font-mono text-sm text-text-secondary mb-4">NO SUBJECTS IN REGISTRY</p>
             <Link
               href="/analyze"
-              className="inline-block card-dashed px-6 py-3 font-mono text-xs uppercase tracking-[0.15em] text-white/60 hover:text-white transition-colors"
+              className="inline-block card-dashed px-6 py-3 font-mono text-xs uppercase tracking-[0.15em] text-neon-cyan/60 hover:text-neon-cyan transition-colors"
             >
               + INITIATE ANALYSIS
             </Link>
@@ -106,6 +155,7 @@ export default async function DashboardPage() {
                   rotation={rotations[i % rotations.length]}
                   href={`/people/${person.id}`}
                   relationship={person.relationship ?? undefined}
+                  threatType={person.current_threat_type ?? undefined}
                 />
               );
             })}

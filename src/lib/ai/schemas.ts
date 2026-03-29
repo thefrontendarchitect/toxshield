@@ -44,6 +44,7 @@ export const analysisResultSchema = z.object({
   self_reflection: selfReflectionSchema.nullable().describe('If is_toxic is false, provide self-reflection. If is_toxic is true, set to null.'),
   headline: z.string().describe('Witty, shareable headline, e.g. "Olympic-Level Gaslighter" or "Certified Emotional Vampire"'),
   tagline: z.string().describe('Short witty one-liner for share cards'),
+  threat_type: z.string().describe('A dramatic 2-4 word archetype label starting with "The", e.g. "The Puppet Master", "The Emotional Arsonist", "The Guilt Architect", "The Reality Bender". For non-toxic results, use something lighter like "The Harmless Overthinker" or "The Mildly Annoying One".'),
   user_insight: userInsightSchema.describe("Analysis of the USER's own behavioral patterns visible in their input. This is about the person submitting the analysis, NOT the subject being analyzed."),
 });
 

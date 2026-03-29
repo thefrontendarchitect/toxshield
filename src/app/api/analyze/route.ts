@@ -1,5 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { analyzePersonality } from '@/lib/ai/engine';
+import { updateStreakAfterAnalysis, checkAndAwardBadges } from '@/lib/utils/streaks';
+import { FREE_LIMIT, getMonthStart } from '@/lib/utils/usage';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -37,6 +39,26 @@ export async function POST(request: Request) {
     let { name } = parsed.data;
     const { relationship: rawRelationship, description, personId, inputType } = parsed.data;
     let relationship = rawRelationship?.trim() || null;
+
+    // Check usage limits (freemium gate)
+    const monthStart = getMonthStart();
+    const [{ data: usageRow }, { data: profile }] = await Promise.all([
+      supabase.from('usage_tracking').select('*').eq('user_id', user.id).eq('period_start', monthStart).maybeSingle(),
+      supabase.from('profiles').select('tier').eq('id', user.id).single(),
+    ]);
+
+    const tier = (profile as { tier?: string } | null)?.tier ?? 'free';
+    if (tier === 'free') {
+      const used = usageRow?.analyses_used ?? 0;
+      const bonus = usageRow?.bonus_analyses ?? 0;
+      const limit = FREE_LIMIT + bonus;
+      if (used >= limit) {
+        return NextResponse.json(
+          { error: 'FREE_LIMIT_REACHED', usage: { used, limit, remaining: 0 } },
+          { status: 402 }
+        );
+      }
+    }
 
     // Resolve person: explicit personId, name-based dedup, or new person
     let previousInputs: Array<{ type: string; content: string; date: string }> = [];
@@ -161,6 +183,7 @@ export async function POST(request: Request) {
         self_reflection: result.self_reflection,
         headline: result.headline,
         tagline: result.tagline,
+        threat_type: result.threat_type,
         user_insight: result.user_insight,
         input_summary: description.substring(0, 200),
         model_used: model,
@@ -205,6 +228,7 @@ export async function POST(request: Request) {
         current_toxicity_score: result.toxicity_score,
         current_risk_level: result.risk_level,
         is_toxic: result.is_toxic,
+        current_threat_type: result.threat_type,
         analysis_count: analysisCount ?? 1,
       } as Record<string, unknown>)
       .eq('id', actualPersonId)
@@ -213,6 +237,24 @@ export async function POST(request: Request) {
     if (updateError) {
       console.error('Failed to update person scores:', updateError);
     }
+
+    // Increment usage counter
+    await supabase.from('usage_tracking').upsert({
+      user_id: user.id,
+      period_start: monthStart,
+      analyses_used: (usageRow?.analyses_used ?? 0) + 1,
+      bonus_analyses: usageRow?.bonus_analyses ?? 0,
+    } as Record<string, unknown>, { onConflict: 'user_id,period_start' });
+
+    // Update streak + check badges (fire-and-forget — don't block response)
+    updateStreakAfterAnalysis(supabase, user.id).then(async () => {
+      const [{ data: s }, { count: peopleCount }, { count: allAnalysesCount }] = await Promise.all([
+        supabase.from('streaks').select('current_streak').eq('user_id', user.id).maybeSingle(),
+        supabase.from('people').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
+        supabase.from('analyses').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
+      ]);
+      await checkAndAwardBadges(supabase, user.id, allAnalysesCount ?? 1, peopleCount ?? 1, s?.current_streak ?? 1);
+    }).catch((err) => console.error('[post-analysis] streak/badge error:', err));
 
     return NextResponse.json({
       personId: actualPersonId,

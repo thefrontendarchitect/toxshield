@@ -4,6 +4,8 @@ export interface Profile {
   id: string;
   display_name: string | null;
   avatar_url: string | null;
+  tier: 'free' | 'pro' | 'unlimited';
+  referral_code: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -17,6 +19,7 @@ export interface PersonRow {
   current_risk_level: RiskLevel | null;
   is_toxic: boolean;
   analysis_count: number;
+  current_threat_type: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -36,6 +39,7 @@ export interface AnalysisRow {
   self_reflection: SelfReflection | null;
   headline: string;
   tagline: string;
+  threat_type: string | null;
   user_insight: UserInsight | null;
   input_summary: string | null;
   model_used: string | null;
@@ -54,6 +58,61 @@ export interface InputRow {
   raw_file_url: string | null;
   metadata: Record<string, unknown> | null;
   created_at: string;
+}
+
+export interface StreakRow {
+  id: string;
+  user_id: string;
+  current_streak: number;
+  longest_streak: number;
+  last_activity_date: string | null;
+  streak_freezes: number;
+  updated_at: string;
+}
+
+export interface BadgeDefinition {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  category: string;
+  threshold: number | null;
+}
+
+export interface UserBadgeRow {
+  id: string;
+  user_id: string;
+  badge_id: string;
+  earned_at: string;
+}
+
+export interface HealthCheckinRow {
+  id: string;
+  user_id: string;
+  mood: number;
+  note: string | null;
+  checked_in_at: string;
+  created_at: string;
+}
+
+export interface UsageTrackingRow {
+  id: string;
+  user_id: string;
+  period_start: string;
+  analyses_used: number;
+  bonus_analyses: number;
+  updated_at: string;
+}
+
+export interface ReferralRow {
+  id: string;
+  referrer_id: string;
+  referred_id: string | null;
+  referral_code: string;
+  status: 'pending' | 'completed' | 'expired';
+  bonus_granted: boolean;
+  created_at: string;
+  completed_at: string | null;
 }
 
 // Supabase Database type definition (v2 format)

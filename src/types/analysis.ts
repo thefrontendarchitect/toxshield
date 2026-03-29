@@ -65,5 +65,6 @@ export interface AnalysisResult {
   self_reflection: SelfReflection | null;
   headline: string;
   tagline: string;
+  threat_type: string;
   user_insight: UserInsight;
 }

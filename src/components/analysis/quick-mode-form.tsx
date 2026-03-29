@@ -1,0 +1,157 @@
+'use client';
+
+import { useState } from 'react';
+import { Spinner } from '@/components/ui/spinner';
+import { ErrorAlert } from '@/components/ui/error-alert';
+
+export interface QuickResult {
+  verdict: 'RED_FLAG' | 'YELLOW_FLAG' | 'GREEN_FLAG';
+  explanation: string;
+  headline: string;
+  pattern_name: string;
+  score: number;
+}
+
+interface QuickModeFormProps {
+  onResult?: (result: QuickResult) => void;
+}
+
+const VERDICT_STYLES: Record<string, { bg: string; border: string; text: string; glow: string; label: string }> = {
+  RED_FLAG: {
+    bg: 'bg-neon-magenta/10',
+    border: 'border-neon-magenta/30',
+    text: 'text-neon-magenta',
+    glow: 'text-glow-magenta',
+    label: 'RED FLAG',
+  },
+  YELLOW_FLAG: {
+    bg: 'bg-warning-amber/10',
+    border: 'border-warning-amber/30',
+    text: 'text-warning-amber',
+    glow: '',
+    label: 'YELLOW FLAG',
+  },
+  GREEN_FLAG: {
+    bg: 'bg-neon-mint/10',
+    border: 'border-neon-mint/30',
+    text: 'text-neon-mint',
+    glow: '',
+    label: 'GREEN FLAG',
+  },
+};
+
+export function QuickModeForm({ onResult }: QuickModeFormProps) {
+  const [description, setDescription] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [result, setResult] = useState<QuickResult | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!description.trim() || description.trim().length < 5) return;
+
+    setError('');
+    setLoading(true);
+    setResult(null);
+
+    try {
+      const response = await fetch('/api/quick-assess', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ description: description.trim() }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Assessment failed');
+      }
+
+      const data = await response.json();
+      setResult(data.result);
+      onResult?.(data.result);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleReset = () => {
+    setResult(null);
+    setDescription('');
+  };
+
+  if (result) {
+    const style = VERDICT_STYLES[result.verdict];
+    return (
+      <div className="space-y-4">
+        {/* Verdict card */}
+        <div className={`${style.bg} border ${style.border} rounded-xl p-6 text-center space-y-4`}>
+          <p className={`font-mono text-2xl font-black uppercase tracking-wider ${style.text} ${style.glow}`}>
+            {style.label}
+          </p>
+          <p className="font-mono text-lg font-bold text-text-primary uppercase">
+            &ldquo;{result.headline}&rdquo;
+          </p>
+          <p className="font-mono text-xs text-text-secondary uppercase tracking-wider">
+            Pattern: {result.pattern_name}
+          </p>
+          <p className="font-mono text-sm text-text-primary leading-relaxed">
+            {result.explanation}
+          </p>
+          <div className="flex items-center justify-center gap-2">
+            <span className="font-mono text-xs text-text-secondary">Score:</span>
+            <span className={`font-mono text-xl font-bold ${style.text}`}>
+              {result.score.toFixed(1)}/10
+            </span>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <button
+          type="button"
+          onClick={handleReset}
+          className="w-full py-3.5 border border-surface-3 rounded-xl font-mono text-xs text-text-secondary active:bg-surface-1 transition-colors min-h-[48px] touch-active"
+        >
+          ASSESS ANOTHER
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="label-section mb-2 block">WHAT HAPPENED?</label>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder='e.g. "He said I was overreacting when I caught him lying"'
+          className="w-full arcane-glass rounded-xl px-4 py-3 font-mono text-sm text-text-primary placeholder:text-text-secondary/40 min-h-[100px] resize-none focus:border-neon-cyan/40 focus:outline-none transition-colors"
+          maxLength={500}
+          disabled={loading}
+        />
+        <p className="mt-1 text-right font-mono text-[10px] text-text-secondary/40">
+          {description.length}/500
+        </p>
+      </div>
+
+      {error && <ErrorAlert message={error} />}
+
+      <button
+        type="submit"
+        disabled={loading || description.trim().length < 5}
+        className="w-full py-4 bg-neon-cyan text-surface-0 font-bold rounded-xl font-mono text-sm tracking-wider active:opacity-90 transition-all min-h-[52px] touch-active disabled:opacity-30"
+      >
+        {loading ? (
+          <span className="flex items-center justify-center gap-2">
+            <Spinner />
+            <span className="font-mono text-xs">&gt;&gt; Assessing...</span>
+          </span>
+        ) : (
+          'IS THIS TOXIC?'
+        )}
+      </button>
+    </form>
+  );
+}
