@@ -134,8 +134,8 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
 
       {/* Instructions */}
       <div className="card-dashed space-y-2">
-        <p className="font-mono text-[10px] font-bold text-white/50 uppercase tracking-wider">HOW TO EXPORT:</p>
-        <div className="font-mono text-[10px] text-white/30 space-y-1">
+        <p className="font-mono text-[10px] font-bold text-text-secondary uppercase tracking-wider">HOW TO EXPORT:</p>
+        <div className="font-mono text-[10px] text-text-secondary space-y-1">
           <p>1. Open the WhatsApp chat</p>
           <p>2. Tap ⋮ Menu → More → Export Chat</p>
           <p>3. Choose &quot;Without Media&quot;</p>
@@ -156,7 +156,7 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="w-full py-4 border border-dashed border-surface-3 rounded-lg font-mono text-xs text-white/40 uppercase tracking-wider active:bg-surface-2 transition-colors min-h-[60px] touch-active"
+          className="w-full py-4 border border-dashed border-surface-3 rounded-lg font-mono text-xs text-text-secondary uppercase tracking-wider active:bg-surface-2 transition-colors min-h-[60px] touch-active"
         >
           {parsedChat
             ? `✓ ${parsedChat.totalMessages} messages from ${parsedChat.participants.length} people`
@@ -189,19 +189,19 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
                 onClick={() => setSelectedPerson(p.name)}
                 className={`w-full flex items-center justify-between p-4 rounded-lg border transition-all touch-active min-h-[56px] text-left ${
                   isSelected
-                    ? 'border-white bg-white/10'
+                    ? 'border-neon-cyan bg-neon-cyan/10'
                     : 'border-surface-3 bg-surface-1 active:bg-surface-2'
                 }`}
               >
                 <div>
-                  <p className={`font-mono text-sm ${isSelected ? 'text-white font-bold' : 'text-white/50'}`}>
+                  <p className={`font-mono text-sm ${isSelected ? 'text-text-primary font-bold' : 'text-text-secondary'}`}>
                     {p.name}
                   </p>
-                  <p className="font-mono text-[10px] text-white/30 mt-0.5">
+                  <p className="font-mono text-[10px] text-text-secondary mt-0.5">
                     {p.messageCount} messages &middot; {months} month{months !== 1 ? 's' : ''}
                   </p>
                 </div>
-                {isSelected && <span className="text-white font-mono text-xs">&#9679;</span>}
+                {isSelected && <span className="text-neon-cyan font-mono text-xs">&#9679;</span>}
               </button>
             );
           })}
@@ -242,13 +242,13 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
       {selectedSummary && (
         <>
           <div className="card-dashed text-center">
-            <p className="text-xs text-white/50 font-mono">
-              Analyzing <span className="text-white font-bold">{selectedSummary.messageCount}</span> messages
-              from <span className="text-white font-bold">{selectedPerson}</span>
+            <p className="text-xs text-text-secondary font-mono">
+              Analyzing <span className="text-text-primary font-bold">{selectedSummary.messageCount}</span> messages
+              from <span className="text-text-primary font-bold">{selectedPerson}</span>
               {parsedChat?.dateRange && (
                 <>
                   {' '}over{' '}
-                  <span className="text-white/70">
+                  <span className="text-text-primary">
                     {parsedChat.dateRange.from.toLocaleDateString()} — {parsedChat.dateRange.to.toLocaleDateString()}
                   </span>
                 </>
@@ -262,7 +262,7 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
             type="button"
             onClick={handleSubmit}
             disabled={loading || (personMatch.isDifferentPerson && !personMatch.selectedName)}
-            className="w-full py-4 bg-white text-surface-0 font-bold rounded-lg font-mono text-xs uppercase tracking-[0.15em] active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
+            className="w-full py-4 bg-neon-cyan text-surface-0 font-bold rounded-lg font-mono text-xs uppercase tracking-[0.15em] active:bg-neon-cyan/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -275,7 +275,7 @@ export function ChatModeForm({ apiEndpoint = '/api/analyze', onResult }: ChatMod
           </button>
 
           {loading && (
-            <div className="text-center font-mono text-[10px] text-white/30 uppercase tracking-wider space-y-1">
+            <div className="text-center font-mono text-[10px] text-text-secondary uppercase tracking-wider space-y-1">
               <p>&gt;&gt; Reading conversation patterns...</p>
               <p>&gt;&gt; Detecting manipulation tactics...</p>
               <p>&gt;&gt; Building behavioral profile...</p>

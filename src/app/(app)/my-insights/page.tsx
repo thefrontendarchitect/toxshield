@@ -41,20 +41,20 @@ export default async function MyInsightsPage() {
         <div className="space-y-3">
           <h1 className="hero-title">MY MIRROR</h1>
           <span className="badge-status inline-block">STATUS: NO DATA</span>
-          <p className="text-sm text-white/40 leading-relaxed">
+          <p className="text-sm text-text-secondary leading-relaxed">
             Reflecting the digital fallout. A forensic reconstruction of your psychological boundaries and exposure patterns.
           </p>
         </div>
 
         <div className="card-dashed text-center py-10">
-          <span className="font-mono text-2xl text-white/10 block mb-3">&#9672;</span>
-          <p className="font-mono text-sm text-white/30 mb-1">NO MIRROR DATA</p>
-          <p className="font-mono text-[10px] text-white/20 mb-4 uppercase tracking-wider">
+          <span className="font-mono text-2xl text-text-secondary block mb-3">&#9672;</span>
+          <p className="font-mono text-sm text-text-secondary mb-1">NO MIRROR DATA</p>
+          <p className="font-mono text-[10px] text-text-secondary mb-4 uppercase tracking-wider">
             Run an analysis to see your behavioral patterns reflected back.
           </p>
           <Link
             href="/analyze"
-            className="inline-block px-5 py-3 bg-white text-surface-0 font-bold rounded-lg font-mono text-xs uppercase tracking-[0.15em] min-h-[44px]"
+            className="inline-block px-5 py-3 bg-neon-cyan text-surface-0 font-bold rounded-lg font-mono text-xs uppercase tracking-[0.15em] min-h-[44px]"
           >
             + NEW ANALYSIS
           </Link>
@@ -72,12 +72,12 @@ export default async function MyInsightsPage() {
         <h1 className="hero-title">MY MIRROR</h1>
         <span className={`inline-block font-mono text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-sm ${
           status.variant === 'critical' ? 'badge-status' :
-          status.variant === 'warning' ? 'bg-white/10 text-white/70' :
-          'bg-white/5 text-white/40'
+          status.variant === 'warning' ? 'bg-neon-cyan/10 text-text-secondary' :
+          'bg-neon-cyan/5 text-text-secondary'
         }`}>
           {status.label}
         </span>
-        <p className="text-sm text-white/40 leading-relaxed">
+        <p className="text-sm text-text-secondary leading-relaxed">
           Reflecting the digital fallout. A forensic reconstruction of your psychological boundaries and exposure patterns over {aggregated.totalAnalyses} analysis{aggregated.totalAnalyses !== 1 ? 'es' : ''}.
         </p>
       </div>

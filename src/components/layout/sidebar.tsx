@@ -24,10 +24,10 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="w-56 bg-surface border-r border-line flex flex-col font-mono text-sm">
+    <aside className="w-56 arcane-glass border-r border-neon-cyan/[0.06] flex flex-col font-mono text-sm">
       {/* Logo */}
-      <div className="p-4 border-b border-line">
-        <h1 className="text-lg font-bold text-white text-glow-subtle tracking-wider">
+      <div className="p-4 border-b border-neon-cyan/[0.06]">
+        <h1 className="text-lg font-bold text-text-primary text-glow-subtle tracking-wider">
           TOXSHIELD
         </h1>
         <p className="text-[14px] text-text-secondary mt-0.5">
@@ -45,11 +45,11 @@ export function Sidebar() {
               href={item.href}
               className={`flex items-center gap-2 px-3 py-2 rounded transition-colors ${
                 isActive
-                  ? 'bg-white/10 text-white'
-                  : 'text-text-secondary hover:text-text-primary hover:bg-hover'
+                  ? 'bg-neon-cyan/10 text-neon-cyan'
+                  : 'text-text-secondary hover:text-text-primary hover:bg-neon-cyan/5'
               }`}
             >
-              <span className={isActive ? 'text-white' : 'text-text-secondary'}>
+              <span className={isActive ? 'text-neon-cyan' : 'text-text-secondary'}>
                 {item.icon}
               </span>
               {item.label}
@@ -59,10 +59,10 @@ export function Sidebar() {
       </nav>
 
       {/* Sign out */}
-      <div className="p-2 border-t border-line">
+      <div className="p-2 border-t border-neon-cyan/[0.06]">
         <button
           onClick={handleSignOut}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded text-text-secondary hover:text-white hover:bg-hover transition-colors"
+          className="w-full flex items-center gap-2 px-3 py-2 rounded text-text-secondary hover:text-neon-magenta hover:bg-neon-magenta/5 transition-colors"
         >
           <span>{'<'}</span>
           Sign Out

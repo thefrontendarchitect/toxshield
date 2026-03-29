@@ -8,8 +8,8 @@ interface UserInsightCardProps {
 }
 
 const BOUNDARY_LABELS: Record<UserInsight['boundary_awareness'], { label: string; variant: string }> = {
-  strong: { label: 'STRONG', variant: 'bg-white/5 text-white/40' },
-  developing: { label: 'DEVELOPING', variant: 'bg-white/10 text-white/60' },
+  strong: { label: 'STRONG', variant: 'bg-neon-cyan/5 text-text-secondary' },
+  developing: { label: 'DEVELOPING', variant: 'bg-neon-cyan/10 text-text-secondary' },
   weak: { label: 'WEAK', variant: 'badge-status' },
 };
 
@@ -32,12 +32,12 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-white/40">&#9672;</span>
+          <span className="text-sm text-text-secondary">&#9672;</span>
           <h3 className="label-section">
             Your Mirror
           </h3>
         </div>
-        <span className="font-mono text-[10px] text-white/30 bg-white/5 px-2.5 py-1 rounded-sm uppercase tracking-wider">
+        <span className="font-mono text-[10px] text-text-secondary bg-neon-cyan/5 px-2.5 py-1 rounded-sm uppercase tracking-wider">
           {insight.overall_tone}
         </span>
       </div>
@@ -53,7 +53,7 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
           <p className="label-section mb-1">
             Communication Style
           </p>
-          <p className="text-sm text-white/60 leading-relaxed">
+          <p className="text-sm text-text-secondary leading-relaxed">
             {insight.communication_style}
           </p>
         </div>
@@ -61,7 +61,7 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
           <p className="label-section mb-1">
             Emotional Patterns
           </p>
-          <p className="text-sm text-white/60 leading-relaxed">
+          <p className="text-sm text-text-secondary leading-relaxed">
             {insight.emotional_patterns}
           </p>
         </div>
@@ -94,10 +94,10 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
               <div className="flex items-start gap-2">
                 <span className="text-sm flex-shrink-0">{pattern.icon}</span>
                 <div>
-                  <p className="font-mono text-[10px] text-white/40 uppercase tracking-wider mb-0.5">
+                  <p className="font-mono text-[10px] text-text-secondary uppercase tracking-wider mb-0.5">
                     {pattern.area}
                   </p>
-                  <p className="text-sm text-white/60 leading-relaxed">
+                  <p className="text-sm text-text-secondary leading-relaxed">
                     {pattern.observation}
                   </p>
                 </div>
@@ -121,9 +121,9 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
           {insight.growth_areas.map((area, index) => (
             <div
               key={`growth-${index}`}
-              className="flex items-start gap-2 text-sm text-white/50"
+              className="flex items-start gap-2 text-sm text-text-secondary"
             >
-              <span className="text-white/30 font-mono flex-shrink-0">&gt;&gt;</span>
+              <span className="text-text-secondary font-mono flex-shrink-0">&gt;&gt;</span>
               <span>{area}</span>
             </div>
           ))}

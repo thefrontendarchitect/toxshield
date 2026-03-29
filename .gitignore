@@ -51,3 +51,6 @@ android/build/
 
 # plans (local only)
 .claude/plans/
+
+# youtube upload log
+.youtube_upload_log.json

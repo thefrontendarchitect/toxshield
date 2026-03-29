@@ -18,8 +18,8 @@ export function PatternAnalysis({ text }: PatternAnalysisProps) {
         transition={{ delay: 1.2, duration: 0.8 }}
         className="card-dashed relative scanlines"
       >
-        <div className="font-mono text-sm text-white/90 leading-relaxed">
-          <span className="text-white/40">&gt;&gt;</span>{' '}
+        <div className="font-mono text-sm text-text-primary leading-relaxed">
+          <span className="text-text-secondary">&gt;&gt;</span>{' '}
           {text}
         </div>
       </motion.div>

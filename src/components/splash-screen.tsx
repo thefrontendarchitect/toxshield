@@ -34,16 +34,16 @@ export function SplashScreen({ onComplete, delay = 1500 }: SplashScreenProps) {
   return (
     <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black">
       <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold font-mono text-white text-glow tracking-[0.3em]">
+        <h1 className="text-3xl font-bold font-mono text-text-primary text-glow tracking-[0.3em]">
           TOXSHIELD
         </h1>
-        <p className="text-xs font-mono text-white/40 tracking-[0.15em] uppercase">
+        <p className="text-xs font-mono text-text-secondary tracking-[0.15em] uppercase">
           Behavioral Threat Analysis
         </p>
         <div className="flex items-center justify-center gap-1.5 mt-6">
-          <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
-          <span className="w-1 h-1 rounded-full bg-white animate-pulse [animation-delay:200ms]" />
-          <span className="w-1 h-1 rounded-full bg-white animate-pulse [animation-delay:400ms]" />
+          <span className="w-1 h-1 rounded-full bg-neon-cyan animate-pulse" />
+          <span className="w-1 h-1 rounded-full bg-neon-cyan animate-pulse [animation-delay:200ms]" />
+          <span className="w-1 h-1 rounded-full bg-neon-cyan animate-pulse [animation-delay:400ms]" />
         </div>
       </div>
     </div>

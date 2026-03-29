@@ -14,11 +14,11 @@ const priorityStyles = {
   },
   recommended: {
     card: 'bg-surface-1 border border-surface-3 rounded-lg p-5',
-    badge: 'bg-white/10 text-white/60 font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm',
+    badge: 'bg-neon-cyan/10 text-text-secondary font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm',
   },
   optional: {
     card: 'bg-surface-1/50 border border-surface-3/50 rounded-lg p-5',
-    badge: 'bg-white/5 text-white/30 font-mono text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-sm',
+    badge: 'bg-neon-cyan/5 text-text-secondary font-mono text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-sm',
   },
 };
 
@@ -40,14 +40,14 @@ export function ProtectionStrategies({ strategies }: ProtectionStrategiesProps) 
               className={styles.card}
             >
               <div className="flex items-start justify-between gap-2 mb-2">
-                <h4 className="font-mono text-sm font-bold text-white uppercase">
+                <h4 className="font-mono text-sm font-bold text-text-primary uppercase">
                   {strategy.title}
                 </h4>
                 <span className={`flex-shrink-0 ${styles.badge}`}>
                   {strategy.priority}
                 </span>
               </div>
-              <p className="text-xs text-white/40 leading-relaxed">
+              <p className="text-xs text-text-secondary leading-relaxed">
                 {strategy.description}
               </p>
             </motion.div>

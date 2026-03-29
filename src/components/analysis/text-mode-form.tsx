@@ -131,7 +131,7 @@ export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextMod
       <button
         type="submit"
         disabled={loading || !name || !description || description.length < 10 || (personMatch.isDifferentPerson && !personMatch.selectedName)}
-        className="w-full py-4 bg-white text-surface-0 font-bold rounded-lg font-mono text-xs uppercase tracking-[0.15em] active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
+        className="w-full py-4 bg-neon-cyan text-surface-0 font-bold rounded-lg font-mono text-xs uppercase tracking-[0.15em] active:bg-neon-cyan/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
       >
         {loading ? (
           <span className="flex items-center justify-center gap-2">
@@ -142,7 +142,7 @@ export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextMod
       </button>
 
       {loading && (
-        <div className="text-center font-mono text-[10px] text-white/30 uppercase tracking-wider space-y-1">
+        <div className="text-center font-mono text-[10px] text-text-secondary uppercase tracking-wider space-y-1">
           <p>&gt;&gt; Scanning behavioral patterns...</p>
           <p>&gt;&gt; Cross-referencing manipulation frameworks...</p>
           <p>&gt;&gt; Generating threat profile...</p>

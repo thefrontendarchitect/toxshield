@@ -24,7 +24,7 @@ export default function AnalyzePage() {
         <h1 className="hero-title">
           ANALYZE<br />INPUT<span className="cursor-blink">_</span>
         </h1>
-        <p className="text-sm text-white/40 leading-relaxed">
+        <p className="text-sm text-text-secondary leading-relaxed">
           Deconstruct the behavioral patterns of the target subject. Select your capture medium and input forensic data for real-time de-escalation mapping.
         </p>
       </div>
@@ -39,8 +39,8 @@ export default function AnalyzePage() {
             onClick={() => setMode(m)}
             className={`px-5 py-2.5 rounded font-mono text-xs uppercase tracking-[0.15em] border transition-all min-h-[40px] ${
               mode === m
-                ? 'bg-white text-surface-0 font-bold border-white'
-                : 'bg-surface-2 text-white/40 border-surface-3 active:bg-surface-3'
+                ? 'bg-neon-cyan text-surface-0 font-bold border-neon-cyan'
+                : 'bg-surface-2 text-text-secondary border-surface-3 active:bg-surface-3'
             }`}
           >
             {MODE_LABELS[m]}

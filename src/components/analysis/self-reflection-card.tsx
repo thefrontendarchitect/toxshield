@@ -16,12 +16,12 @@ export function SelfReflectionCard({ reflection }: SelfReflectionCardProps) {
       className="card-dashed"
     >
       <div className="flex items-start gap-3 mb-4">
-        <span className="text-lg text-white/40">&#9671;</span>
+        <span className="text-lg text-text-secondary">&#9671;</span>
         <div>
           <h3 className="label-section mb-2">
             SELF-REFLECTION MODE
           </h3>
-          <p className="text-sm text-white/60 leading-relaxed">
+          <p className="text-sm text-text-secondary leading-relaxed">
             {reflection.message}
           </p>
         </div>
@@ -37,9 +37,9 @@ export function SelfReflectionCard({ reflection }: SelfReflectionCardProps) {
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 1.2 + index * 0.15 }}
-            className="flex items-start gap-2 text-sm text-white/50"
+            className="flex items-start gap-2 text-sm text-text-secondary"
           >
-            <span className="text-white/40 font-mono flex-shrink-0">&gt;&gt;</span>
+            <span className="text-text-secondary font-mono flex-shrink-0">&gt;&gt;</span>
             <span>{suggestion}</span>
           </motion.div>
         ))}

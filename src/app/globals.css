@@ -2,46 +2,53 @@
 
 @theme inline {
   /* ═══════════════════════════════════════════
-     FORENSIC INTELLIGENCE DOSSIER — Dark Terminal
+     ARCANE — Hextech Core (Default Palette)
+     Neon graffiti + hextech energy on dark aurora
      ═══════════════════════════════════════════ */
 
-  /* Surfaces */
-  --color-black: #0a0a0a;
-  --color-surface: #0d0d0d;
-  --color-hover: #161616;
-  --color-line: #1a1a1a;
+  /* Surfaces — deep blue-black aurora base */
+  --color-black: #080519;
+  --color-surface: #0a0820;
+  --color-hover: #12102e;
+  --color-line: #1a1538;
 
-  /* Text */
-  --color-white: #ffffff;
-  --color-dim: #666666;
-  --color-muted: #333333;
+  /* Text — bright for readability on dark aurora */
+  --color-white: #f0f6ff;
+  --color-dim: #7a9bc0;
+  --color-muted: #3a4f6a;
 
-  /* Surface tokens */
-  --color-surface-0: #0a0a0a;
-  --color-surface-1: #141414;
-  --color-surface-2: #1e1e1e;
-  --color-surface-3: #282828;
-  --color-text-primary: #e8e8e8;
-  --color-text-secondary: #6b6b6b;
+  /* Surface tokens — Arcane deep blue-purple tones */
+  --color-surface-0: #080519;
+  --color-surface-1: #0f0b28;
+  --color-surface-2: #181340;
+  --color-surface-3: #241e55;
+  --color-text-primary: #f0f6ff;
+  --color-text-secondary: #b8d4f0;
 
-  /* Accent tokens */
-  --color-badge-pink: #f5c6c6;
-  --color-badge-pink-bg: rgba(229, 62, 62, 0.15);
-  --color-toxic-green: #00ff41;
-  --color-danger-red: #e53e3e;
-  --color-warning-amber: #d69e2e;
-  --color-safe-blue: #4299e1;
-  --color-critical-magenta: #d53f8c;
+  /* Accent tokens — Arcane neon palette */
+  --color-badge-pink: #ff2878;
+  --color-badge-pink-bg: rgba(255, 40, 120, 0.15);
+  --color-toxic-green: #50ffa0;
+  --color-danger-red: #ff2878;
+  --color-warning-amber: #ffc832;
+  --color-safe-blue: #00b4ff;
+  --color-critical-magenta: #dc3cff;
+
+  /* Neon accents (Arcane-specific) */
+  --color-neon-cyan: #00b4ff;
+  --color-neon-magenta: #ff2878;
+  --color-neon-mint: #50ffa0;
 
   /* Background/foreground */
-  --color-background: #0a0a0a;
-  --color-foreground: #e8e8e8;
+  --color-background: #080519;
+  --color-foreground: #f0f6ff;
 
   /* Fonts */
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
+  --font-display: var(--font-anton);
 
-  /* Font sizes — Tailwind 4 defaults for forensic dossier (10-12px labels) */
+  /* Font sizes */
   --text-xs: 0.75rem;
   --text-xs--line-height: 1rem;
   --text-sm: 0.875rem;
@@ -62,6 +69,84 @@
   --text-5xl--line-height: 1;
   --text-6xl: 3.75rem;
   --text-6xl--line-height: 1;
+}
+
+/* ═══════════════════════════════════════════
+   ARCANE PALETTES — 5 moods via data attribute
+   ═══════════════════════════════════════════ */
+
+/* Palette 1: Hextech Core (default — set in @theme above) */
+
+/* Palette 2: Jinx's Chaos */
+[data-palette="jinx"] {
+  --color-surface-0: #14051e;
+  --color-surface-1: #1c0a2d;
+  --color-surface-2: #28123f;
+  --color-surface-3: #3a1e5a;
+  --color-text-primary: #ffe6f5;
+  --color-text-secondary: #f0bee1;
+  --color-neon-cyan: #32a0ff;
+  --color-neon-magenta: #ff3282;
+  --color-neon-mint: #64ffb4;
+  --color-toxic-green: #64ffb4;
+  --color-danger-red: #ff3282;
+  --color-safe-blue: #32a0ff;
+  --color-critical-magenta: #ff3282;
+  --color-warning-amber: #ffb050;
+}
+
+/* Palette 3: Zaun Undercity */
+[data-palette="zaun"] {
+  --color-surface-0: #050f0a;
+  --color-surface-1: #0a1a12;
+  --color-surface-2: #12281e;
+  --color-surface-3: #1e3a2e;
+  --color-text-primary: #dcffe6;
+  --color-text-secondary: #b4ebc3;
+  --color-neon-cyan: #00b4ff;
+  --color-neon-magenta: #ff3c8c;
+  --color-neon-mint: #32ff50;
+  --color-toxic-green: #32ff50;
+  --color-danger-red: #ff3c8c;
+  --color-safe-blue: #00b4ff;
+  --color-critical-magenta: #ff3c8c;
+  --color-warning-amber: #c8aa14;
+}
+
+/* Palette 4: Piltover Gold */
+[data-palette="piltover"] {
+  --color-surface-0: #0c0814;
+  --color-surface-1: #141020;
+  --color-surface-2: #1e1830;
+  --color-surface-3: #2e2648;
+  --color-text-primary: #fff5dc;
+  --color-text-secondary: #e6d2aa;
+  --color-neon-cyan: #32a0ff;
+  --color-neon-magenta: #ffc832;
+  --color-neon-mint: #64ff96;
+  --color-toxic-green: #64ff96;
+  --color-danger-red: #ff5050;
+  --color-safe-blue: #32a0ff;
+  --color-critical-magenta: #dc3cff;
+  --color-warning-amber: #ffc832;
+}
+
+/* Palette 5: Shimmer */
+[data-palette="shimmer"] {
+  --color-surface-0: #160516;
+  --color-surface-1: #1e0a1e;
+  --color-surface-2: #2a1430;
+  --color-surface-3: #3e2248;
+  --color-text-primary: #f5e1fa;
+  --color-text-secondary: #dcc3eb;
+  --color-neon-cyan: #00c8ff;
+  --color-neon-magenta: #dc3cff;
+  --color-neon-mint: #ff5096;
+  --color-toxic-green: #ff5096;
+  --color-danger-red: #ff5096;
+  --color-safe-blue: #00c8ff;
+  --color-critical-magenta: #dc3cff;
+  --color-warning-amber: #dc3cff;
 }
 
 /* Safe area variables */
@@ -98,43 +183,65 @@ body {
 }
 
 /* ═══════════════════════════
-   WHITE GLOW — the signature effect
+   ARCANE NEON GLOW — hextech energy
    ═══════════════════════════ */
 .glow {
   box-shadow:
-    0 0 5px #fff,
-    0 0 20px rgba(255, 255, 255, 0.3),
-    0 0 40px rgba(255, 255, 255, 0.1);
+    0 0 5px var(--color-neon-cyan),
+    0 0 20px rgba(0, 180, 255, 0.3),
+    0 0 40px rgba(0, 180, 255, 0.1);
 }
 
 .glow-subtle {
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 8px rgba(0, 180, 255, 0.2);
 }
 
 .glow-intense {
   box-shadow:
-    0 0 8px #fff,
-    0 0 30px rgba(255, 255, 255, 0.5),
-    0 0 60px rgba(255, 255, 255, 0.15);
+    0 0 8px var(--color-neon-cyan),
+    0 0 30px rgba(0, 180, 255, 0.5),
+    0 0 60px rgba(0, 180, 255, 0.15);
+}
+
+.glow-magenta {
+  box-shadow:
+    0 0 5px var(--color-neon-magenta),
+    0 0 20px rgba(255, 40, 120, 0.3),
+    0 0 40px rgba(255, 40, 120, 0.1);
+}
+
+.glow-mint {
+  box-shadow:
+    0 0 5px var(--color-neon-mint),
+    0 0 20px rgba(80, 255, 160, 0.3),
+    0 0 40px rgba(80, 255, 160, 0.1);
 }
 
 .text-glow {
-  text-shadow: 0 0 10px #fff, 0 0 30px rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 10px var(--color-neon-cyan), 0 0 30px rgba(0, 180, 255, 0.5);
 }
 
 .text-glow-subtle {
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  text-shadow: 0 0 8px rgba(0, 180, 255, 0.3);
 }
 
 .text-glow-intense {
   text-shadow:
-    0 0 10px #fff,
-    0 0 40px rgba(255, 255, 255, 0.6),
-    0 0 80px rgba(255, 255, 255, 0.2);
+    0 0 10px var(--color-neon-cyan),
+    0 0 40px rgba(0, 180, 255, 0.6),
+    0 0 80px rgba(0, 180, 255, 0.2);
+}
+
+.text-glow-magenta {
+  text-shadow: 0 0 10px var(--color-neon-magenta), 0 0 30px rgba(255, 40, 120, 0.5);
+}
+
+.text-glow-mint {
+  text-shadow: 0 0 10px var(--color-neon-mint), 0 0 30px rgba(80, 255, 160, 0.5);
 }
 
 /* ═══════════════════════════
-   SCANLINES — CRT surveillance aesthetic
+   SCANLINES — hextech energy lines
    ═══════════════════════════ */
 .scanlines::after {
   content: '';
@@ -144,8 +251,8 @@ body {
     0deg,
     transparent,
     transparent 2px,
-    rgba(255, 255, 255, 0.02) 2px,
-    rgba(255, 255, 255, 0.02) 4px
+    rgba(0, 180, 255, 0.02) 2px,
+    rgba(0, 180, 255, 0.02) 4px
   );
   pointer-events: none;
   z-index: 10;
@@ -179,9 +286,9 @@ body {
 }
 
 @keyframes border-flash {
-  0% { border-color: rgba(255, 255, 255, 0.1); }
-  50% { border-color: rgba(255, 255, 255, 0.6); }
-  100% { border-color: rgba(255, 255, 255, 0.1); }
+  0% { border-color: rgba(0, 180, 255, 0.1); }
+  50% { border-color: rgba(0, 180, 255, 0.6); }
+  100% { border-color: rgba(0, 180, 255, 0.1); }
 }
 .border-flash {
   animation: border-flash 2s ease-in-out infinite;
@@ -208,7 +315,7 @@ body {
   left: 50%;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 180, 255, 0.1) 0%, transparent 70%);
   transform: translate(-50%, -50%) scale(0);
   transition: transform 0.3s ease-out;
 }
@@ -235,54 +342,57 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(0, 180, 255, 0.2);
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(0, 180, 255, 0.4);
 }
 
 /* ═══════════════════════════
    SELECTION
    ═══════════════════════════ */
 ::selection {
-  background: rgba(245, 198, 198, 0.25);
-  color: #fff;
+  background: rgba(0, 180, 255, 0.25);
+  color: #d2ebff;
 }
 
 /* ═══════════════════════════
-   FORENSIC DOSSIER UTILITIES
+   ARCANE UTILITIES
    ═══════════════════════════ */
 
-/* Grid background overlay */
+/* Grid background — hextech energy grid */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(0, 180, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 180, 255, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
-/* Dashed-border card */
+/* Glassmorphic card — Arcane frosted glass */
 .card-dashed {
-  border: 1px dashed var(--color-surface-3);
-  background: var(--color-surface-1);
-  border-radius: 0.5rem;
+  border: 1px solid rgba(150, 180, 255, 0.15);
+  background: rgba(8, 5, 25, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 0.75rem;
   padding: 1.25rem;
 }
 
-/* Status badge — salmon pink forensic badge */
+/* Status badge — neon magenta */
 .badge-status {
   display: inline-flex;
   align-items: center;
   padding: 0.25rem 0.625rem;
-  background: var(--color-badge-pink);
-  color: var(--color-surface-3);
+  background: rgba(255, 40, 120, 0.15);
+  color: var(--color-neon-magenta);
   font-family: var(--font-mono);
   font-size: 0.625rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  border-radius: 0.125rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(255, 40, 120, 0.2);
 }
 
 /* Section label */
@@ -292,34 +402,111 @@ body {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(0, 180, 255, 0.4);
 }
 
-/* Tag badge */
+/* Tag badge — neon cyan on dark glass */
 .tag-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
   padding: 0.125rem 0.5rem;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 0.125rem;
+  background: rgba(0, 180, 255, 0.12);
+  border: 1px solid rgba(0, 180, 255, 0.2);
+  border-radius: 0.25rem;
   font-family: var(--font-mono);
   font-size: 0.625rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--color-surface-3);
+  color: var(--color-neon-cyan);
 }
 
-/* Hero title */
+/* Hero title — Arcane display */
 .hero-title {
-  font-family: var(--font-sans);
+  font-family: var(--font-display, var(--font-sans));
   font-size: 2.75rem;
   font-weight: 900;
   text-transform: uppercase;
-  color: white;
+  color: var(--color-text-primary);
   line-height: 0.95;
   letter-spacing: -0.02em;
+  text-shadow: 0 0 20px rgba(0, 180, 255, 0.3);
+}
+
+/* ═══════════════════════════
+   ARCANE GLASSMORPHISM
+   ═══════════════════════════ */
+.arcane-glass {
+  background: rgba(8, 5, 25, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(150, 180, 255, 0.15);
+  border-radius: 0.75rem;
+}
+
+.arcane-glass-intense {
+  background: rgba(8, 5, 25, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 2px solid rgba(150, 180, 255, 0.18);
+  border-radius: 1.25rem;
+}
+
+/* ═══════════════════════════
+   ARCANE ENERGY PARTICLES
+   ═══════════════════════════ */
+@keyframes particle-float-1 {
+  0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-10vh) translateX(20px); opacity: 0; }
+}
+@keyframes particle-float-2 {
+  0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-10vh) translateX(-15px); opacity: 0; }
+}
+@keyframes particle-float-3 {
+  0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+  10% { opacity: 0.5; }
+  90% { opacity: 0.5; }
+  100% { transform: translateY(-10vh) translateX(10px); opacity: 0; }
+}
+
+.arcane-particles::before,
+.arcane-particles::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 8px;
+  border-radius: 1px;
+}
+
+.arcane-particles::before {
+  left: 20%;
+  background: rgba(0, 180, 255, 0.6);
+  animation: particle-float-1 8s linear infinite;
+  box-shadow:
+    30vw 20vh 0 rgba(255, 40, 120, 0.4),
+    55vw 40vh 0 rgba(80, 255, 160, 0.5),
+    75vw 10vh 0 rgba(0, 180, 255, 0.4),
+    10vw 60vh 0 rgba(255, 40, 120, 0.3),
+    85vw 50vh 0 rgba(80, 255, 160, 0.4),
+    45vw 70vh 0 rgba(0, 180, 255, 0.5);
+}
+
+.arcane-particles::after {
+  left: 60%;
+  background: rgba(255, 40, 120, 0.5);
+  animation: particle-float-2 12s linear infinite 2s;
+  box-shadow:
+    -20vw 30vh 0 rgba(0, 180, 255, 0.4),
+    15vw 50vh 0 rgba(80, 255, 160, 0.3),
+    -35vw 15vh 0 rgba(255, 40, 120, 0.5),
+    25vw 75vh 0 rgba(0, 180, 255, 0.3),
+    -10vw 85vh 0 rgba(80, 255, 160, 0.4);
 }
 
 /* ═══════════════════════════
@@ -331,5 +518,10 @@ body {
   .line-pulse,
   .border-flash {
     animation: none !important;
+  }
+  .arcane-particles::before,
+  .arcane-particles::after {
+    animation: none !important;
+    opacity: 0.3;
   }
 }

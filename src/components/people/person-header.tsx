@@ -68,13 +68,13 @@ export function PersonHeader({ personId, personName, relationship: initialRelati
       <div className="flex items-center gap-2">
         <Link
           href={`/people/${personId}/add-info`}
-          className="flex-1 py-3 card-dashed font-mono text-[10px] uppercase tracking-[0.15em] text-white/60 active:bg-surface-2 transition-colors text-center min-h-[44px] flex items-center justify-center touch-active"
+          className="flex-1 py-3 card-dashed font-mono text-[10px] uppercase tracking-[0.15em] text-text-secondary active:bg-surface-2 transition-colors text-center min-h-[44px] flex items-center justify-center touch-active"
         >
           + ADD INTEL
         </Link>
         <Link
           href={`/people/${personId}/share`}
-          className="flex-1 py-3 bg-white text-surface-0 font-bold rounded-lg font-mono text-[10px] uppercase tracking-[0.15em] active:bg-white/90 transition-colors text-center min-h-[44px] flex items-center justify-center touch-active"
+          className="flex-1 py-3 bg-neon-cyan text-surface-0 font-bold rounded-lg font-mono text-[10px] uppercase tracking-[0.15em] active:bg-neon-cyan/90 transition-colors text-center min-h-[44px] flex items-center justify-center touch-active"
         >
           SHARE REPORT
         </Link>
@@ -88,7 +88,7 @@ export function PersonHeader({ personId, personName, relationship: initialRelati
             value={relationship ?? ''}
             onChange={(e) => handleChange(e.target.value)}
             onBlur={() => setEditing(false)}
-            className="w-full py-2 bg-transparent border-b border-white/20 font-mono text-xs text-white focus:outline-none focus:border-white/40 transition-colors appearance-none"
+            className="w-full py-2 bg-transparent border-b border-neon-cyan/20 font-mono text-xs text-text-primary focus:outline-none focus:border-neon-cyan/40 transition-colors appearance-none"
           >
             <option value="">No relationship</option>
             {RELATIONSHIP_OPTIONS.map((opt) => (
@@ -101,12 +101,12 @@ export function PersonHeader({ personId, personName, relationship: initialRelati
             aria-label={`Edit relationship${relationship ? `: ${relationship}` : ''}`}
             onClick={() => setEditing(true)}
             disabled={saving}
-            className="flex items-center gap-1.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] transition-colors active:bg-white/5 touch-active rounded"
+            className="flex items-center gap-1.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] transition-colors active:bg-neon-cyan/5 touch-active rounded"
           >
-            <span className={relationship ? 'text-white/40' : 'text-white/20 italic'}>
+            <span className={relationship ? 'text-text-secondary' : 'text-text-secondary italic'}>
               {saving ? 'SAVING...' : relationship?.toUpperCase() ?? 'SET RELATIONSHIP'}
             </span>
-            <span className="text-white/15 text-[10px]">&#9998;</span>
+            <span className="text-text-secondary text-[10px]">&#9998;</span>
           </button>
         )}
 
@@ -124,7 +124,7 @@ export function PersonHeader({ personId, personName, relationship: initialRelati
             className={`px-3 py-2 rounded-sm font-mono text-[10px] uppercase tracking-wider transition-colors min-h-[44px] touch-active ${
               confirmDelete
                 ? 'badge-status'
-                : 'text-white/25 active:bg-white/5'
+                : 'text-text-secondary active:bg-neon-cyan/5'
             }`}
           >
             {deleting ? 'DELETING...' : confirmDelete ? `DELETE ${personName.toUpperCase()}?` : 'DELETE'}

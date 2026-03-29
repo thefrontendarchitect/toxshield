@@ -37,9 +37,9 @@ export function AnimatedRing({
             cy={center}
             r={radius * scale}
             fill="none"
-            stroke="var(--color-white)"
+            stroke="var(--color-neon-cyan)"
             strokeWidth={0.5}
-            opacity={0.03}
+            opacity={0.05}
           />
         ))}
 
@@ -49,7 +49,7 @@ export function AnimatedRing({
         cy={center}
         r={radius}
         fill="none"
-        stroke="var(--color-line)"
+        stroke="var(--color-surface-3)"
         strokeWidth={strokeWidth}
       />
 
@@ -59,7 +59,7 @@ export function AnimatedRing({
         cy={center}
         r={radius}
         fill="none"
-        stroke="var(--color-white)"
+        stroke="var(--color-neon-cyan)"
         strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeDasharray={circumference}

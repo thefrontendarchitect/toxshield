@@ -37,7 +37,7 @@ export default function AddInfoPage({ params }: { params: Promise<{ personId: st
 
   return (
     <div>
-      <p className="text-sm text-white/40 font-mono mb-6">
+      <p className="text-sm text-text-secondary font-mono mb-6">
         New information will be combined with all previous data for an updated analysis.
       </p>
       <form onSubmit={handleSubmit} className="space-y-5">
@@ -56,7 +56,7 @@ export default function AddInfoPage({ params }: { params: Promise<{ personId: st
 
         <button
           type="submit" disabled={loading || description.length < 10}
-          className="w-full py-4 bg-white text-black font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
+          className="w-full py-4 bg-neon-cyan text-surface-0 font-bold rounded-xl font-mono text-sm tracking-wider active:bg-neon-cyan/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
@@ -67,7 +67,7 @@ export default function AddInfoPage({ params }: { params: Promise<{ personId: st
         </button>
         <button
           type="button" onClick={() => router.back()}
-          className="w-full py-3 font-mono text-xs text-white/30 active:text-white/60 transition-colors min-h-[44px]"
+          className="w-full py-3 font-mono text-xs text-text-secondary active:text-text-primary transition-colors min-h-[44px]"
         >
           ← Cancel
         </button>

@@ -20,7 +20,7 @@ export default async function PeoplePage() {
       <div className="space-y-3">
         <span className="tag-badge">SUBJECT REGISTRY</span>
         <h1 className="hero-title">PERSONNEL<br />MONITORING</h1>
-        <p className="border-l-2 border-white/20 pl-4 text-sm italic text-white/40 leading-relaxed">
+        <p className="border-l-2 border-neon-cyan/20 pl-4 text-sm italic text-text-secondary leading-relaxed">
           &ldquo;Trust is a luxury the data suggests we cannot afford. Watch the fluctuations. Verify the anomalies.&rdquo;
         </p>
       </div>

@@ -21,8 +21,8 @@ export function RiskBadge({ level }: RiskBadgeProps) {
         isHigh
           ? 'badge-status'
           : isModerate
-          ? 'bg-white/10 text-white/70'
-          : 'bg-white/5 text-white/40'
+          ? 'bg-neon-cyan/10 text-text-secondary'
+          : 'bg-neon-cyan/5 text-text-secondary'
       }`}
     >
       {STATUS_LABELS[level]}

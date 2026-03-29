@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Anton } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/app-providers";
@@ -11,6 +11,12 @@ const inter = Inter({
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+});
+
+const anton = Anton({
+  variable: "--font-anton",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -43,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} min-h-full antialiased dark`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${anton.variable} min-h-full antialiased dark`}
     >
       <body className="min-h-full bg-surface-0 text-text-primary">
         <AppProviders>{children}</AppProviders>

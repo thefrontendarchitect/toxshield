@@ -3,15 +3,15 @@
 import { ComponentProps } from 'react';
 
 const inputClasses =
-  'w-full py-3 bg-transparent border-b border-white/15 font-sans text-lg text-white placeholder:text-white/15 focus:outline-none focus:border-white/40 transition-colors min-h-[48px]';
+  'w-full py-3 bg-transparent border-b border-neon-cyan/15 font-sans text-lg text-text-primary placeholder:text-text-secondary/30 focus:outline-none focus:border-neon-cyan/40 transition-colors min-h-[48px]';
 
 const textareaClasses =
-  'w-full p-4 bg-surface-1 border border-dashed border-surface-3 rounded-lg font-sans text-base text-white placeholder:text-white/15 focus:outline-none focus:border-white/30 transition-colors resize-none min-h-[48px]';
+  'w-full p-4 arcane-glass font-sans text-base text-text-primary placeholder:text-text-secondary/30 focus:outline-none focus:border-neon-cyan/30 transition-colors resize-none min-h-[48px]';
 
 const selectClasses =
-  'w-full py-3 bg-transparent border-b border-white/15 font-sans text-lg text-white focus:outline-none focus:border-white/40 transition-colors appearance-none min-h-[48px]';
+  'w-full py-3 bg-transparent border-b border-neon-cyan/15 font-sans text-lg text-text-primary focus:outline-none focus:border-neon-cyan/40 transition-colors appearance-none min-h-[48px]';
 
-const labelClasses = 'block font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2';
+const labelClasses = 'block font-mono text-[10px] uppercase tracking-[0.2em] text-neon-cyan/40 mb-2';
 
 interface FormInputProps extends Omit<ComponentProps<'input'>, 'id'> {
   label: string;

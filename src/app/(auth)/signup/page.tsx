@@ -50,17 +50,17 @@ export default function SignupPage() {
   if (success) {
     return (
       <div className="w-full max-w-sm">
-        <div className="bg-surface border border-white/[0.06] rounded-2xl p-6 text-center">
+        <div className="arcane-glass-intense p-6 text-center">
           <div className="text-4xl mb-4">
-            <span className="text-white text-glow font-mono font-bold">[OK]</span>
+            <span className="text-neon-cyan text-glow font-mono font-bold">[OK]</span>
           </div>
-          <h2 className="text-lg font-mono text-white mb-2">ACCESS REQUEST SUBMITTED</h2>
-          <p className="text-sm text-white/40 font-mono">
+          <h2 className="text-lg font-mono text-text-primary mb-2">ACCESS REQUEST SUBMITTED</h2>
+          <p className="text-sm text-text-secondary font-mono">
             Check your email to confirm your identity and activate your ToxShield clearance.
           </p>
           <Link
             href="/login"
-            className="inline-block mt-4 px-4 py-2.5 border border-white/20 rounded-xl font-mono text-sm text-white active:bg-white/5 transition-colors"
+            className="inline-block mt-4 px-4 py-2.5 border border-neon-cyan/20 rounded-xl font-mono text-sm text-neon-cyan active:bg-neon-cyan/5 transition-colors"
           >
             Return to Login
           </Link>
@@ -71,12 +71,12 @@ export default function SignupPage() {
 
   return (
     <div className="w-full max-w-sm">
-      <div className="bg-surface border border-white/[0.06] rounded-2xl overflow-hidden">
-        <div className="p-6 border-b border-white/[0.06] text-center">
-          <h1 className="text-2xl font-bold font-mono text-white text-glow tracking-[0.2em]">
+      <div className="arcane-glass-intense overflow-hidden">
+        <div className="p-6 border-b border-neon-cyan/[0.08] text-center">
+          <h1 className="text-2xl font-bold font-mono text-text-primary text-glow tracking-[0.2em]">
             TOXSHIELD
           </h1>
-          <p className="text-xs text-white/30 mt-1 font-mono tracking-wider">
+          <p className="text-xs text-neon-cyan/30 mt-1 font-mono tracking-wider">
             NEW AGENT REGISTRATION
           </p>
         </div>
@@ -115,44 +115,44 @@ export default function SignupPage() {
               required
               minLength={6}
             />
-            <p className="text-xs text-white/20 font-mono mt-1">Minimum 6 characters</p>
+            <p className="text-xs text-text-secondary/50 font-mono mt-1">Minimum 6 characters</p>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-white text-background font-bold rounded-xl font-mono text-sm tracking-wider active:bg-white/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed min-h-[48px] touch-active"
+            className="w-full py-3 bg-neon-cyan text-surface-0 font-bold rounded-xl font-mono text-sm tracking-wider active:bg-neon-cyan/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed min-h-[48px] touch-active glow-subtle"
           >
             {loading ? 'PROCESSING...' : 'INITIALIZE CLEARANCE →'}
           </button>
 
           <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/[0.06]" />
+              <div className="w-full border-t border-neon-cyan/[0.08]" />
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="bg-surface px-2 text-white/20 font-mono">OR</span>
+              <span className="bg-surface-1 px-2 text-neon-cyan/20 font-mono">OR</span>
             </div>
           </div>
 
           <button
             type="button"
             onClick={handleGoogleSignup}
-            className="w-full py-3 border border-white/15 rounded-xl font-mono text-sm text-white active:bg-white/5 transition-colors flex items-center justify-center gap-2 min-h-[48px] touch-active"
+            className="w-full py-3 border border-neon-cyan/15 rounded-xl font-mono text-sm text-text-primary active:bg-neon-cyan/5 transition-colors flex items-center justify-center gap-2 min-h-[48px] touch-active"
           >
             <GoogleIcon />
             Continue with Google
           </button>
         </form>
 
-        <div className="p-4 border-t border-white/[0.06] text-center space-y-2">
-          <p className="text-xs text-white/30 font-mono">
+        <div className="p-4 border-t border-neon-cyan/[0.08] text-center space-y-2">
+          <p className="text-xs text-text-secondary font-mono">
             Already have clearance?{' '}
-            <Link href="/login" className="text-white underline underline-offset-2">Login</Link>
+            <Link href="/login" className="text-neon-cyan underline underline-offset-2">Login</Link>
           </p>
-          <p className="text-xs text-white/20 font-mono">
+          <p className="text-xs text-text-secondary/60 font-mono">
             or{' '}
-            <Link href="/try" className="text-white/50 underline underline-offset-2">
+            <Link href="/try" className="text-neon-cyan/50 underline underline-offset-2">
               Try without signing up
             </Link>
           </p>

@@ -19,8 +19,8 @@ interface InsightsTimelineProps {
 }
 
 const BOUNDARY_LABELS: Record<string, { label: string; style: string }> = {
-  strong: { label: 'FIXED', style: 'bg-white/5 text-white/40' },
-  developing: { label: 'MONITORED', style: 'bg-white/10 text-white/60' },
+  strong: { label: 'FIXED', style: 'bg-neon-cyan/5 text-text-secondary' },
+  developing: { label: 'MONITORED', style: 'bg-neon-cyan/10 text-text-secondary' },
   weak: { label: 'BREACHED', style: 'badge-status' },
 };
 
@@ -61,14 +61,14 @@ export function InsightsTimeline({ timeline, allPatterns }: InsightsTimelineProp
                   <span className="text-sm flex-shrink-0">{pattern.icon}</span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className="font-mono text-[10px] text-white/50 uppercase tracking-wider">
+                      <span className="font-mono text-[10px] text-text-secondary uppercase tracking-wider">
                         {pattern.area}
                       </span>
-                      <span className="font-mono text-[10px] text-white/20">
+                      <span className="font-mono text-[10px] text-text-secondary">
                         re: {pattern.personName}
                       </span>
                     </div>
-                    <p className="text-sm text-white/60 leading-relaxed">
+                    <p className="text-sm text-text-secondary leading-relaxed">
                       {pattern.observation}
                     </p>
                   </div>
@@ -98,14 +98,14 @@ export function InsightsTimeline({ timeline, allPatterns }: InsightsTimelineProp
                 className="flex items-center justify-between p-3 bg-surface-1 border border-surface-3 rounded-lg hover:bg-surface-2 active:bg-surface-2 transition-colors"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <span className="font-mono text-[10px] text-white/20 flex-shrink-0 w-10">
+                  <span className="font-mono text-[10px] text-text-secondary flex-shrink-0 w-10">
                     {formatDate(entry.date)}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="font-mono text-xs text-white/60 truncate uppercase">
+                    <p className="font-mono text-xs text-text-secondary truncate uppercase">
                       {entry.personName}
                     </p>
-                    <p className="font-mono text-[10px] text-white/30 truncate">
+                    <p className="font-mono text-[10px] text-text-secondary truncate">
                       {entry.overallTone}
                     </p>
                   </div>

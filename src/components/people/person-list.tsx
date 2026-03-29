@@ -52,11 +52,11 @@ export function PersonList({ people: initialPeople }: PersonListProps) {
   if (people.length === 0) {
     return (
       <div className="card-dashed text-center py-10">
-        <div className="font-mono text-2xl mb-3 text-white/10">[EMPTY]</div>
-        <p className="font-mono text-sm text-white/30 mb-5">NO SUBJECTS IN REGISTRY</p>
+        <div className="font-mono text-2xl mb-3 text-text-secondary">[EMPTY]</div>
+        <p className="font-mono text-sm text-text-secondary mb-5">NO SUBJECTS IN REGISTRY</p>
         <Link
           href="/analyze"
-          className="inline-block card-dashed px-6 py-3 font-mono text-xs uppercase tracking-[0.15em] text-white/60 hover:text-white transition-colors"
+          className="inline-block card-dashed px-6 py-3 font-mono text-xs uppercase tracking-[0.15em] text-text-secondary hover:text-text-primary transition-colors"
         >
           + INITIATE FIRST ANALYSIS
         </Link>
@@ -88,7 +88,7 @@ export function PersonList({ people: initialPeople }: PersonListProps) {
             >
               {/* Portrait placeholder */}
               <div className="relative shrink-0">
-                <div className={`w-14 h-14 rounded-lg bg-surface-2 flex items-center justify-center font-mono text-lg font-bold text-white/20 ${isHigh ? 'border border-badge-pink/30' : ''}`}>
+                <div className={`w-14 h-14 rounded-lg bg-surface-2 flex items-center justify-center font-mono text-lg font-bold text-text-secondary ${isHigh ? 'border border-badge-pink/30' : ''}`}>
                   {getInitials(person.name)}
                 </div>
                 {isHigh && (
@@ -100,18 +100,18 @@ export function PersonList({ people: initialPeople }: PersonListProps) {
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <p className="font-mono text-sm font-bold text-white uppercase truncate">
+                <p className="font-mono text-sm font-bold text-text-primary uppercase truncate">
                   {person.name.toUpperCase().replace(/\s/g, '_')}
                 </p>
-                <p className="font-mono text-[10px] text-white/30 uppercase mt-0.5">
+                <p className="font-mono text-[10px] text-text-secondary uppercase mt-0.5">
                   {person.relationship ?? 'UNKNOWN'} &middot; {person.analysis_count} report{person.analysis_count !== 1 ? 's' : ''}
                 </p>
                 <div className="flex items-center gap-2 mt-1.5">
-                  <span className="font-mono text-[10px] bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-white/50">
+                  <span className="font-mono text-[10px] bg-neon-cyan/5 border border-neon-cyan/10 rounded px-1.5 py-0.5 text-text-secondary">
                     TOX: {person.current_toxicity_score?.toFixed(1) ?? '?'}
                   </span>
                   <span className={`font-mono text-[10px] rounded px-1.5 py-0.5 ${
-                    isHigh ? 'badge-status' : 'bg-white/5 text-white/40'
+                    isHigh ? 'badge-status' : 'bg-neon-cyan/5 text-text-secondary'
                   }`}>
                     {STATUS_LABELS[riskLevel]}
                   </span>
@@ -126,7 +126,7 @@ export function PersonList({ people: initialPeople }: PersonListProps) {
                     onClick={(e) => handleDelete(e, person)}
                     disabled={isDeleting}
                     aria-label={`Confirm delete ${person.name}`}
-                    className="px-2 py-1 rounded-sm font-mono text-[10px] text-white bg-white/10 border border-white/20 active:bg-white/20 transition-colors"
+                    className="px-2 py-1 rounded-sm font-mono text-[10px] text-text-primary bg-neon-cyan/10 border border-neon-cyan/20 active:bg-neon-cyan/20 transition-colors"
                   >
                     {isDeleting ? '...' : 'Confirm?'}
                   </button>
@@ -143,7 +143,7 @@ export function PersonList({ people: initialPeople }: PersonListProps) {
                     }
                   }}
                   className={`w-8 h-8 flex items-center justify-center rounded-lg font-mono text-xs transition-colors touch-active ${
-                    isConfirming ? 'text-white/50' : 'text-white/15 active:text-white/40'
+                    isConfirming ? 'text-text-secondary' : 'text-text-secondary active:text-text-primary'
                   }`}
                   aria-label={isConfirming ? 'Cancel delete' : `Delete ${person.name}`}
                 >
