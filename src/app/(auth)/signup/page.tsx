@@ -118,6 +118,13 @@ export default function SignupPage() {
             <p className="text-xs text-text-secondary/50 font-mono mt-1">Minimum 6 characters</p>
           </div>
 
+          <p className="text-[10px] text-text-secondary/50 font-mono text-center">
+            By signing up, you agree to our{' '}
+            <Link href="/terms" className="text-neon-cyan/50 underline underline-offset-2">Terms</Link>
+            {' '}and{' '}
+            <Link href="/privacy" className="text-neon-cyan/50 underline underline-offset-2">Privacy Policy</Link>
+          </p>
+
           <button
             type="submit"
             disabled={loading}

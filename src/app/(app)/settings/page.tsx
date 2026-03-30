@@ -58,6 +58,15 @@ export default async function SettingsPage() {
         </p>
       </div>
 
+      <div className="flex gap-3">
+        <Link href="/privacy" className="flex-1 card-dashed text-center min-h-[44px] flex items-center justify-center font-mono text-[10px] text-neon-cyan/60 active:text-neon-cyan transition-colors touch-active">
+          PRIVACY POLICY
+        </Link>
+        <Link href="/terms" className="flex-1 card-dashed text-center min-h-[44px] flex items-center justify-center font-mono text-[10px] text-neon-cyan/60 active:text-neon-cyan transition-colors touch-active">
+          TERMS
+        </Link>
+      </div>
+
       <SignOutButton />
     </div>
   );

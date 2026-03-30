@@ -168,6 +168,16 @@ export default function LandingPage() {
           <p className="text-[10px] text-text-secondary font-mono pt-4">
             ToxShield identifies behavioral patterns. Not a substitute for professional counseling.
           </p>
+
+          <div className="flex items-center justify-center gap-4 pt-2">
+            <Link href="/privacy" className="font-mono text-[10px] text-text-secondary/40 active:text-neon-cyan/60 transition-colors py-2 px-1">
+              Privacy Policy
+            </Link>
+            <span className="text-text-secondary/20">|</span>
+            <Link href="/terms" className="font-mono text-[10px] text-text-secondary/40 active:text-neon-cyan/60 transition-colors py-2 px-1">
+              Terms of Service
+            </Link>
+          </div>
         </div>
       </main>
     </div>

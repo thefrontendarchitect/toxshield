@@ -19,9 +19,9 @@ android {
     signingConfigs {
         release {
             storeFile file('release.keystore')
-            storePassword System.getenv('TOXSHIELD_KEYSTORE_PASSWORD') ?: 'toxshield123'
+            storePassword System.getenv('TOXSHIELD_KEYSTORE_PASSWORD')
             keyAlias 'toxshield'
-            keyPassword System.getenv('TOXSHIELD_KEY_PASSWORD') ?: 'toxshield123'
+            keyPassword System.getenv('TOXSHIELD_KEY_PASSWORD')
         }
     }
     buildTypes {
