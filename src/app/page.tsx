@@ -42,7 +42,7 @@ export default function LandingPage() {
 
           {/* Hero — big dramatic title */}
           <div className="space-y-5">
-            <p className="font-mono text-[10px] text-neon-magenta/70 tracking-[0.3em] uppercase">
+            <p className="font-mono text-[10px] text-neon-magenta tracking-[0.3em] uppercase">
               // threat_detection_system
             </p>
             <h1 className="text-5xl sm:text-7xl font-black font-mono text-text-primary tracking-[0.15em] text-glow leading-[0.9]">
@@ -50,7 +50,7 @@ export default function LandingPage() {
             </h1>
             <div className="flex items-center justify-center gap-3">
               <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-neon-cyan/40" />
-              <p className="text-xs text-neon-cyan/50 font-mono tracking-[0.2em] uppercase">
+              <p className="text-xs text-neon-cyan font-mono tracking-[0.2em] uppercase">
                 Forensic Behavioral Analysis
               </p>
               <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-neon-cyan/40" />
@@ -70,7 +70,7 @@ export default function LandingPage() {
               manipulation traits, and strategies to protect yourself.
             </p>
             <div className="pt-2 border-t border-neon-cyan/[0.06]">
-              <p className="text-neon-mint/60 font-mono text-xs italic text-glow-subtle">
+              <p className="text-neon-mint font-mono text-xs italic text-glow-subtle">
                 &ldquo;Know who&apos;s toxic before they know you know.&rdquo;
               </p>
             </div>
@@ -78,7 +78,7 @@ export default function LandingPage() {
 
           {/* How it works — 3 steps */}
           <div className="space-y-3">
-            <p className="font-mono text-[10px] text-neon-cyan/40 tracking-[0.25em] uppercase mb-4">
+            <p className="font-mono text-[10px] text-neon-cyan/80 tracking-[0.25em] uppercase mb-4">
               // how_it_works
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
@@ -165,7 +165,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <p className="text-[10px] text-text-secondary/40 font-mono pt-4">
+          <p className="text-[10px] text-text-secondary font-mono pt-4">
             ToxShield identifies behavioral patterns. Not a substitute for professional counseling.
           </p>
         </div>
