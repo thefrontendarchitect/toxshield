@@ -60,9 +60,18 @@ export function PaywallModal({ isOpen, onClose, used, limit }: PaywallModalProps
               UPGRADE TO PRO — UNLIMITED
             </Link>
 
-            {/* Referral hint */}
-            <p className="text-center font-mono text-[10px] text-text-secondary">
-              Or invite a friend for bonus analyses
+            {/* Referral CTA */}
+            <Link
+              href="/settings"
+              onClick={onClose}
+              className="block text-center font-mono text-[10px] text-neon-cyan/70 active:text-neon-cyan transition-colors"
+            >
+              Or invite a friend for +2 bonus analyses →
+            </Link>
+
+            {/* Reset info */}
+            <p className="text-center font-mono text-[10px] text-text-secondary/50">
+              Free analyses reset on the 1st of each month
             </p>
 
             {/* Dismiss */}

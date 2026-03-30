@@ -11,7 +11,7 @@ const textareaClasses =
 const selectClasses =
   'w-full py-3 bg-transparent border-b border-neon-cyan/15 font-sans text-lg text-text-primary focus:outline-none focus:border-neon-cyan/40 transition-colors appearance-none min-h-[48px]';
 
-const labelClasses = 'block font-mono text-[10px] uppercase tracking-[0.2em] text-neon-cyan/40 mb-2';
+const labelClasses = 'block font-mono text-[10px] uppercase tracking-[0.2em] text-neon-cyan/70 mb-2';
 
 interface FormInputProps extends Omit<ComponentProps<'input'>, 'id'> {
   label: string;

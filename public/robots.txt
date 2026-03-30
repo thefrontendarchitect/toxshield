@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /analyze
+Disallow: /people
+Disallow: /settings
+Disallow: /my-insights
+Disallow: /pulse
+Disallow: /wrapped
+
+Sitemap: https://toxshield.in/sitemap.xml

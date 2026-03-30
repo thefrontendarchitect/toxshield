@@ -337,40 +337,44 @@ export function hashString(str: string): number {
 
 // ── Component ───────────────────────────────────────────────────────
 export function AuroraBackground({ seed }: { seed?: number }) {
-  const doodles = useMemo(() => generateDoodles(80, seed ?? 42069), [seed]);
+  const doodles = useMemo(() => generateDoodles(35, seed ?? 42069), [seed]);
 
   return (
     <div
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       aria-hidden="true"
     >
-      {/* Layer 1: Aurora blobs */}
+      {/* Layer 1: Aurora blobs — reduced blur for mobile perf */}
       <div
         className="absolute top-[15%] left-[15%] h-[50vh] w-[50vh] rounded-full opacity-40"
         style={{
           background: 'radial-gradient(circle, rgba(0,140,255,0.4) 0%, transparent 70%)',
-          filter: 'blur(80px)',
+          filter: 'blur(50px)',
+          willChange: 'transform',
         }}
       />
       <div
         className="absolute top-[30%] right-[15%] h-[40vh] w-[40vh] rounded-full opacity-35"
         style={{
           background: 'radial-gradient(circle, rgba(120,40,200,0.35) 0%, transparent 70%)',
-          filter: 'blur(70px)',
+          filter: 'blur(45px)',
+          willChange: 'transform',
         }}
       />
       <div
         className="absolute bottom-[20%] left-[50%] h-[45vh] w-[45vh] -translate-x-1/2 rounded-full opacity-35"
         style={{
           background: 'radial-gradient(circle, rgba(0,100,220,0.4) 0%, transparent 70%)',
-          filter: 'blur(75px)',
+          filter: 'blur(50px)',
+          willChange: 'transform',
         }}
       />
       <div
         className="absolute bottom-[30%] left-[20%] h-[35vh] w-[35vh] rounded-full opacity-30"
         style={{
           background: 'radial-gradient(circle, rgba(80,0,180,0.3) 0%, transparent 70%)',
-          filter: 'blur(60px)',
+          filter: 'blur(40px)',
+          willChange: 'transform',
         }}
       />
 
@@ -379,21 +383,21 @@ export function AuroraBackground({ seed }: { seed?: number }) {
         className="absolute top-[10%] right-[30%] h-[20vh] w-[20vh] rounded-full opacity-20"
         style={{
           background: 'radial-gradient(circle, rgba(0,180,255,0.5) 0%, transparent 70%)',
-          filter: 'blur(40px)',
+          filter: 'blur(30px)',
         }}
       />
       <div
         className="absolute bottom-[15%] right-[20%] h-[18vh] w-[18vh] rounded-full opacity-15"
         style={{
           background: 'radial-gradient(circle, rgba(255,40,120,0.4) 0%, transparent 70%)',
-          filter: 'blur(35px)',
+          filter: 'blur(25px)',
         }}
       />
       <div
         className="absolute top-[60%] left-[10%] h-[15vh] w-[15vh] rounded-full opacity-18"
         style={{
           background: 'radial-gradient(circle, rgba(80,255,160,0.4) 0%, transparent 70%)',
-          filter: 'blur(30px)',
+          filter: 'blur(20px)',
         }}
       />
 

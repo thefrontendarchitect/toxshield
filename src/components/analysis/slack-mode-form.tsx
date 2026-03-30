@@ -13,6 +13,7 @@ import {
 } from '@/lib/parsers/slack';
 import { FormSelect } from '@/components/ui/form-input';
 import { ErrorAlert } from '@/components/ui/error-alert';
+import { PaywallModal } from '@/components/ui/paywall-modal';
 import { Spinner } from '@/components/ui/spinner';
 import { PersonMatchBanner } from '@/components/ui/person-match-banner';
 import { usePersonMatch } from '@/hooks/use-person-match';
@@ -37,6 +38,7 @@ export function SlackModeForm({ apiEndpoint = '/api/analyze', onResult }: SlackM
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [parseError, setParseError] = useState('');
+  const [paywall, setPaywall] = useState<{ used: number; limit: number } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const personMatch = usePersonMatch();
@@ -126,6 +128,11 @@ export function SlackModeForm({ apiEndpoint = '/api/analyze', onResult }: SlackM
 
       if (!response.ok) {
         const data = await response.json();
+        if (response.status === 402 && data.error === 'FREE_LIMIT_REACHED') {
+          setPaywall(data.usage);
+          setLoading(false);
+          return;
+        }
         throw new Error(data.error || 'Analysis failed');
       }
 
@@ -345,6 +352,15 @@ export function SlackModeForm({ apiEndpoint = '/api/analyze', onResult }: SlackM
             </div>
           )}
         </>
+      )}
+
+      {paywall && (
+        <PaywallModal
+          isOpen={!!paywall}
+          onClose={() => setPaywall(null)}
+          used={paywall.used}
+          limit={paywall.limit}
+        />
       )}
     </div>
   );

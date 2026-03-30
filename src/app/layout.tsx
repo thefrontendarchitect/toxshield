@@ -21,6 +21,7 @@ const anton = Anton({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://toxshield.in"),
   title: "ToxShield — Forensic Relationship Analyzer",
   description:
     "AI-powered behavioral analysis. Log a person, get a threat profile. Know who's toxic before they know you know.",
@@ -28,16 +29,28 @@ export const metadata: Metadata = {
     title: "ToxShield — Forensic Relationship Analyzer",
     description:
       "AI-powered behavioral analysis. Log a person, get a threat profile.",
+    url: "https://toxshield.in",
+    siteName: "ToxShield",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ToxShield — Forensic Relationship Analyzer",
+    description:
+      "AI-powered behavioral analysis. Log a person, get a threat profile.",
+  },
+  alternates: {
+    canonical: "https://toxshield.in",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  minimumScale: 1,
-  userScalable: false,
   viewportFit: 'cover',
 };
 

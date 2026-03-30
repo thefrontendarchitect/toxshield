@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { UserInsight, UserPattern } from '@/types/analysis';
+import { PatternIcon } from '@/lib/icon-map';
 
 interface UserInsightCardProps {
   insight: UserInsight;
@@ -92,7 +93,7 @@ export function UserInsightCard({ insight }: UserInsightCardProps) {
               className={`p-3 border rounded-lg ${SENTIMENT_STYLES[pattern.sentiment]}`}
             >
               <div className="flex items-start gap-2">
-                <span className="text-sm flex-shrink-0">{pattern.icon}</span>
+                <PatternIcon icon={pattern.icon} area={pattern.area} size={16} className="flex-shrink-0 mt-0.5 text-text-secondary" />
                 <div>
                   <p className="font-mono text-[10px] text-text-secondary uppercase tracking-wider mb-0.5">
                     {pattern.area}

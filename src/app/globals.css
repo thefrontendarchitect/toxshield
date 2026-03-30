@@ -402,7 +402,7 @@ body {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: rgba(0, 180, 255, 0.4);
+  color: rgba(0, 180, 255, 0.7);
 }
 
 /* Tag badge — neon cyan on dark glass */
@@ -438,17 +438,17 @@ body {
    ARCANE GLASSMORPHISM
    ═══════════════════════════ */
 .arcane-glass {
-  background: rgba(8, 5, 25, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(8, 5, 25, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(150, 180, 255, 0.15);
   border-radius: 0.75rem;
 }
 
 .arcane-glass-intense {
-  background: rgba(8, 5, 25, 0.85);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: rgba(8, 5, 25, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 2px solid rgba(150, 180, 255, 0.18);
   border-radius: 1.25rem;
 }
@@ -482,6 +482,7 @@ body {
   width: 2px;
   height: 8px;
   border-radius: 1px;
+  will-change: transform, opacity;
 }
 
 .arcane-particles::before {
@@ -513,15 +514,16 @@ body {
    ACCESSIBILITY
    ═══════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-  .cursor-blink,
-  .score-pulse,
-  .line-pulse,
-  .border-flash {
-    animation: none !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
   .arcane-particles::before,
   .arcane-particles::after {
-    animation: none !important;
     opacity: 0.3;
   }
 }

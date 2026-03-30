@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { RELATIONSHIP_OPTIONS } from '@/lib/constants';
 import { FormInput, FormTextarea, FormSelect } from '@/components/ui/form-input';
 import { ErrorAlert } from '@/components/ui/error-alert';
+import { PaywallModal } from '@/components/ui/paywall-modal';
 import { Spinner } from '@/components/ui/spinner';
 import { PersonMatchBanner } from '@/components/ui/person-match-banner';
 import { usePersonMatch } from '@/hooks/use-person-match';
@@ -21,6 +22,7 @@ export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextMod
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [paywall, setPaywall] = useState<{ used: number; limit: number } | null>(null);
   const router = useRouter();
   const personMatch = usePersonMatch();
 
@@ -50,6 +52,11 @@ export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextMod
 
       if (!response.ok) {
         const data = await response.json();
+        if (response.status === 402 && data.error === 'FREE_LIMIT_REACHED') {
+          setPaywall(data.usage);
+          setLoading(false);
+          return;
+        }
         throw new Error(data.error || 'Analysis failed');
       }
 
@@ -147,6 +154,14 @@ export function TextModeForm({ apiEndpoint = '/api/analyze', onResult }: TextMod
           <p>&gt;&gt; Cross-referencing manipulation frameworks...</p>
           <p>&gt;&gt; Generating threat profile...</p>
         </div>
+      )}
+      {paywall && (
+        <PaywallModal
+          isOpen={!!paywall}
+          onClose={() => setPaywall(null)}
+          used={paywall.used}
+          limit={paywall.limit}
+        />
       )}
     </form>
   );

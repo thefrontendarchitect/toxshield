@@ -48,15 +48,32 @@ export async function POST(request: Request) {
     ]);
 
     const tier = (profile as { tier?: string } | null)?.tier ?? 'free';
+    let activePack: { id: string } | null = null;
     if (tier === 'free') {
       const used = usageRow?.analyses_used ?? 0;
       const bonus = usageRow?.bonus_analyses ?? 0;
       const limit = FREE_LIMIT + bonus;
       if (used >= limit) {
-        return NextResponse.json(
-          { error: 'FREE_LIMIT_REACHED', usage: { used, limit, remaining: 0 } },
-          { status: 402 }
-        );
+        // Check for active purchased packs before rejecting
+        const { data: pack } = await supabase
+          .from('purchases')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('status', 'completed')
+          .gt('analyses_remaining', 0)
+          .gt('expires_at', new Date().toISOString())
+          .order('expires_at', { ascending: true })
+          .limit(1)
+          .returns<Array<{ id: string }>>()
+          .maybeSingle();
+
+        if (!pack) {
+          return NextResponse.json(
+            { error: 'FREE_LIMIT_REACHED', usage: { used, limit, remaining: 0 } },
+            { status: 402 }
+          );
+        }
+        activePack = pack;
       }
     }
 
@@ -238,13 +255,20 @@ export async function POST(request: Request) {
       console.error('Failed to update person scores:', updateError);
     }
 
-    // Increment usage counter
-    await supabase.from('usage_tracking').upsert({
-      user_id: user.id,
-      period_start: monthStart,
-      analyses_used: (usageRow?.analyses_used ?? 0) + 1,
-      bonus_analyses: usageRow?.bonus_analyses ?? 0,
-    } as Record<string, unknown>, { onConflict: 'user_id,period_start' });
+    // Increment usage counter (or decrement pack)
+    if (activePack) {
+      const { data: p } = await supabase.from('purchases').select('analyses_remaining').eq('id', activePack.id).returns<Array<{ analyses_remaining: number }>>().single();
+      if (p) {
+        await supabase.from('purchases').update({ analyses_remaining: Math.max(0, p.analyses_remaining - 1) } as Record<string, unknown>).eq('id', activePack.id);
+      }
+    } else {
+      await supabase.from('usage_tracking').upsert({
+        user_id: user.id,
+        period_start: monthStart,
+        analyses_used: (usageRow?.analyses_used ?? 0) + 1,
+        bonus_analyses: usageRow?.bonus_analyses ?? 0,
+      } as Record<string, unknown>, { onConflict: 'user_id,period_start' });
+    }
 
     // Update streak + check badges (fire-and-forget — don't block response)
     updateStreakAfterAnalysis(supabase, user.id).then(async () => {

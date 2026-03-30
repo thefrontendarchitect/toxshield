@@ -25,6 +25,7 @@
     "@capacitor/keyboard": "^8.0.1",
     "@capacitor/splash-screen": "^8.0.1",
     "@hookform/resolvers": "^5.2.2",
+    "@stripe/stripe-js": "^9.0.0",
     "@supabase/ssr": "^0.9.0",
     "@supabase/supabase-js": "^2.100.0",
     "@vercel/analytics": "^2.0.1",
@@ -38,6 +39,7 @@
     "react-dom": "19.2.4",
     "react-hook-form": "^7.72.0",
     "recharts": "^3.8.0",
+    "stripe": "^21.0.1",
     "web-push": "^3.6.7",
     "whatsapp-chat-parser": "^4.0.2",
     "zod": "^4.3.6"

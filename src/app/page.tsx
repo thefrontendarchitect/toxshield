@@ -1,9 +1,28 @@
 import Link from 'next/link';
 import { AuroraBackground } from '@/components/ui/aurora-background';
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'ToxShield',
+  url: 'https://toxshield.in',
+  description: 'AI-powered behavioral analysis. Log a person, get a threat profile.',
+  applicationCategory: 'HealthApplication',
+  operatingSystem: 'Web',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+};
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-surface-0/50 relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <AuroraBackground seed={777} />
 
       {/* Terminal header bar */}
@@ -95,9 +114,9 @@ export default function LandingPage() {
                       {feature.step}
                     </span>
                   </div>
-                  <h3 className="font-mono text-sm font-bold text-text-primary mb-1.5">
+                  <h2 className="font-mono text-sm font-bold text-text-primary mb-1.5">
                     {feature.title}
-                  </h3>
+                  </h2>
                   <p className="text-xs text-text-secondary leading-relaxed">{feature.desc}</p>
                 </div>
               ))}

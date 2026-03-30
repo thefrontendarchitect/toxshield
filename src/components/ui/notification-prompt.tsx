@@ -60,7 +60,7 @@ export function NotificationPrompt() {
 
       setShow(false);
     } catch (err) {
-      console.error('[notifications] Failed to register:', err);
+      if (process.env.NODE_ENV === 'development') console.error('[notifications] Failed to register:', err);
       handleDismiss();
     } finally {
       setRegistering(false);
