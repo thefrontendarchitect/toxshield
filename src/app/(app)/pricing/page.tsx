@@ -136,7 +136,7 @@ export default function PricingPage() {
         description: data.description,
         order_id: data.order_id,
         prefill: data.prefill,
-        theme: { color: '#00b4ff' }, // neon-cyan — Arcane Hextech Core
+        theme: { color: getComputedStyle(document.documentElement).getPropertyValue('--color-neon-cyan').trim() || '#00b4ff' },
         handler: async (response: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
           try {
             const verifyRes = await fetch('/api/checkout/razorpay/verify', {

@@ -44,6 +44,7 @@ export default function AddInfoPage({ params }: { params: Promise<{ personId: st
 
   return (
     <div>
+      <h1 className="sr-only">Add New Information</h1>
       <p className="text-sm text-text-secondary font-mono mb-6">
         New information will be combined with all previous data for an updated analysis.
       </p>

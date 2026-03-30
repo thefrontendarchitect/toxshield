@@ -92,7 +92,7 @@ function TryPageContent() {
       <AuroraBackground seed={hashString(pathname)} />
       <AppHeader title="TRY TOXSHIELD" showBackButton />
 
-      <main className="bg-surface-0/60 grid-bg pt-[72px] pb-8 px-4 max-w-lg mx-auto min-h-screen relative">
+      <main className="bg-surface-0/60 grid-bg pt-[72px] pb-[100px] px-4 max-w-lg mx-auto min-h-screen relative">
         {/* Active result view */}
         {activeEntry ? (
           <div className="space-y-6">
@@ -103,7 +103,7 @@ function TryPageContent() {
             />
 
             {/* Sign up CTA */}
-            <div className="bg-surface-1 border border-surface-3 rounded-xl p-6 text-center space-y-3">
+            <div className="arcane-glass p-6 text-center space-y-3">
               <p className="text-sm text-text-secondary font-mono">
                 Want to save this analysis?
               </p>
@@ -143,7 +143,7 @@ function TryPageContent() {
                       type="button"
                       onClick={() => setActiveIndex(i)}
                       aria-label={`View analysis for ${entry.name}`}
-                      className="w-full flex items-center justify-between p-3 bg-surface-1 border border-surface-3 rounded-xl active:bg-surface-2 transition-colors min-h-[44px] text-left"
+                      className="w-full flex items-center justify-between p-3 arcane-glass active:bg-surface-2 transition-colors min-h-[44px] text-left"
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         <span className="font-mono text-sm text-text-primary truncate">

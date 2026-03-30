@@ -110,7 +110,7 @@ function CheckoutSuccessContent() {
         animate={{ opacity: 1, scale: 1 }}
         className="space-y-4"
       >
-        <ShieldIcon size={48} className="mx-auto text-toxic-green" />
+        <ShieldIcon size={48} className="mx-auto text-neon-mint" aria-hidden="true" />
         <h1 className="font-mono text-xl font-bold text-text-primary uppercase">
           Pack Activated
         </h1>
