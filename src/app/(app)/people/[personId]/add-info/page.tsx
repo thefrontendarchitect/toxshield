@@ -63,7 +63,7 @@ export default function AddInfoPage({ params }: { params: Promise<{ personId: st
 
         <button
           type="submit" disabled={loading || description.length < 10}
-          className="w-full py-4 bg-toxic-green text-surface-0 font-bold rounded-xl font-mono text-sm tracking-wider active:bg-toxic-green/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
+          className="w-full py-4 bg-neon-cyan text-surface-0 font-bold rounded-xl font-mono text-sm tracking-wider active:bg-neon-cyan/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">

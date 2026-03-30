@@ -136,7 +136,7 @@ export default function PricingPage() {
         description: data.description,
         order_id: data.order_id,
         prefill: data.prefill,
-        theme: { color: '#50ffa0' }, // toxic-green — Arcane Hextech Core
+        theme: { color: '#00b4ff' }, // neon-cyan — Arcane Hextech Core
         handler: async (response: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
           try {
             const verifyRes = await fetch('/api/checkout/razorpay/verify', {
@@ -201,7 +201,7 @@ export default function PricingPage() {
           aria-pressed={gateway === 'razorpay'}
           className={`flex-1 py-2 rounded-md font-mono text-[10px] uppercase tracking-wider transition-all ${
             gateway === 'razorpay'
-              ? 'bg-toxic-green text-surface-0 font-bold'
+              ? 'bg-neon-cyan text-surface-0 font-bold'
               : 'text-text-secondary active:text-text-primary'
           }`}
         >
@@ -213,7 +213,7 @@ export default function PricingPage() {
           aria-pressed={gateway === 'stripe'}
           className={`flex-1 py-2 rounded-md font-mono text-[10px] uppercase tracking-wider transition-all ${
             gateway === 'stripe'
-              ? 'bg-toxic-green text-surface-0 font-bold'
+              ? 'bg-neon-cyan text-surface-0 font-bold'
               : 'text-text-secondary active:text-text-primary'
           }`}
         >
@@ -229,7 +229,7 @@ export default function PricingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
             className={`arcane-glass p-5 space-y-4 ${
-              pack.highlighted ? 'border border-toxic-green/20' : ''
+              pack.highlighted ? 'border border-neon-cyan/20' : ''
             }`}
           >
             <div className="flex items-baseline justify-between">
@@ -238,7 +238,7 @@ export default function PricingPage() {
                   {pack.name}
                 </p>
                 {pack.highlighted && (
-                  <span className="font-mono text-[9px] text-toxic-green uppercase tracking-wider">
+                  <span className="font-mono text-[9px] text-neon-cyan uppercase tracking-wider">
                     Best Value
                   </span>
                 )}
@@ -262,7 +262,7 @@ export default function PricingPage() {
             <ul className="space-y-2">
               {pack.features.map((feature) => (
                 <li key={feature} className="flex items-center gap-2">
-                  <span className="text-toxic-green text-xs">&#x2713;</span>
+                  <span className="text-neon-cyan text-xs">&#x2713;</span>
                   <span className="font-mono text-xs text-text-secondary">{feature}</span>
                 </li>
               ))}
@@ -275,7 +275,7 @@ export default function PricingPage() {
               className={`w-full py-3 rounded-xl font-mono text-xs tracking-wider min-h-[44px] touch-active transition-all ${
                 pack.disabled
                   ? 'border border-surface-3 text-text-secondary opacity-40 cursor-not-allowed'
-                  : 'bg-toxic-green text-surface-0 font-bold active:opacity-80'
+                  : 'bg-neon-cyan text-surface-0 font-bold active:bg-neon-cyan/90'
               }`}
             >
               {pack.id && loadingPack === pack.id ? (

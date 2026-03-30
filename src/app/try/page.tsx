@@ -112,7 +112,7 @@ function TryPageContent() {
               </p>
               <Link
                 href="/signup"
-                className="inline-block px-8 py-3.5 bg-toxic-green text-surface-0 font-bold rounded-xl font-mono text-sm tracking-wider active:opacity-90 transition-all min-h-[48px] touch-active"
+                className="inline-block px-8 py-3.5 bg-neon-cyan text-surface-0 font-bold rounded-xl font-mono text-sm tracking-wider active:bg-neon-cyan/90 transition-all min-h-[48px] touch-active"
               >
                 SIGN UP FREE
               </Link>
@@ -174,7 +174,7 @@ function TryPageContent() {
                   onClick={() => setMode(m)}
                   className={`flex-1 py-2.5 rounded-lg font-mono text-[10px] tracking-wider transition-all min-h-[40px] ${
                     mode === m
-                      ? 'bg-toxic-green text-surface-0 font-bold'
+                      ? 'bg-neon-cyan text-surface-0 font-bold'
                       : 'text-text-secondary active:bg-surface-2'
                   }`}
                 >

@@ -129,7 +129,7 @@ function CheckoutSuccessContent() {
 
       <Link
         href="/analyze"
-        className="px-8 py-3.5 bg-toxic-green text-surface-0 font-bold rounded-xl font-mono text-xs tracking-wider min-h-[48px] touch-active transition-all active:opacity-80"
+        className="px-8 py-3.5 bg-neon-cyan text-surface-0 font-bold rounded-xl font-mono text-xs tracking-wider min-h-[48px] touch-active transition-all active:bg-neon-cyan/90"
       >
         START ANALYZING
       </Link>
