@@ -3,7 +3,8 @@
 import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import { AppHeader } from '@/components/layout/app-header';
-import { useSearchParams } from 'next/navigation';
+import { AuroraBackground, hashString } from '@/components/ui/aurora-background';
+import { useSearchParams, usePathname } from 'next/navigation';
 import { TextModeForm } from '@/components/analysis/text-mode-form';
 import { ChatModeForm } from '@/components/analysis/chat-mode-form';
 import { SlackModeForm } from '@/components/analysis/slack-mode-form';
@@ -84,12 +85,14 @@ function TryPageContent() {
   };
 
   const activeEntry = activeIndex !== null ? analyses[activeIndex] : null;
+  const pathname = usePathname();
 
   return (
     <div className="min-h-screen bg-surface-0">
+      <AuroraBackground seed={hashString(pathname)} />
       <AppHeader title="TRY TOXSHIELD" showBackButton />
 
-      <main className="pt-[72px] pb-8 px-4 max-w-lg mx-auto">
+      <main className="bg-surface-0/60 grid-bg pt-[72px] pb-8 px-4 max-w-lg mx-auto min-h-screen relative">
         {/* Active result view */}
         {activeEntry ? (
           <div className="space-y-6">
