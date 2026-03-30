@@ -26,7 +26,7 @@ export default function LandingPage() {
       <AuroraBackground seed={777} />
 
       {/* Terminal header bar */}
-      <div className="relative z-10 flex items-center gap-2 px-4 py-2 arcane-glass border-b border-neon-cyan/[0.08] font-mono text-xs">
+      <div className="relative z-10 flex items-center gap-2 px-4 py-2 arcane-glass border-b border-neon-cyan/[0.08] font-mono text-xs pt-safe">
         <div className="flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full bg-neon-magenta/60" />
           <span className="w-2 h-2 rounded-full bg-warning-amber/60" />
@@ -45,7 +45,7 @@ export default function LandingPage() {
             <p className="font-mono text-[10px] text-neon-magenta tracking-[0.3em] uppercase">
               // threat_detection_system
             </p>
-            <h1 className="text-5xl sm:text-7xl font-black font-mono text-text-primary tracking-[0.15em] text-glow leading-[0.9]">
+            <h1 className="text-5xl sm:text-7xl font-black font-display text-text-primary tracking-[0.15em] text-glow leading-[0.9]">
               TOX<span className="text-neon-cyan">SHIELD</span>
             </h1>
             <div className="flex items-center justify-center gap-3">
@@ -169,7 +169,7 @@ export default function LandingPage() {
             ToxShield identifies behavioral patterns. Not a substitute for professional counseling.
           </p>
 
-          <div className="flex items-center justify-center gap-4 pt-2">
+          <div className="flex items-center justify-center gap-4 pt-2 pb-safe">
             <Link href="/privacy" className="font-mono text-[10px] text-text-secondary/40 active:text-neon-cyan/60 transition-colors py-2 px-1">
               Privacy Policy
             </Link>

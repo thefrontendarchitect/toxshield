@@ -15,7 +15,7 @@ export default function PrivacyPolicyPage() {
       <AuroraBackground seed={333} />
 
       {/* Terminal header bar */}
-      <div className="relative z-10 flex items-center gap-2 px-4 py-2 arcane-glass border-b border-neon-cyan/[0.08] font-mono text-xs">
+      <div className="relative z-10 flex items-center gap-2 px-4 py-2 arcane-glass border-b border-neon-cyan/[0.08] font-mono text-xs pt-safe">
         <div className="flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full bg-neon-magenta/60" />
           <span className="w-2 h-2 rounded-full bg-warning-amber/60" />
@@ -440,7 +440,7 @@ export default function PrivacyPolicyPage() {
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-center gap-4 pb-6">
+          <div className="flex items-center justify-center gap-4 pb-safe">
             <Link
               href="/terms"
               className="font-mono text-[10px] text-text-secondary/40 active:text-neon-cyan/60 transition-colors py-2 px-1"

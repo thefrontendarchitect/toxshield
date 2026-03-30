@@ -149,11 +149,11 @@
   --color-warning-amber: #dc3cff;
 }
 
-/* Safe area variables */
+/* Safe area variables — native plugin sets --safe-area-inset-*, env() is web fallback */
 :root {
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-bottom-reduced: max(0px, calc(env(safe-area-inset-bottom, 0px) - 14px));
+  --safe-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --safe-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --safe-bottom-reduced: max(0px, calc(var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)) - 14px));
   --keyboard-height: 0px;
 }
 
@@ -176,10 +176,14 @@ body {
    SAFE AREA
    ═══════════════════════════ */
 .pt-safe {
-  padding-top: max(0.75rem, env(safe-area-inset-top));
+  padding-top: max(0.75rem, var(--safe-area-inset-top, env(safe-area-inset-top)));
 }
 .pb-safe {
   padding-bottom: var(--safe-bottom-reduced);
+}
+.px-safe {
+  padding-left: var(--safe-area-inset-left, env(safe-area-inset-left));
+  padding-right: var(--safe-area-inset-right, env(safe-area-inset-right));
 }
 
 /* ═══════════════════════════
@@ -354,7 +358,7 @@ body {
    ═══════════════════════════ */
 ::selection {
   background: rgba(0, 180, 255, 0.25);
-  color: #d2ebff;
+  color: var(--color-text-primary);
 }
 
 /* ═══════════════════════════

@@ -23,7 +23,7 @@ export function useAndroidBackButton() {
   }, [pathname]);
 
   useEffect(() => {
-    // Only run in Capacitor Android
+    let cancelled = false;
     let handle: { remove: () => Promise<void> } | null = null;
 
     const setup = async () => {
@@ -33,7 +33,7 @@ export function useAndroidBackButton() {
 
         const { App } = await import('@capacitor/app');
 
-        handle = await App.addListener('backButton', ({ canGoBack }) => {
+        const h = await App.addListener('backButton', ({ canGoBack }) => {
           const now = Date.now();
           if (now - lastBackPress.current < 300) return;
           lastBackPress.current = now;
@@ -43,12 +43,18 @@ export function useAndroidBackButton() {
           );
 
           if (isRoot || !canGoBack) {
-            App.minimizeApp();
+            App.minimizeApp().catch(() => {});
             return;
           }
 
           window.history.back();
         });
+
+        if (cancelled) {
+          h.remove();
+          return;
+        }
+        handle = h;
       } catch {
         // Not in Capacitor environment — ignore
       }
@@ -57,6 +63,7 @@ export function useAndroidBackButton() {
     setup();
 
     return () => {
+      cancelled = true;
       handle?.remove();
     };
   }, []);

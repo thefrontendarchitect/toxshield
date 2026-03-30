@@ -11,7 +11,7 @@ export default function AuthLayout({
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col min-h-screen bg-surface-0 relative">
+    <div className="flex flex-col min-h-screen bg-surface-0 relative pt-safe pb-safe">
       <AuroraBackground seed={hashString(pathname)} />
       <main className="flex-1 flex items-center justify-center p-4 relative z-10">
         {children}

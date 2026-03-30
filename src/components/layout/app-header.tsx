@@ -42,7 +42,7 @@ export function AppHeader({
       ) : (
         <Link
           href="/settings"
-          className="w-12 h-12 rounded-full bg-surface-2 border border-neon-cyan/20 flex items-center justify-center shrink-0"
+          className="w-9 h-9 min-w-[44px] min-h-[44px] rounded-full bg-surface-2 border border-neon-cyan/20 flex items-center justify-center shrink-0"
           aria-label="Settings"
         >
           <span className="font-mono text-[10px] font-bold text-neon-cyan/50">AG</span>
