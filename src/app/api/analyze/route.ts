@@ -257,9 +257,10 @@ export async function POST(request: Request) {
 
     // Increment usage counter (or decrement pack)
     if (activePack) {
-      const { data: p } = await supabase.from('purchases').select('analyses_remaining').eq('id', activePack.id).returns<Array<{ analyses_remaining: number }>>().single();
-      if (p) {
-        await supabase.from('purchases').update({ analyses_remaining: Math.max(0, p.analyses_remaining - 1) } as Record<string, unknown>).eq('id', activePack.id);
+      // Atomic decrement: only update if analyses_remaining > 0 to prevent race conditions
+      const { error: rpcError } = await supabase.rpc('decrement_pack_usage', { purchase_id: activePack.id });
+      if (rpcError) {
+        console.error('Failed to decrement pack usage:', rpcError);
       }
     } else {
       await supabase.from('usage_tracking').upsert({

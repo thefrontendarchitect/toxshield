@@ -7,8 +7,9 @@ import { StreakCounter } from '@/components/dashboard/streak-counter';
 import { BadgeShelf } from '@/components/dashboard/badge-shelf';
 import { HealthTrend } from '@/components/dashboard/health-trend';
 import { NotificationPrompt } from '@/components/ui/notification-prompt';
+import { ActivePack } from '@/components/dashboard/active-pack';
 import { PolaroidCard } from '@/components/ui/polaroid-card';
-import { PersonRow } from '@/types/database';
+import { PersonRow, StreakRow, BadgeDefinition, UserBadgeRow, HealthCheckinRow } from '@/types/database';
 import { WarningIcon } from '@/components/ui/dossier-icons';
 import Link from 'next/link';
 
@@ -44,14 +45,14 @@ export default async function DashboardPage() {
   // Fetch streak + badges + health checkins (parallel, non-blocking if tables don't exist yet)
   const today = new Date().toISOString().split('T')[0];
   const [{ data: streak }, { data: earnedBadges }, { data: allBadges }, { data: checkins }] = await Promise.all([
-    supabase.from('streaks').select('*').eq('user_id', user.id).maybeSingle(),
-    supabase.from('user_badges').select('badge_id, earned_at').eq('user_id', user.id),
-    supabase.from('badge_definitions').select('*').order('threshold'),
-    supabase.from('health_checkins').select('*').eq('user_id', user.id).order('checked_in_at', { ascending: false }).limit(30),
+    supabase.from('streaks').select('*').eq('user_id', user.id).returns<StreakRow[]>().maybeSingle(),
+    supabase.from('user_badges').select('badge_id, earned_at').eq('user_id', user.id).returns<Pick<UserBadgeRow, 'badge_id' | 'earned_at'>[]>(),
+    supabase.from('badge_definitions').select('*').order('threshold').returns<BadgeDefinition[]>(),
+    supabase.from('health_checkins').select('*').eq('user_id', user.id).order('checked_in_at', { ascending: false }).limit(30).returns<HealthCheckinRow[]>(),
   ]).catch(() => [{ data: null }, { data: null }, { data: null }, { data: null }]);
 
-  const earnedIds = new Set((earnedBadges ?? []).map((b: { badge_id: string }) => b.badge_id));
-  const badges = (allBadges ?? []).map((badge: { id: string; name: string; description: string; icon: string; category: string; threshold: number | null }) => ({
+  const earnedIds = new Set((earnedBadges ?? []).map((b) => b.badge_id));
+  const badges = (allBadges ?? []).map((badge) => ({
     ...badge,
     earned: earnedIds.has(badge.id),
   }));
@@ -61,15 +62,18 @@ export default async function DashboardPage() {
       {/* Push notification prompt */}
       <NotificationPrompt />
 
+      {/* Active pack status */}
+      <ActivePack />
+
       {/* Stats + Health */}
       <div className="space-y-4">
         <StatsGrid totalPeople={allPeople.length} highRiskCount={highRiskCount} totalAnalyses={totalAnalyses ?? 0} />
         <EnvironmentHealth
           health={health}
-          todayMood={(checkins ?? []).find((c: { checked_in_at: string }) => c.checked_in_at === today)?.mood ?? null}
+          todayMood={(checkins ?? []).find((c) => c.checked_in_at === today)?.mood ?? null}
         />
         {(checkins ?? []).length >= 2 && (
-          <HealthTrend checkins={(checkins ?? []).map((c: { checked_in_at: string; mood: number }) => ({ checked_in_at: c.checked_in_at, mood: c.mood }))} />
+          <HealthTrend checkins={(checkins ?? []).map((c) => ({ checked_in_at: c.checked_in_at, mood: c.mood }))} />
         )}
       </div>
 
@@ -115,7 +119,7 @@ export default async function DashboardPage() {
                     {person.relationship ?? 'UNKNOWN'} &middot; SCORE: {person.current_toxicity_score?.toFixed(1) ?? '?'}
                   </p>
                 </div>
-                <WarningIcon size={20} className="text-neon-magenta shrink-0" />
+                <WarningIcon size={20} className="text-neon-magenta shrink-0" aria-hidden="true" />
               </Link>
             ))}
           </div>

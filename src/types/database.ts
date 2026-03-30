@@ -115,6 +115,39 @@ export interface ReferralRow {
   completed_at: string | null;
 }
 
+export interface PurchaseRow {
+  id: string;
+  user_id: string;
+  pack_type: 'daily_boost' | 'weekly_intel' | 'monthly_pro';
+  payment_gateway: 'stripe' | 'razorpay';
+  stripe_session_id: string | null;
+  stripe_payment_intent: string | null;
+  razorpay_order_id: string | null;
+  razorpay_payment_id: string | null;
+  status: 'pending' | 'completed' | 'failed' | 'refunded' | 'expired';
+  analyses_granted: number;
+  analyses_remaining: number;
+  expires_at: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PurchaseStatus {
+  status: 'pending' | 'completed' | 'failed';
+  pack_type: PurchaseRow['pack_type'];
+  analyses_remaining: number;
+  analyses_granted: number;
+  expires_at: string;
+}
+
+export interface ActivePackData {
+  active: true;
+  pack_type: PurchaseRow['pack_type'];
+  analyses_remaining: number;
+  analyses_granted: number;
+  expires_at: string;
+}
+
 // Supabase Database type definition (v2 format)
 export interface Database {
   public: {
