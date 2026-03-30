@@ -54,3 +54,9 @@ android/build/
 
 # youtube upload log
 .youtube_upload_log.json
+
+# generated content
+output/
+
+# python bytecode
+__pycache__/
