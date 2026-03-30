@@ -43,14 +43,14 @@ export function $0({ className }: $0Props) {
 }
 ```
 
-### 2. Follow Dark Theme
+### 2. Follow Arcane Theme
 
-All components MUST use ToxShield's dark terminal theme:
+All components MUST use ToxShield's Arcane dark theme:
 
 ```tsx
 // Card component example
-<div className="bg-surface-1 border border-surface-3 rounded-lg p-4">
-  <h3 className="font-mono text-sm text-toxic-green">{title}</h3>
+<div className="arcane-glass p-4">
+  <h3 className="font-mono text-sm text-neon-cyan">{title}</h3>
   <p className="text-text-secondary mt-1">{description}</p>
 </div>
 ```
@@ -69,13 +69,18 @@ const riskColors = {
 
 ```tsx
 // For highlighted/active elements
-<div className="glow-green border border-toxic-green/30 rounded-lg p-4">
+<div className="arcane-glass glow border border-neon-cyan/20 p-4">
   {/* Glowing card content */}
 </div>
 
-// For terminal-style text emphasis
-<span className="text-toxic-green text-glow-green font-mono">
+// For neon text emphasis
+<span className="text-neon-cyan text-glow font-mono">
   {score}
+</span>
+
+// For danger emphasis
+<span className="text-neon-magenta text-glow-magenta font-mono">
+  {dangerScore}
 </span>
 ```
 
@@ -83,30 +88,33 @@ const riskColors = {
 
 | Category | Purpose | Examples |
 |----------|---------|---------|
-| `analysis` | Analysis result display | ToxicityRing, RiskBadge, TraitList |
-| `dashboard` | Dashboard-specific | StatsGrid, EnvironmentHealth |
-| `layout` | App chrome | Sidebar, TerminalHeader |
-| `input` | Form inputs | (planned) |
-| `share` | Sharing features | (planned) |
-| `ui` | Reusable primitives | (planned) |
+| `analysis` | Analysis result display | ToxicityRing, RiskBadge, TraitList, ThreatProfile |
+| `dashboard` | Dashboard-specific | StatsGrid, EnvironmentHealth, HealthTrend, BadgeShelf |
+| `layout` | App chrome | AppHeader, BottomNav, PageContainer |
+| `people` | People/subject views | PersonHeader, PersonList, ShareCard |
+| `insights` | User insights | InsightsSummary, InsightsTimeline |
+| `ui` | Reusable primitives | FormInput, StatusBadge, PolaroidCard, AuroraBackground, DossierIcons, AnimatedRing, Spinner, ErrorAlert |
 
 ## Design Token Reference
 
 ```
-SURFACES:  bg-surface-0 (page) / bg-surface-1 (cards) / bg-surface-2 (hover)
-BORDERS:   border-surface-3
-ACCENTS:   text-toxic-green / text-danger-red / text-warning-amber / text-safe-blue
-TEXT:      text-text-primary / text-text-secondary
-FONTS:     font-mono (terminal elements) / default (body)
-GLOWS:     glow-green / glow-red / text-glow-green
-EFFECTS:   scanlines / cursor-blink / score-pulse
+SURFACES:  bg-surface-0 (page) / arcane-glass (cards) / bg-surface-2 (hover)
+BORDERS:   border-neon-cyan/[0.06] to border-neon-cyan/[0.08]
+NEONS:     text-neon-cyan / text-neon-magenta / text-neon-mint / text-warning-amber
+TEXT:      text-text-primary / text-text-secondary / text-dim / text-muted
+FONTS:     font-mono (UI elements) / font-display (hero) / default (body)
+GLOWS:     glow / glow-subtle / glow-magenta / glow-mint
+           text-glow / text-glow-subtle / text-glow-magenta / text-glow-mint
+GLASS:     arcane-glass / arcane-glass-intense / card-dashed
+EFFECTS:   scanlines / cursor-blink / score-pulse / touch-active / touch-ripple
 ```
 
 ## Checklist
 
-- [ ] Uses dark theme tokens (no bg-white, no light colors)
+- [ ] Uses Arcane theme tokens (no bg-white, no light colors, no raw hex)
 - [ ] Props interface defined and typed
 - [ ] `'use client'` directive if using hooks/state/events
-- [ ] Responsive (works at all widths within the main content area)
-- [ ] `font-mono` used for terminal-style elements
-- [ ] Glow effects used appropriately for accent elements
+- [ ] Mobile-first (touch targets min 44px, responsive)
+- [ ] `font-mono` used for UI/label elements
+- [ ] Cards use `arcane-glass` or `card-dashed` for glassmorphism
+- [ ] Glow effects use `glow` / `text-glow` classes (not old glow-green)

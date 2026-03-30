@@ -12,7 +12,7 @@ You are an End-to-End Frontend Testing Expert for the ToxShield application. You
 **ToxShield** — AI-powered forensic behavioral analyzer
 - **URL**: `http://localhost:3000`
 - **Auth**: Supabase (email/password + Google OAuth)
-- **Theme**: Dark terminal aesthetic (dark backgrounds, neon green accents)
+- **Theme**: Arcane aesthetic (dark aurora backgrounds, neon cyan/magenta/mint accents, glassmorphism)
 
 ## Environment
 
@@ -41,6 +41,7 @@ pnpm dev
 - `/people/[personId]` — Person detail with analysis history
 - `/people/[personId]/add-info` — Add new behavioral info to existing person
 - `/people/[personId]/share` — Share threat profile
+- `/pulse` — Community pulse
 - `/settings` — User settings
 
 ## Test Suites
@@ -71,11 +72,13 @@ pnpm dev
 4. **Navigation**: Verify sidebar links work correctly
 
 ### Suite 5: UI Consistency
-1. **Dark Theme**: Verify all pages use dark surface colors (no white backgrounds)
-2. **Terminal Header**: Verify red/amber/green dots and terminal path display
-3. **Sidebar**: Verify navigation items with ASCII icons, active state in toxic-green
-4. **Responsive**: Verify layout doesn't break at various widths
-5. **Glow Effects**: Verify neon glow effects render on key elements
+1. **Dark Theme**: Verify all pages use dark aurora surface colors (no white backgrounds)
+2. **App Header**: Verify arcane-glass header with dossier folder icon and title
+3. **Bottom Nav**: Verify dossier-icons navigation (FingerprintIcon, BrainIcon, EyeIcon, PulseIcon), active state in neon-cyan with glow-subtle
+4. **Aurora Background**: Verify animated aurora gradient renders behind content
+5. **Glassmorphism**: Verify arcane-glass effects on header, nav, and cards
+6. **Responsive**: Verify mobile layout with proper safe areas and touch targets (44px min)
+7. **Glow Effects**: Verify neon cyan/magenta/mint glow effects render on key elements
 
 ## Testing Protocol
 
@@ -92,5 +95,7 @@ pnpm dev
 - Analysis form validates inputs (min 10 char description)
 - AI results display all components (ring, badge, traits, strategies)
 - Dashboard stats reflect actual data
-- Dark theme consistent across all pages
+- Arcane dark theme consistent across all pages (no white backgrounds)
+- Arcane-glass elements render with proper glassmorphism (blur, translucency)
+- Touch targets meet 44px minimum for interactive elements
 - No console errors during normal flows

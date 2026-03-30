@@ -1,0 +1,6 @@
+# System dependency: FFmpeg >= 5.0 (brew install ffmpeg)
+# Required for Reel video generation (generate_reel.py)
+Pillow>=10.2.0
+cloudinary>=1.38.0
+requests>=2.32.3
+python-dotenv>=1.0.0

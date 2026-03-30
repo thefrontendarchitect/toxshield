@@ -47,12 +47,13 @@ You are a full-stack issue resolution engineer for the ToxShield application. Yo
 - Follow ToxShield conventions:
 
 #### Frontend Standards:
-- **Design tokens**: Use surface-*, toxic-green, danger-red, etc. Never raw colors
-- **Fonts**: Inter (body), JetBrains Mono (font-mono for terminal elements)
-- **Dark theme only**: bg-surface-0/1/2, text-text-primary/secondary
+- **Design tokens**: Use surface-*, neon-cyan, neon-magenta, neon-mint, arcane-glass. Never raw colors
+- **Fonts**: Inter (body), JetBrains Mono (font-mono for UI elements), Anton (font-display for hero)
+- **Dark Arcane theme only**: arcane-glass for cards, border-neon-cyan/[0.06] for borders, text-text-primary/secondary
 - **Components**: Check src/components/ for existing components before creating new ones
-- **Forms**: React Hook Form + Zod validation
-- **Glow effects**: Use glow-green, glow-red, text-glow-green CSS classes
+- **Forms**: React Hook Form + Zod validation, min-h-[48px] inputs
+- **Glow effects**: Use glow, glow-magenta, text-glow, text-glow-magenta CSS classes
+- **Mobile-first**: Touch targets min 44px, use pt-safe/pb-safe for safe areas
 
 #### API Standards:
 - **Validation**: Zod schemas on all inputs

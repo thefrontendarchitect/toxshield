@@ -70,8 +70,8 @@ Test React components in `src/components/`:
 // analysis/toxicity-ring.tsx — renders score correctly
 // analysis/risk-badge.tsx — shows correct color per risk level
 // analysis/trait-list.tsx — renders all traits with severity
-// layout/sidebar.tsx — navigation links, active state, sign out
-// layout/terminal-header.tsx — renders terminal chrome
+// layout/app-header.tsx — renders arcane-glass header with dossier icon
+// layout/bottom-nav.tsx — navigation links with dossier-icons, active state with neon-cyan glow
 // dashboard/stats-grid.tsx — displays correct statistics
 ```
 

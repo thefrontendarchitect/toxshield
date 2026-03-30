@@ -25,10 +25,11 @@ Review the current branch changes against the main branch for code quality, patt
 ## Review Checklist
 
 ### 1. Design Token Compliance
-- [ ] No raw hex, oklch, or rgb values — use surface-*, toxic-green, danger-red, etc.
+- [ ] No raw hex or rgb values — use surface-*, neon-cyan, neon-magenta, neon-mint, etc.
 - [ ] No light-mode colors (bg-white, gray-*, etc.)
-- [ ] Glow effects use CSS classes (glow-green, text-glow-green) not inline styles
-- [ ] Font usage: Inter (default) + JetBrains Mono (font-mono for terminal)
+- [ ] Glow effects use Arcane CSS classes (glow, glow-magenta, text-glow, text-glow-magenta) not inline styles
+- [ ] Glass effects use arcane-glass / card-dashed classes, not plain bg-surface-1 + border-surface-3
+- [ ] Font usage: Inter (default) + JetBrains Mono (font-mono for UI) + Anton (font-display for hero)
 
 ### 2. API Route Quality
 - [ ] Zod validation on all request bodies
@@ -64,10 +65,11 @@ Review the current branch changes against the main branch for code quality, patt
 - [ ] No SQL injection (Supabase client handles this, but check raw queries)
 
 ### 7. Component Quality
-- [ ] Dark theme consistent (surface-*, not white/light colors)
-- [ ] Terminal elements use font-mono
-- [ ] Components in correct category (analysis/, dashboard/, layout/, etc.)
+- [ ] Arcane theme consistent (surface-*, neon-*, arcane-glass, not white/light colors)
+- [ ] UI/terminal elements use font-mono, display headings use font-display
+- [ ] Components in correct category (analysis/, dashboard/, layout/, people/, ui/, etc.)
 - [ ] File size under 300 lines
+- [ ] Touch targets meet 44px minimum for interactive elements
 
 ### 8. Database (if migrations changed)
 - [ ] Sequential migration numbering in supabase/migrations/

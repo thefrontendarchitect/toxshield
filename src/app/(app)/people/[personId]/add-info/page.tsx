@@ -4,6 +4,7 @@ import { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { FormTextarea } from '@/components/ui/form-input';
 import { ErrorAlert } from '@/components/ui/error-alert';
+import { PaywallModal } from '@/components/ui/paywall-modal';
 import { Spinner } from '@/components/ui/spinner';
 
 export default function AddInfoPage({ params }: { params: Promise<{ personId: string }> }) {
@@ -11,6 +12,7 @@ export default function AddInfoPage({ params }: { params: Promise<{ personId: st
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [paywall, setPaywall] = useState<{ used: number; limit: number } | null>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,6 +27,11 @@ export default function AddInfoPage({ params }: { params: Promise<{ personId: st
       });
       if (!response.ok) {
         const data = await response.json();
+        if (response.status === 402 && data.error === 'FREE_LIMIT_REACHED') {
+          setPaywall(data.usage);
+          setLoading(false);
+          return;
+        }
         throw new Error(data.error || 'Analysis failed');
       }
       router.push(`/people/${personId}`);
@@ -56,7 +63,7 @@ export default function AddInfoPage({ params }: { params: Promise<{ personId: st
 
         <button
           type="submit" disabled={loading || description.length < 10}
-          className="w-full py-4 bg-neon-cyan text-surface-0 font-bold rounded-xl font-mono text-sm tracking-wider active:bg-neon-cyan/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
+          className="w-full py-4 bg-toxic-green text-surface-0 font-bold rounded-xl font-mono text-sm tracking-wider active:bg-toxic-green/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed min-h-[52px] touch-active"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
@@ -72,6 +79,15 @@ export default function AddInfoPage({ params }: { params: Promise<{ personId: st
           ← Cancel
         </button>
       </form>
+
+      {paywall && (
+        <PaywallModal
+          isOpen={!!paywall}
+          onClose={() => setPaywall(null)}
+          used={paywall.used}
+          limit={paywall.limit}
+        />
+      )}
     </div>
   );
 }

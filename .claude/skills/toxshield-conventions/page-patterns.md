@@ -8,13 +8,14 @@ All protected pages are wrapped in the app layout:
 
 ```tsx
 // src/app/(app)/layout.tsx
-<div className="flex flex-col h-screen">
-  <TerminalHeader />
-  <div className="flex flex-1 overflow-hidden">
-    <Sidebar />
-    <main className="flex-1 overflow-y-auto p-6">{children}</main>
-  </div>
-</div>
+<>
+  <AuroraBackground seed={hashString(pathname)} />
+  <AppHeader title={title} showBackButton={isDetailPage} />
+  <main className="bg-surface-0/60 grid-bg pt-[72px] pb-[100px] min-h-screen relative">
+    <div className="px-4 py-6">{children}</div>
+  </main>
+  <BottomNav />
+</>
 ```
 
 ## Page Structure
@@ -45,7 +46,7 @@ export default function FeaturePage() {
   // Loading state
   if (loading) return <div className="text-text-secondary">Loading...</div>;
   // Error state
-  if (error) return <div className="text-danger-red">{error}</div>;
+  if (error) return <div className="text-neon-magenta">{error}</div>;
   // Empty state
   if (!data) return <div className="text-text-secondary">No data yet.</div>;
 
@@ -57,8 +58,8 @@ export default function FeaturePage() {
 ## Card Pattern
 
 ```tsx
-<div className="bg-surface-1 border border-surface-3 rounded-lg p-4">
-  <h3 className="font-mono text-sm text-toxic-green">{title}</h3>
+<div className="arcane-glass p-4">
+  <h3 className="font-mono text-sm text-neon-cyan">{title}</h3>
   <p className="text-text-secondary mt-1">{content}</p>
 </div>
 ```
@@ -67,17 +68,17 @@ export default function FeaturePage() {
 
 | Group | Path | Auth Required | Layout |
 |-------|------|---------------|--------|
-| `(app)` | `/dashboard`, `/analyze`, `/people/*`, `/settings` | Yes | TerminalHeader + Sidebar |
+| `(app)` | `/dashboard`, `/analyze`, `/people/*`, `/pulse`, `/settings` | Yes | AppHeader + BottomNav + AuroraBackground |
 | `(auth)` | `/login`, `/signup` | No | Centered auth layout |
-| Root | `/` | No | Landing page (no sidebar) |
+| Root | `/` | No | Landing page (no nav) |
 
 ## Navigation
 
-Sidebar navigation items (from `src/components/layout/sidebar.tsx`):
+Bottom navigation items (from `src/components/layout/bottom-nav.tsx`):
 
-| Route | Label | Icon |
-|-------|-------|------|
-| `/dashboard` | Dashboard | `>` |
-| `/analyze` | New Analysis | `+` |
-| `/people` | People | `#` |
-| `/settings` | Settings | `*` |
+| Route | Label | Icon Component |
+|-------|-------|---------------|
+| `/dashboard` | DOSSIER | `FingerprintIcon` |
+| `/analyze` | ANALYSIS | `BrainIcon` |
+| `/people` | EVIDENCE | `EyeIcon` |
+| `/pulse` | PULSE | `PulseIcon` |

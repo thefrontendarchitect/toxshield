@@ -71,8 +71,8 @@ export async function POST(request: Request) {
 
 export function FeatureCard({ data }: { data: FeatureData }) {
   return (
-    <div className="bg-surface-1 border border-surface-3 rounded-lg p-4">
-      {/* Dark theme component */}
+    <div className="arcane-glass p-4">
+      {/* Arcane theme component */}
     </div>
   );
 }
@@ -94,13 +94,14 @@ export default function FeaturePage() {
 
 ### 5. Add Navigation (if top-level feature)
 
-Update sidebar in `src/components/layout/sidebar.tsx`:
+Update bottom nav in `src/components/layout/bottom-nav.tsx`:
 ```typescript
 const navItems = [
   // ... existing items
-  { href: '/$0', label: 'Feature Name', icon: '?' },
+  { href: '/$0', label: 'FEATURE', Icon: FeatureIcon },
 ];
 ```
+Add a new icon in `src/components/ui/dossier-icons.tsx` if needed.
 
 ## Templates
 
@@ -112,11 +113,12 @@ const navItems = [
 
 ## ToxShield Rules
 
-1. **Dark theme only** — Use surface-*, toxic-green, danger-red tokens
-2. **Terminal aesthetic** — Use font-mono for technical elements, glow effects
+1. **Dark Arcane theme only** — Use surface-*, neon-cyan, neon-magenta, neon-mint tokens; arcane-glass for cards
+2. **Arcane aesthetic** — Use font-mono for UI elements, font-display for hero text, glow/text-glow effects
 3. **Auth required** — All (app) routes are protected by middleware
 4. **Type safety** — Zod validation on inputs, typed Supabase queries
 5. **Supabase integration** — Use server/client clients appropriately
+6. **Mobile-first** — Touch targets min 44px, use pt-safe/pb-safe for safe areas
 
 ## Supabase Migration (if new table needed)
 

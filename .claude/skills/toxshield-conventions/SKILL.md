@@ -33,10 +33,10 @@ import { z } from 'zod';
 
 ## Key Rules (Quick Reference)
 
-1. **Design Tokens**: Use surface-*, toxic-green, danger-red, etc. NEVER raw hex/oklch. See [../../../AGENTS.md](../../../AGENTS.md).
-2. **Page Layout**: TerminalHeader + Sidebar + main content. See [page-patterns.md](page-patterns.md).
+1. **Design Tokens**: Use surface-*, neon-cyan, neon-magenta, neon-mint, arcane-glass, etc. NEVER raw hex values. See [../../../AGENTS.md](../../../AGENTS.md).
+2. **Page Layout**: AppHeader (top) + BottomNav (bottom) + AuroraBackground + main content. See [page-patterns.md](page-patterns.md).
 3. **API Routes**: Zod validation + Supabase auth check + business logic + NextResponse.json. See [api-patterns.md](api-patterns.md).
-4. **Typography**: Standard Tailwind CSS 4 sizes. Inter (body) + JetBrains Mono (terminal). See [typography.md](typography.md).
+4. **Typography**: Standard Tailwind CSS 4 sizes. Inter (body) + JetBrains Mono (UI/terminal) + Anton (display). See [typography.md](typography.md).
 5. **Forms**: React Hook Form + Zod resolver
 6. **AI Output**: Claude tool_use for structured JSON, validated with Zod schemas
 7. **Dark Theme Only**: Never use bg-white, light grays, or light-mode colors

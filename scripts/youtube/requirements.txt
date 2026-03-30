@@ -1,0 +1,9 @@
+# YouTube Data API v3 for publishing, analytics, and growth tools
+# Install: pip install -r scripts/youtube/requirements.txt
+google-api-python-client>=2.100.0
+google-auth-oauthlib>=1.1.0
+google-auth>=2.23.0
+python-dotenv>=1.0.0
+openai>=1.30.0
+Pillow>=10.2.0
+requests>=2.32.3

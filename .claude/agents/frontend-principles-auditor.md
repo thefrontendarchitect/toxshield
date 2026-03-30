@@ -16,7 +16,7 @@ Analyze frontend code in `src/` for violations of ToxShield's engineering princi
 - **Framework**: Next.js 16.2.1 (App Router), React 19, TypeScript 5
 - **Database/Auth**: Supabase (PostgreSQL + Auth via @supabase/ssr)
 - **AI**: Anthropic Claude API via @anthropic-ai/sdk
-- **Styling**: Tailwind CSS 4 with custom OKLch dark terminal theme (src/app/globals.css)
+- **Styling**: Tailwind CSS 4 with Arcane hextech theme (src/app/globals.css)
 - **Forms**: React Hook Form + Zod
 - **Package Manager**: pnpm
 
@@ -24,15 +24,19 @@ Analyze frontend code in `src/` for violations of ToxShield's engineering princi
 
 ### 1. Design Token Usage
 
-**NEVER use raw hex, oklch, or rgb values.** Always use theme tokens from globals.css:
+**NEVER use raw hex or rgb values.** Always use Arcane theme tokens from globals.css:
 
 | Token | Usage |
 |-------|-------|
-| `surface-0` through `surface-3` | Backgrounds, borders |
-| `toxic-green`, `danger-red`, `warning-amber`, `safe-blue` | Accent colors |
-| `text-primary`, `text-secondary`, `text-terminal` | Text colors |
+| `surface-0` through `surface-3`, `hover`, `line` | Backgrounds, borders |
+| `neon-cyan`, `neon-magenta`, `neon-mint` | Primary neon accents |
+| `danger-red`, `warning-amber`, `safe-blue`, `critical-magenta` | Semantic risk colors |
+| `text-primary`, `text-secondary`, `dim`, `muted` | Text colors |
+| `arcane-glass`, `card-dashed` | Glassmorphism card classes |
+| `glow`, `glow-subtle`, `glow-magenta`, `glow-mint` | Box glow effects |
+| `text-glow`, `text-glow-subtle`, `text-glow-magenta` | Text glow effects |
 
-**Violation examples:** `bg-[#141414]`, `text-[oklch(...)]`, `bg-gray-900`, standard Tailwind grays on dark theme.
+**Violation examples:** `bg-[#141414]`, `bg-gray-900`, standard Tailwind grays, old tokens like `glow-green` or `text-terminal`.
 
 ### 2. Supabase Client Usage
 
@@ -66,30 +70,32 @@ Every API route must follow:
 src/components/
   analysis/     # Analysis result display components
   dashboard/    # Dashboard-specific components
-  layout/       # Sidebar, TerminalHeader
-  input/        # Form input components
-  share/        # Profile sharing components
-  ui/           # Reusable UI primitives
+  layout/       # AppHeader, BottomNav, PageContainer
+  people/       # People/subject view components
+  insights/     # User insights components
+  ui/           # Reusable UI primitives (FormInput, StatusBadge, PolaroidCard, AuroraBackground, DossierIcons, etc.)
 ```
 
 **Violation examples:** Components in wrong category, component logic mixed with page logic, missing separation of concerns.
 
 ### 6. Dark Theme Consistency
 
-ToxShield is dark-mode only. Every UI element must respect the terminal aesthetic:
-- Backgrounds: `surface-0` (page), `surface-1` (cards/panels), `surface-2` (hover)
-- Borders: `border-surface-3`
+ToxShield is dark-mode only. Every UI element must respect the Arcane aesthetic:
+- Backgrounds: `surface-0` (page), `arcane-glass` or `card-dashed` (cards/panels), `surface-2` or `hover` (hover states)
+- Borders: `border-neon-cyan/[0.06]` to `border-neon-cyan/[0.08]` (subtle neon), not solid `border-surface-3`
 - Never use `bg-white`, `bg-gray-*`, or light mode colors
+- Cards must use glassmorphism (`arcane-glass` or `card-dashed`), not plain `bg-surface-1`
 
-**Violation examples:** `bg-white`, `text-gray-600`, `border-gray-200`, any light-mode assumption.
+**Violation examples:** `bg-white`, `text-gray-600`, `border-gray-200`, plain `bg-surface-1 border border-surface-3` without glass, any light-mode assumption.
 
 ### 7. Font Usage
 
 - Body text: Inter (default, no class needed)
-- Terminal/monospace elements: `font-mono` (JetBrains Mono)
-- Sidebar, header, scores, code: should use `font-mono`
+- UI/terminal/monospace elements: `font-mono` (JetBrains Mono) — nav labels, badges, form labels, scores
+- Display/hero headings: `font-display` (Anton) — landing page, hero sections
+- Common mono pattern: `font-mono text-[10px] uppercase tracking-[0.1em]` for badges/labels
 
-**Violation examples:** Inline font-family declarations, missing `font-mono` on terminal-style elements.
+**Violation examples:** Inline font-family declarations, missing `font-mono` on UI label elements, missing `font-display` on hero/display headings.
 
 ### 8. Error Handling
 

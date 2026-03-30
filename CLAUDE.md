@@ -1,7 +1,7 @@
 @AGENTS.md
 
 ## Conventions
-- Use Tailwind CSS 4 theme tokens (surface-0, toxic-green, etc.) — never raw hex/oklch values
+- Use Tailwind CSS 4 Arcane theme tokens (surface-0, neon-cyan, neon-magenta, neon-mint, arcane-glass, etc.) — never raw hex values
 - All API routes: validate with Zod, check Supabase auth, return NextResponse.json
 - Database queries use Supabase client with `.returns<Type>()` for type safety
 - AI structured output uses Claude tool_use + Zod schema validation
