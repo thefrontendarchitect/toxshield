@@ -1,7 +1,7 @@
 import { createHash } from 'crypto';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { AnthropicProvider } from '@/lib/ai/providers/anthropic';
+import { getProvider } from '@/lib/ai/providers';
 
 const requestSchema = z.object({
   description: z.string().min(5).max(500),
@@ -94,7 +94,7 @@ export async function POST(request: Request) {
 
     const { description } = parsed.data;
 
-    const provider = new AnthropicProvider();
+    const provider = await getProvider();
     const jsonSchema = z.toJSONSchema(quickResultSchema) as Record<string, unknown>;
 
     const { result: rawResult } = await provider.call({
