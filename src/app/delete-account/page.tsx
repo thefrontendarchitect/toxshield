@@ -79,10 +79,10 @@ export default function DeleteAccountPage() {
               </p>
               <div className="arcane-glass p-4 font-mono text-center">
                 <Link
-                  href="mailto:privacy@toxshield.in?subject=Delete%20My%20Account"
+                  href="mailto:bswa006@gmail.com?subject=Delete%20My%20Account"
                   className="text-neon-cyan text-sm underline underline-offset-2 text-glow-subtle"
                 >
-                  privacy@toxshield.in
+                  bswa006@gmail.com
                 </Link>
               </div>
               <p className="text-xs text-text-secondary/60 leading-relaxed">

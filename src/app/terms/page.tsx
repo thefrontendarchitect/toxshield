@@ -322,10 +322,10 @@ export default function TermsOfServicePage() {
                 <p>
                   Email:{' '}
                   <Link
-                    href="mailto:support@toxshield.in"
+                    href="mailto:bswa006@gmail.com"
                     className="text-neon-cyan underline underline-offset-2"
                   >
-                    support@toxshield.in
+                    bswa006@gmail.com
                   </Link>
                 </p>
                 <p>

@@ -397,10 +397,10 @@ export default function PrivacyPolicyPage() {
                 <p>
                   Email:{' '}
                   <Link
-                    href="mailto:privacy@toxshield.in"
+                    href="mailto:bswa006@gmail.com"
                     className="text-neon-cyan underline underline-offset-2"
                   >
-                    privacy@toxshield.in
+                    bswa006@gmail.com
                   </Link>
                 </p>
               </div>
@@ -420,10 +420,10 @@ export default function PrivacyPolicyPage() {
                 <p>
                   Email:{' '}
                   <Link
-                    href="mailto:privacy@toxshield.in"
+                    href="mailto:bswa006@gmail.com"
                     className="text-neon-cyan underline underline-offset-2"
                   >
-                    privacy@toxshield.in
+                    bswa006@gmail.com
                   </Link>
                 </p>
                 <p>
