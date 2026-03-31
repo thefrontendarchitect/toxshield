@@ -24,7 +24,7 @@ const jsonLd = [
     url: 'https://toxshield.in',
     logo: 'https://toxshield.in/apple-icon.png',
     sameAs: [
-      'https://www.instagram.com/toxshield.in/',
+      'https://www.instagram.com/toxshield.ai/',
       'https://www.youtube.com/@toxshield',
     ],
   },

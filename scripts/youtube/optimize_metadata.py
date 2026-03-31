@@ -180,7 +180,7 @@ def generate_description(
         f"Analyze anyone in your life \u2014 get a toxicity score in seconds.")
     sections.append(
         "\U0001f4f2 Follow ToxShield:\n"
-        "Instagram: https://instagram.com/toxshield.in\n"
+        "Instagram: https://instagram.com/toxshield.ai\n"
         "YouTube: https://youtube.com/@toxshield")
     sections.append(
         f"Understanding {kw} is essential for maintaining healthy relationships. "

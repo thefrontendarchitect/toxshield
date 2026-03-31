@@ -6,6 +6,7 @@ import { useKeyboardOffset } from '@/lib/hooks/use-keyboard-offset';
 import { useAndroidBackButton } from '@/lib/hooks/use-android-back-button';
 import { useAppLifecycle } from '@/lib/hooks/use-app-lifecycle';
 import { useSafeAreaInsets } from '@/lib/hooks/use-safe-area-insets';
+import { useUtmTracking } from '@/hooks/use-utm-tracking';
 
 interface AppProvidersProps {
   children: ReactNode;
@@ -16,6 +17,7 @@ export function AppProviders({ children }: AppProvidersProps) {
   useAndroidBackButton();
   useAppLifecycle();
   useSafeAreaInsets();
+  useUtmTracking();
 
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
