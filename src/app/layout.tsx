@@ -22,9 +22,26 @@ const anton = Anton({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://toxshield.in"),
-  title: "ToxShield — Forensic Relationship Analyzer",
+  title: {
+    default: "ToxShield — Forensic Relationship Analyzer",
+    template: "%s | ToxShield",
+  },
   description:
     "AI-powered behavioral analysis. Log a person, get a threat profile. Know who's toxic before they know you know.",
+  keywords: [
+    "toxic relationship analyzer",
+    "gaslighting detector",
+    "narcissism test",
+    "toxic behavior analysis",
+    "relationship red flags",
+    "manipulation detection",
+    "behavioral analysis AI",
+    "toxshield",
+  ],
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
   openGraph: {
     title: "ToxShield — Forensic Relationship Analyzer",
     description:
@@ -45,6 +62,9 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  verification: {
+    google: "PAbT2JQMTZF1onzyC_RjuVc_fRPnsSjoQUD3crbjW_k",
   },
 };
 

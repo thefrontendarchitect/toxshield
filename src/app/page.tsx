@@ -1,20 +1,33 @@
 import Link from 'next/link';
 import { AuroraBackground } from '@/components/ui/aurora-background';
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebApplication',
-  name: 'ToxShield',
-  url: 'https://toxshield.in',
-  description: 'AI-powered behavioral analysis. Log a person, get a threat profile.',
-  applicationCategory: 'HealthApplication',
-  operatingSystem: 'Web',
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'ToxShield',
+    url: 'https://toxshield.in',
+    description: 'AI-powered behavioral analysis. Log a person, get a threat profile.',
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Web',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
   },
-};
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'ToxShield',
+    url: 'https://toxshield.in',
+    logo: 'https://toxshield.in/apple-icon.png',
+    sameAs: [
+      'https://www.instagram.com/toxshield.in/',
+      'https://www.youtube.com/@toxshield',
+    ],
+  },
+];
 
 export default function LandingPage() {
   return (
