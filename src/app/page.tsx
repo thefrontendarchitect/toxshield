@@ -90,6 +90,16 @@ export default function LandingPage() {
             </div>
           </div>
 
+          {/* Inline quick assess — zero clicks to value */}
+          <div className="space-y-3 text-left">
+            <p className="font-mono text-[10px] text-neon-cyan/80 tracking-[0.25em] uppercase text-center">
+              // try_it_now — no signup required
+            </p>
+            <div className="arcane-glass-intense p-5">
+              <QuickModeForm />
+            </div>
+          </div>
+
           {/* How it works — 3 steps */}
           <div className="space-y-3">
             <p className="font-mono text-[10px] text-neon-cyan/80 tracking-[0.25em] uppercase mb-4">
@@ -152,16 +162,6 @@ export default function LandingPage() {
             <div className="text-center">
               <p className="font-mono text-2xl font-black text-text-primary text-glow-subtle">100%</p>
               <p className="font-mono text-[9px] text-text-secondary uppercase tracking-wider">Private</p>
-            </div>
-          </div>
-
-          {/* Inline quick assess — zero clicks to value */}
-          <div className="space-y-3 text-left">
-            <p className="font-mono text-[10px] text-neon-cyan/80 tracking-[0.25em] uppercase text-center">
-              // try_it_now — no signup required
-            </p>
-            <div className="arcane-glass-intense p-5">
-              <QuickModeForm />
             </div>
           </div>
 
