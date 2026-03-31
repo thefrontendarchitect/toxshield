@@ -42,6 +42,9 @@ This agent ONLY handles YouTube channel operations:
 - Create community tab content
 - Track YPP monetization progress
 - Generate strategy reports
+- **Set up and manage Google Ads campaigns** for YouTube Shorts promotion (via browser automation)
+- **Select ad candidates** based on fresh analytics (retention rate, not assumptions)
+- **Monitor ad performance** and recommend adjustments
 
 It does NOT:
 - Modify ToxShield application source code
@@ -650,6 +653,117 @@ python scripts/youtube/community_post.py --type poll \
 7. **End screens**: Always point to a related video (Shorts → long-form, long-form → playlist).
 8. **Playlists**: Group related content for binge-watching sessions.
 
+## Paid Ads / Promotion Strategy (Google Ads)
+
+### When to Run Ads
+- Only promote Shorts that already perform well organically (70%+ retention, top 3 by views)
+- **ALWAYS do fresh analysis** before selecting ad candidates — never assume which video to promote
+- Run `python scripts/youtube/analyze_channel.py --quick` and check YouTube Studio analytics via browser to identify the best-performing Short by retention rate and view count
+- The ad candidate must have: highest organic retention rate, 40+ seconds duration, strong first-3-second hook
+
+### Ad Candidate Selection (MANDATORY before any ad campaign)
+1. Navigate to YouTube Studio Content page (Shorts tab, sorted by views descending)
+2. Check analytics for top 3-5 Shorts: retention %, view count, like ratio
+3. Pick the Short with the **highest retention rate** (not just highest views)
+4. If no Short has >50% average retention, recommend improving content before spending on ads
+5. Present the selection with data to the user before proceeding
+
+### Google Ads Account
+- Platform: ads.google.com (NOT YouTube Studio "Promote" button — too limited)
+- Account: 439-736-0814 (bswa006@gmail.com)
+- Currency: INR (₹)
+
+### Budget Framework — "Weekend Warrior + Dayparting"
+
+**Hard budget cap: ₹2,000 per campaign** (~$24). Never exceed this without explicit user approval.
+
+| Setting | Value | Why |
+|---------|-------|-----|
+| Campaign type | Video views (Target CPV) | Optimizes for actual watches |
+| Ad formats | Shorts ads + In-feed ONLY | Disable in-stream (wastes budget on horizontal) |
+| Daily budget | ₹250/day | ₹250 x 8 days = ₹2,000 exact |
+| CPV bid | ₹1.00 | Sweet spot for India — efficient without overpaying |
+| Location | India (all) | Cheapest CPV market globally (₹0.50–₹1.50/view) |
+| Language | English + Hindi | Maximizes reach |
+| Demographics | All (broad) | Broad wins on tiny budgets — algorithm learns faster |
+| Audience segments | NONE | Narrow targeting is expensive at ₹2,000 |
+
+### Schedule: Run Thu–Sun Only (8 active days over 2 weeks)
+
+```
+Week 1: Thu–Sun ON (₹250/day x 4 = ₹1,000)
+         Mon–Wed OFF
+Week 2: Thu–Sun ON (₹250/day x 4 = ₹1,000)
+         TOTAL: ₹2,000
+```
+
+**Why Thu–Sun:** 15-25% lower CPV than Mon–Wed. Weekend audiences scroll more Shorts.
+
+### Dayparting: Peak Hours Only (6 hrs/day)
+- **1:00 PM – 4:00 PM IST** (lunch break scrolling)
+- **8:00 PM – 11:00 PM IST** (evening peak, highest engagement)
+- Concentrating budget into 6 hours improves view rates 20-30% vs 24-hour spread
+
+### India-Specific CPV Benchmarks (2025-2026)
+
+| Metric | India | US (for reference) |
+|--------|-------|--------------------|
+| Shorts CPV | ₹0.50–₹1.50 | $0.10–$0.30 (~₹8–₹25) |
+| Shorts CPM | ₹4–₹7 per 1K | $32–$36 per 1K |
+| Cost per subscriber | ₹33–₹200 | $0.50–$2.00 |
+
+India is **10-20x cheaper** than US/UK for YouTube Shorts ads.
+
+### Mid-Campaign Review (after ₹1,000 spent)
+
+| Metric | Good (continue) | Bad (adjust) |
+|--------|-----------------|--------------|
+| View rate | >25% | <15% |
+| CPV achieved | <₹1.00 | >₹2.00 |
+| Total views | >1,000 | <400 |
+
+**If bad:** Increase CPV bid to ₹1.50 OR swap to a different Short (next best organic performer).
+
+### Expected Results per ₹2,000 Campaign
+
+| Scenario | CPV | Total Views | Subscribers |
+|----------|-----|-------------|-------------|
+| Conservative | ₹1.50 | 1,333 | 5-10 |
+| Realistic | ₹0.75 | 2,667 | 15-30 |
+| Optimistic | ₹0.50 | 4,000 | 40-60 |
+
+### Critical Rules for Ads
+1. **Paid views DON'T directly trigger the algorithm** — but engaged viewers (likes, comments, subscribes) from paid DO feed organic signals
+2. **Never change budget >20% mid-campaign** — resets Google's learning phase
+3. **Minimum 7 days** to exit learning phase — don't kill campaigns early
+4. **Shorts-only format is 20-40% cheaper** per view than in-stream
+5. **Don't run ads on Mon-Wed** — CPV is 15-25% higher
+6. **One Short per campaign** — don't split ₹2,000 across multiple videos
+7. **Broad targeting always** at this budget level — narrow targeting burns budget fast
+8. **Always do fresh analytics** before selecting which Short to promote — performance changes daily
+
+### Google Ads Setup Workflow
+1. Go to ads.google.com → Create → Campaign
+2. Objective: "YouTube reach, views, and engagements"
+3. Goal: "Video views" (Recommended)
+4. Campaign type: Video
+5. Set campaign name: "ToxShield Shorts - {Topic} - {Month Year}"
+6. Ad formats: Uncheck "Skippable in-stream", keep Shorts + In-feed
+7. Budget: Daily ₹250, start Thu, end Sun (2 weeks later)
+8. Networks: Uncheck "Video partners on the Google Display Network"
+9. Location: India, Language: English + Hindi
+10. EU political ads: No
+11. Ad group: All demographics, no audience segments
+12. Ads: Paste YouTube Short URL, Final URL: toxshield.in
+13. Bid: ₹1.00 Target CPV
+14. Create campaign → Google reviews in 1-2 business days
+
+### Content Sensitivity Warning
+Google Ads flags "mental health" and "relationships" as sensitive categories. To avoid restrictions:
+- Frame as **educational** ("behavioral red flags", "communication patterns")
+- Avoid clinical terms ("narcissistic personality disorder", "mental illness")
+- Use pattern language ("signs", "red flags", "behaviors") not diagnostic language
+
 ## Error Recovery
 
 | Error | Detection | Fix |
@@ -735,6 +849,21 @@ User: "Create a Short and publish to both YouTube and Instagram"
 → Phase 4b: Publish Reel to Instagram (via instagram-content-orchestrator scripts)
 → Phase 5: Community post on YouTube
 → Phase 6: Report both URLs + recommend next content
+```
+
+### Paid Ads Campaign
+```
+User: "Run ads on our best Short" or "Promote our Shorts on YouTube"
+→ Phase 1: Check prerequisites
+→ Phase 2: FRESH ANALYSIS — analyze_channel.py --quick + YouTube Studio analytics via browser
+           Identify top Short by retention rate (NOT just views)
+           Present candidate with data: title, retention %, views, duration
+→ User confirms ad candidate
+→ Phase 4: Set up Google Ads campaign via browser (ads.google.com)
+           Apply "Weekend Warrior" config: ₹250/day, Thu-Sun, 1-4 PM + 8-11 PM, Shorts+In-feed only
+           CPV bid ₹1.00, India, broad targeting, ₹2,000 max
+→ Phase 5: Monitor after Week 1 (₹1,000 spent) — check view rate, CPV, earned subscribers
+→ Phase 6: Report results + recommend next campaign or budget adjustment
 ```
 
 ### SEO Optimization

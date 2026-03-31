@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { AuroraBackground } from '@/components/ui/aurora-background';
+import { QuickModeForm } from '@/components/analysis/quick-mode-form';
 
 const jsonLd = [
   {
@@ -154,26 +155,36 @@ export default function LandingPage() {
             </div>
           </div>
 
+          {/* Inline quick assess — zero clicks to value */}
+          <div className="space-y-3 text-left">
+            <p className="font-mono text-[10px] text-neon-cyan/80 tracking-[0.25em] uppercase text-center">
+              // try_it_now — no signup required
+            </p>
+            <div className="arcane-glass-intense p-5">
+              <QuickModeForm />
+            </div>
+          </div>
+
           {/* CTA buttons */}
           <div className="flex flex-col items-center gap-3 pt-2">
             <Link
-              href="/signup"
+              href="/try"
               className="w-full sm:w-auto px-12 py-4 bg-neon-cyan text-surface-0 font-black rounded-xl font-mono text-sm tracking-[0.15em] active:bg-neon-cyan/90 transition-all glow min-h-[52px] flex items-center justify-center touch-active uppercase"
             >
-              Start Analyzing — Free →
+              Full Analysis — No Signup →
             </Link>
             <div className="flex gap-3">
               <Link
-                href="/login"
+                href="/signup"
                 className="px-8 py-3.5 arcane-glass font-mono text-sm text-neon-cyan active:bg-neon-cyan/10 transition-colors min-h-[48px] flex items-center touch-active hover:border-neon-cyan/30"
               >
-                LOGIN
+                SIGN UP
               </Link>
               <Link
-                href="/try"
+                href="/login"
                 className="px-8 py-3.5 arcane-glass font-mono text-sm text-text-secondary active:bg-neon-cyan/5 transition-colors min-h-[48px] flex items-center touch-active"
               >
-                TRY DEMO
+                LOGIN
               </Link>
             </div>
           </div>

@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import { track } from '@vercel/analytics';
 import { Spinner } from '@/components/ui/spinner';
 import { ErrorAlert } from '@/components/ui/error-alert';
 
@@ -53,6 +55,7 @@ export function QuickModeForm({ onResult }: QuickModeFormProps) {
     setError('');
     setLoading(true);
     setResult(null);
+    track('try_analysis_started', { mode: 'quick' });
 
     try {
       const response = await fetch('/api/quick-assess', {
@@ -68,6 +71,7 @@ export function QuickModeForm({ onResult }: QuickModeFormProps) {
 
       const data = await response.json();
       setResult(data.result);
+      track('try_analysis_completed', { mode: 'quick', verdict: data.result.verdict });
       onResult?.(data.result);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
@@ -105,6 +109,23 @@ export function QuickModeForm({ onResult }: QuickModeFormProps) {
               {result.score.toFixed(1)}/10
             </span>
           </div>
+        </div>
+
+        {/* Upsell — full threat profile */}
+        <div className="arcane-glass p-5 text-center space-y-3">
+          <p className="font-mono text-sm text-text-primary font-bold">
+            Want the full threat profile?
+          </p>
+          <p className="text-xs text-text-secondary">
+            Sign up to get detailed trait breakdowns, protection strategies, and track patterns over time.
+          </p>
+          <Link
+            href="/signup"
+            onClick={() => track('try_signup_clicked', { source: 'quick_result' })}
+            className="inline-block px-8 py-3.5 bg-neon-cyan text-surface-0 font-bold rounded-xl font-mono text-sm tracking-wider active:bg-neon-cyan/90 transition-all min-h-[48px] touch-active"
+          >
+            SIGN UP FREE
+          </Link>
         </div>
 
         {/* Actions */}

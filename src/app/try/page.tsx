@@ -2,6 +2,7 @@
 
 import { Suspense, useState } from 'react';
 import Link from 'next/link';
+import { track } from '@vercel/analytics';
 import { AppHeader } from '@/components/layout/app-header';
 import { AuroraBackground, hashString } from '@/components/ui/aurora-background';
 import { useSearchParams, usePathname } from 'next/navigation';
@@ -73,6 +74,7 @@ function TryPageContent() {
   );
 
   const handleResult = (name: string, relationship: string | null, result: AnalysisResult) => {
+    track('try_analysis_completed', { mode, risk_level: result.risk_level });
     const entry: TryEntry = {
       id: crypto.randomUUID(),
       name,
@@ -112,6 +114,7 @@ function TryPageContent() {
               </p>
               <Link
                 href="/signup"
+                onClick={() => track('try_signup_clicked', { source: 'full_result' })}
                 className="inline-block px-8 py-3.5 bg-neon-cyan text-surface-0 font-bold rounded-xl font-mono text-sm tracking-wider active:bg-neon-cyan/90 transition-all min-h-[48px] touch-active"
               >
                 SIGN UP FREE
@@ -171,7 +174,7 @@ function TryPageContent() {
                 <button
                   type="button"
                   key={m}
-                  onClick={() => setMode(m)}
+                  onClick={() => { setMode(m); track('try_mode_selected', { mode: m }); }}
                   className={`flex-1 py-2.5 rounded-lg font-mono text-[10px] tracking-wider transition-all min-h-[40px] ${
                     mode === m
                       ? 'bg-neon-cyan text-surface-0 font-bold'
