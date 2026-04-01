@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { AuroraBackground } from '@/components/ui/aurora-background';
-import { QuickModeForm } from '@/components/analysis/quick-mode-form';
+import { TapToAnalyze } from '@/components/analysis/tap-to-analyze';
 import { HomepageTracker } from '@/components/analytics/homepage-tracker';
 
 const jsonLd = [
@@ -53,58 +53,27 @@ export default function LandingPage() {
         </div>
       </div>
 
-      <main className="relative z-10 flex-1 flex items-center justify-center px-5 py-10">
-        <div className="max-w-lg w-full text-center space-y-10">
+      <main className="relative z-10 flex-1 px-5 py-8">
+        <div className="max-w-lg w-full mx-auto space-y-8">
 
-          {/* Hero — big dramatic title */}
-          <div className="space-y-5">
-            <p className="font-mono text-[10px] text-neon-magenta tracking-[0.3em] uppercase">
-              // threat_detection_system
-            </p>
-            <h1 className="text-5xl sm:text-7xl font-black font-display text-text-primary tracking-[0.15em] text-glow leading-[0.9]">
+          {/* Hero — tight, no wasted space */}
+          <div className="text-center space-y-3">
+            <h1 className="text-4xl sm:text-6xl font-black font-display text-text-primary tracking-[0.15em] text-glow leading-[0.9]">
               TOX<span className="text-neon-cyan">SHIELD</span>
             </h1>
-            <div className="flex items-center justify-center gap-3">
-              <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-neon-cyan/40" />
-              <p className="text-xs text-neon-cyan font-mono tracking-[0.2em] uppercase">
-                Forensic Behavioral Analysis
-              </p>
-              <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-neon-cyan/40" />
-            </div>
+            <p className="text-sm text-text-secondary">
+              Describe the behavior. <span className="text-neon-cyan font-medium">AI builds the threat profile.</span>
+            </p>
           </div>
 
-          {/* Punchy value prop */}
-          <div className="arcane-glass-intense p-6 space-y-4 max-w-md mx-auto text-left">
-            <p className="text-text-primary text-base leading-relaxed">
-              Someone in your life feels <span className="text-neon-magenta font-bold">off</span>.
-              You can&apos;t quite name it. The subtle put-downs, the gaslighting,
-              the way they twist every argument.
-            </p>
-            <p className="text-text-primary text-base leading-relaxed">
-              <span className="text-neon-cyan font-bold">ToxShield sees it.</span> Describe the behavior.
-              Our AI builds a forensic threat profile — toxicity score, detected
-              manipulation traits, and strategies to protect yourself.
-            </p>
-            <div className="pt-2 border-t border-neon-cyan/[0.06]">
-              <p className="text-neon-mint font-mono text-xs italic text-glow-subtle">
-                &ldquo;Know who&apos;s toxic before they know you know.&rdquo;
-              </p>
-            </div>
-          </div>
-
-          {/* Inline quick assess — zero clicks to value */}
-          <div data-track="try_form" className="space-y-3 text-left">
-            <p className="font-mono text-[10px] text-neon-cyan/80 tracking-[0.25em] uppercase text-center">
-              // try_it_now — no signup required
-            </p>
-            <div className="arcane-glass-intense p-5">
-              <QuickModeForm />
-            </div>
+          {/* Tap-to-analyze — the main event, visible on first screen */}
+          <div data-track="try_form">
+            <TapToAnalyze />
           </div>
 
           {/* How it works — 3 steps */}
           <div data-track="how_it_works" className="space-y-3">
-            <p className="font-mono text-[10px] text-neon-cyan/80 tracking-[0.25em] uppercase mb-4">
+            <p className="font-mono text-[10px] text-neon-cyan/80 tracking-[0.25em] uppercase mb-4 text-center">
               // how_it_works
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
@@ -114,42 +83,42 @@ export default function LandingPage() {
                   color: 'text-neon-cyan',
                   borderColor: 'hover:border-neon-cyan/30',
                   title: 'Describe',
-                  desc: 'Log what they said, how they acted, or paste a chat. The more detail, the sharper the profile.',
+                  desc: 'Log what they said, how they acted, or paste a chat.',
                 },
                 {
                   step: '02',
                   color: 'text-neon-magenta',
                   borderColor: 'hover:border-neon-magenta/30',
                   title: 'Analyze',
-                  desc: 'AI scans for 40+ toxic traits — narcissism, gaslighting, DARVO, love-bombing, and more.',
+                  desc: 'AI scans for 40+ toxic traits — narcissism, gaslighting, DARVO, and more.',
                 },
                 {
                   step: '03',
                   color: 'text-neon-mint',
                   borderColor: 'hover:border-neon-mint/30',
                   title: 'Protect',
-                  desc: 'Get a threat score (0-10), pattern breakdown, and actionable protection strategies.',
+                  desc: 'Get a threat score, pattern breakdown, and protection strategies.',
                 },
               ].map((feature) => (
                 <div
                   key={feature.title}
-                  className={`arcane-glass p-5 transition-all ${feature.borderColor}`}
+                  className={`arcane-glass p-4 transition-all ${feature.borderColor}`}
                 >
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className={`font-mono text-2xl font-black ${feature.color}`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className={`font-mono text-xl font-black ${feature.color}`}>
                       {feature.step}
                     </span>
+                    <h2 className="font-mono text-sm font-bold text-text-primary">
+                      {feature.title}
+                    </h2>
                   </div>
-                  <h2 className="font-mono text-sm font-bold text-text-primary mb-1.5">
-                    {feature.title}
-                  </h2>
                   <p className="text-xs text-text-secondary leading-relaxed">{feature.desc}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Social proof / stats */}
+          {/* Social proof */}
           <div className="flex items-center justify-center gap-6 py-2">
             <div className="text-center">
               <p className="font-mono text-2xl font-black text-text-primary text-glow-subtle">40+</p>
@@ -194,7 +163,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <p className="text-[10px] text-text-secondary font-mono pt-4">
+          <p className="text-[10px] text-text-secondary font-mono pt-4 text-center">
             ToxShield identifies behavioral patterns. Not a substitute for professional counseling.
           </p>
 
