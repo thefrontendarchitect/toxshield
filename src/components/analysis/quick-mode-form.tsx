@@ -18,29 +18,7 @@ interface QuickModeFormProps {
   onResult?: (result: QuickResult) => void;
 }
 
-const VERDICT_STYLES: Record<string, { bg: string; border: string; text: string; glow: string; label: string }> = {
-  RED_FLAG: {
-    bg: 'bg-neon-magenta/10',
-    border: 'border-neon-magenta/30',
-    text: 'text-neon-magenta',
-    glow: 'text-glow-magenta',
-    label: 'RED FLAG',
-  },
-  YELLOW_FLAG: {
-    bg: 'bg-warning-amber/10',
-    border: 'border-warning-amber/30',
-    text: 'text-warning-amber',
-    glow: '',
-    label: 'YELLOW FLAG',
-  },
-  GREEN_FLAG: {
-    bg: 'bg-neon-mint/10',
-    border: 'border-neon-mint/30',
-    text: 'text-neon-mint',
-    glow: '',
-    label: 'GREEN FLAG',
-  },
-};
+import { VERDICT_STYLES } from './verdict-styles';
 
 export function QuickModeForm({ onResult }: QuickModeFormProps) {
   const [description, setDescription] = useState('');
@@ -132,7 +110,7 @@ export function QuickModeForm({ onResult }: QuickModeFormProps) {
         <button
           type="button"
           onClick={handleReset}
-          className="w-full py-3.5 border border-surface-3 rounded-xl font-mono text-xs text-text-secondary active:bg-surface-1 transition-colors min-h-[48px] touch-active"
+          className="w-full py-3.5 border border-neon-cyan/[0.08] rounded-xl font-mono text-xs text-text-secondary active:bg-hover transition-colors min-h-[48px] touch-active focus-visible:outline focus-visible:outline-2 focus-visible:outline-neon-cyan/60"
         >
           ASSESS ANOTHER
         </button>
@@ -143,8 +121,9 @@ export function QuickModeForm({ onResult }: QuickModeFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="label-section mb-2 block">WHAT HAPPENED?</label>
+        <label htmlFor="quick-description" className="label-section mb-2 block">WHAT HAPPENED?</label>
         <textarea
+          id="quick-description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder='e.g. "He said I was overreacting when I caught him lying"'

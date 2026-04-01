@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { track } from '@vercel/analytics';
 import { Spinner } from '@/components/ui/spinner';
 import { QuickModeForm, type QuickResult } from './quick-mode-form';
+import { VERDICT_STYLES } from './verdict-styles';
 
 const SCENARIOS = [
   'He said I was overreacting when I caught him lying',
@@ -13,30 +14,6 @@ const SCENARIOS = [
   'He says nobody else would put up with me',
 ];
 
-const VERDICT_STYLES: Record<string, { bg: string; border: string; text: string; glow: string; label: string }> = {
-  RED_FLAG: {
-    bg: 'bg-neon-magenta/10',
-    border: 'border-neon-magenta/30',
-    text: 'text-neon-magenta',
-    glow: 'text-glow-magenta',
-    label: 'RED FLAG',
-  },
-  YELLOW_FLAG: {
-    bg: 'bg-warning-amber/10',
-    border: 'border-warning-amber/30',
-    text: 'text-warning-amber',
-    glow: '',
-    label: 'YELLOW FLAG',
-  },
-  GREEN_FLAG: {
-    bg: 'bg-neon-mint/10',
-    border: 'border-neon-mint/30',
-    text: 'text-neon-mint',
-    glow: '',
-    label: 'GREEN FLAG',
-  },
-};
-
 export function TapToAnalyze() {
   const [loadingIdx, setLoadingIdx] = useState<number | null>(null);
   const [result, setResult] = useState<QuickResult | null>(null);
@@ -44,7 +21,7 @@ export function TapToAnalyze() {
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState('');
 
-  const handleTap = async (scenario: string, idx: number) => {
+  const handleTap = useCallback(async (scenario: string, idx: number) => {
     if (loadingIdx !== null) return;
 
     setError('');
@@ -73,19 +50,20 @@ export function TapToAnalyze() {
     } finally {
       setLoadingIdx(null);
     }
-  };
+  }, [loadingIdx]);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setResult(null);
     setResultScenario('');
     setShowForm(false);
-  };
+  }, []);
 
   // Show result
   if (result) {
     const style = VERDICT_STYLES[result.verdict];
+    const scoreDisplay = typeof result.score === 'number' ? result.score.toFixed(1) : '?';
     return (
-      <div className="space-y-4">
+      <div className="space-y-4" role="status" aria-live="polite">
         {/* What was assessed */}
         <p className="font-mono text-[10px] text-text-secondary/60 text-center uppercase tracking-[0.15em]">
           &ldquo;{resultScenario}&rdquo;
@@ -98,7 +76,7 @@ export function TapToAnalyze() {
               {style.label}
             </span>
             <span className={`font-mono text-2xl font-bold ${style.text}`}>
-              {result.score.toFixed(1)}
+              {scoreDisplay}
             </span>
           </div>
           <p className="font-mono text-base font-bold text-text-primary uppercase">
@@ -116,7 +94,7 @@ export function TapToAnalyze() {
         <Link
           href="/signup"
           onClick={() => track('try_signup_clicked', { source: 'tap_result' })}
-          className="block w-full py-4 bg-neon-cyan text-surface-0 font-black rounded-xl font-mono text-sm tracking-[0.15em] text-center active:bg-neon-cyan/90 transition-all min-h-[52px] touch-active uppercase"
+          className="block w-full py-4 bg-neon-cyan text-surface-0 font-black rounded-xl font-mono text-sm tracking-[0.15em] text-center active:bg-neon-cyan/90 transition-all min-h-[52px] touch-active uppercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-neon-cyan/60"
         >
           Get Full Threat Profile — Free
         </Link>
@@ -124,7 +102,7 @@ export function TapToAnalyze() {
         <button
           type="button"
           onClick={handleReset}
-          className="w-full py-3 border border-surface-3 rounded-xl font-mono text-xs text-text-secondary active:bg-surface-1 transition-colors min-h-[44px] touch-active"
+          className="w-full py-3 border border-neon-cyan/[0.08] rounded-xl font-mono text-xs text-text-secondary active:bg-hover transition-colors min-h-[44px] touch-active focus-visible:outline focus-visible:outline-2 focus-visible:outline-neon-cyan/60"
         >
           TRY ANOTHER
         </button>
@@ -140,7 +118,7 @@ export function TapToAnalyze() {
         <button
           type="button"
           onClick={() => setShowForm(false)}
-          className="w-full py-2 font-mono text-[10px] text-text-secondary/60 active:text-neon-cyan/60 transition-colors"
+          className="w-full py-2 font-mono text-[10px] text-text-secondary/60 active:text-neon-cyan/60 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-neon-cyan/60"
         >
           &larr; Back to scenarios
         </button>
@@ -157,10 +135,12 @@ export function TapToAnalyze() {
 
       {SCENARIOS.map((scenario, idx) => (
         <button
-          key={idx}
+          key={scenario}
           onClick={() => handleTap(scenario, idx)}
           disabled={loadingIdx !== null}
-          className={`w-full text-left arcane-glass p-4 rounded-xl transition-all min-h-[52px] touch-active
+          aria-busy={loadingIdx === idx}
+          aria-label={loadingIdx === idx ? 'Assessing scenario...' : `Assess: ${scenario}`}
+          className={`w-full text-left arcane-glass p-4 rounded-xl transition-all min-h-[52px] touch-active focus-visible:outline focus-visible:outline-2 focus-visible:outline-neon-cyan/60
             ${loadingIdx === idx ? 'border-neon-cyan/40 glow-subtle' : 'active:border-neon-cyan/30'}
             ${loadingIdx !== null && loadingIdx !== idx ? 'opacity-40' : ''}`}
         >
@@ -178,7 +158,7 @@ export function TapToAnalyze() {
       ))}
 
       {error && (
-        <p className="text-xs text-neon-magenta font-mono text-center">{error}</p>
+        <p className="text-xs text-neon-magenta font-mono text-center" role="alert">{error}</p>
       )}
 
       <button
@@ -187,7 +167,7 @@ export function TapToAnalyze() {
           setShowForm(true);
           track('tap_type_own_clicked');
         }}
-        className="w-full py-3 font-mono text-xs text-neon-cyan/60 active:text-neon-cyan transition-colors min-h-[44px] touch-active"
+        className="w-full py-3 font-mono text-xs text-neon-cyan/60 active:text-neon-cyan transition-colors min-h-[44px] touch-active focus-visible:outline focus-visible:outline-2 focus-visible:outline-neon-cyan/60"
       >
         Or type your own scenario →
       </button>
