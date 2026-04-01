@@ -31,6 +31,12 @@ AVAILABLE_THEMES = [
     "pastel-soft",
     "arcane",
     "comedy-visual",
+    "toxic-trading-card",
+    "unhinged-text",
+    "red-flag-meter",
+    "meme-classic",
+    "meme-chat",
+    "meme-redflag",
 ]
 
 

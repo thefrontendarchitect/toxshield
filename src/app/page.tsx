@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { AuroraBackground } from '@/components/ui/aurora-background';
 import { QuickModeForm } from '@/components/analysis/quick-mode-form';
+import { HomepageTracker } from '@/components/analytics/homepage-tracker';
 
 const jsonLd = [
   {
@@ -38,6 +39,7 @@ export default function LandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <AuroraBackground seed={777} />
+      <HomepageTracker />
 
       {/* Terminal header bar */}
       <div className="relative z-10 flex items-center gap-2 px-4 py-2 arcane-glass border-b border-neon-cyan/[0.08] font-mono text-xs pt-safe">
@@ -91,7 +93,7 @@ export default function LandingPage() {
           </div>
 
           {/* Inline quick assess — zero clicks to value */}
-          <div className="space-y-3 text-left">
+          <div data-track="try_form" className="space-y-3 text-left">
             <p className="font-mono text-[10px] text-neon-cyan/80 tracking-[0.25em] uppercase text-center">
               // try_it_now — no signup required
             </p>
@@ -101,7 +103,7 @@ export default function LandingPage() {
           </div>
 
           {/* How it works — 3 steps */}
-          <div className="space-y-3">
+          <div data-track="how_it_works" className="space-y-3">
             <p className="font-mono text-[10px] text-neon-cyan/80 tracking-[0.25em] uppercase mb-4">
               // how_it_works
             </p>
@@ -151,24 +153,25 @@ export default function LandingPage() {
           <div className="flex items-center justify-center gap-6 py-2">
             <div className="text-center">
               <p className="font-mono text-2xl font-black text-text-primary text-glow-subtle">40+</p>
-              <p className="font-mono text-[9px] text-text-secondary uppercase tracking-wider">Toxic Traits</p>
+              <p className="font-mono text-[10px] text-text-secondary uppercase tracking-[0.1em]">Toxic Traits</p>
             </div>
             <div className="w-px h-8 bg-neon-cyan/10" />
             <div className="text-center">
               <p className="font-mono text-2xl font-black text-neon-cyan text-glow-subtle">AI</p>
-              <p className="font-mono text-[9px] text-text-secondary uppercase tracking-wider">Powered</p>
+              <p className="font-mono text-[10px] text-text-secondary uppercase tracking-[0.1em]">Powered</p>
             </div>
             <div className="w-px h-8 bg-neon-cyan/10" />
             <div className="text-center">
               <p className="font-mono text-2xl font-black text-text-primary text-glow-subtle">100%</p>
-              <p className="font-mono text-[9px] text-text-secondary uppercase tracking-wider">Private</p>
+              <p className="font-mono text-[10px] text-text-secondary uppercase tracking-[0.1em]">Private</p>
             </div>
           </div>
 
           {/* CTA buttons */}
-          <div className="flex flex-col items-center gap-3 pt-2">
+          <div data-track="cta" className="flex flex-col items-center gap-3 pt-2">
             <Link
               href="/try"
+              data-track-click="full_analysis"
               className="w-full sm:w-auto px-12 py-4 bg-neon-cyan text-surface-0 font-black rounded-xl font-mono text-sm tracking-[0.15em] active:bg-neon-cyan/90 transition-all glow min-h-[52px] flex items-center justify-center touch-active uppercase"
             >
               Full Analysis — No Signup →
@@ -176,12 +179,14 @@ export default function LandingPage() {
             <div className="flex gap-3">
               <Link
                 href="/signup"
+                data-track-click="signup"
                 className="px-8 py-3.5 arcane-glass font-mono text-sm text-neon-cyan active:bg-neon-cyan/10 transition-colors min-h-[48px] flex items-center touch-active hover:border-neon-cyan/30"
               >
                 SIGN UP
               </Link>
               <Link
                 href="/login"
+                data-track-click="login"
                 className="px-8 py-3.5 arcane-glass font-mono text-sm text-text-secondary active:bg-neon-cyan/5 transition-colors min-h-[48px] flex items-center touch-active"
               >
                 LOGIN
@@ -194,11 +199,11 @@ export default function LandingPage() {
           </p>
 
           <div className="flex items-center justify-center gap-4 pt-2 pb-safe">
-            <Link href="/privacy" className="font-mono text-[10px] text-text-secondary/40 active:text-neon-cyan/60 transition-colors py-2 px-1">
+            <Link href="/privacy" data-track-click="privacy_policy" data-track-type="link" className="font-mono text-[10px] text-text-secondary/40 active:text-neon-cyan/60 transition-colors py-2 px-1">
               Privacy Policy
             </Link>
             <span className="text-text-secondary/20">|</span>
-            <Link href="/terms" className="font-mono text-[10px] text-text-secondary/40 active:text-neon-cyan/60 transition-colors py-2 px-1">
+            <Link href="/terms" data-track-click="terms_of_service" data-track-type="link" className="font-mono text-[10px] text-text-secondary/40 active:text-neon-cyan/60 transition-colors py-2 px-1">
               Terms of Service
             </Link>
           </div>
