@@ -46,7 +46,9 @@ export function TapToAnalyze() {
       setResultScenario(scenario);
       track('tap_scenario_result', { verdict: data.result.verdict, score: data.result.score });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong');
+      const msg = err instanceof Error ? err.message : 'Something went wrong';
+      setError(msg);
+      track('tap_scenario_error', { error: msg.slice(0, 100), scenario_index: idx });
     } finally {
       setLoadingIdx(null);
     }

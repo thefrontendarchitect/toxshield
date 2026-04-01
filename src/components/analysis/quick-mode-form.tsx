@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { track } from '@vercel/analytics';
 import { Spinner } from '@/components/ui/spinner';
@@ -25,6 +25,30 @@ export function QuickModeForm({ onResult }: QuickModeFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState<QuickResult | null>(null);
+  const hasFocused = useRef(false);
+  const hasSubmitted = useRef(false);
+  const descriptionRef = useRef('');
+
+  // Keep ref in sync for abandon detection
+  useEffect(() => { descriptionRef.current = description; }, [description]);
+
+  // Track form abandonment (typed 5+ chars but left without submitting)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden' && !hasSubmitted.current && descriptionRef.current.trim().length >= 5) {
+        track('quick_form_abandoned', { chars_typed: descriptionRef.current.length });
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, []);
+
+  const handleFocus = useCallback(() => {
+    if (!hasFocused.current) {
+      hasFocused.current = true;
+      track('quick_form_focused');
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,6 +57,7 @@ export function QuickModeForm({ onResult }: QuickModeFormProps) {
     setError('');
     setLoading(true);
     setResult(null);
+    hasSubmitted.current = true;
     track('try_analysis_started', { mode: 'quick' });
 
     try {
@@ -126,6 +151,7 @@ export function QuickModeForm({ onResult }: QuickModeFormProps) {
           id="quick-description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          onFocus={handleFocus}
           placeholder='e.g. "He said I was overreacting when I caught him lying"'
           className="w-full arcane-glass rounded-xl px-4 py-3 font-mono text-sm text-text-primary placeholder:text-text-secondary/40 min-h-[100px] resize-none focus:border-neon-cyan/40 focus:outline-none transition-colors"
           maxLength={500}
