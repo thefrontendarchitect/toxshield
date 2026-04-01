@@ -131,8 +131,8 @@ export function TapToAnalyze() {
   // Scenario cards
   return (
     <div className="space-y-3">
-      <p className="font-mono text-[10px] text-neon-cyan/80 tracking-[0.25em] uppercase text-center">
-        // is_this_toxic? — tap to find out
+      <p className="font-mono text-xs font-bold text-neon-cyan tracking-[0.2em] uppercase text-center">
+        Tap a scenario to analyze
       </p>
 
       {SCENARIOS.map((scenario, idx) => (
@@ -142,9 +142,10 @@ export function TapToAnalyze() {
           disabled={loadingIdx !== null}
           aria-busy={loadingIdx === idx}
           aria-label={loadingIdx === idx ? 'Assessing scenario...' : `Assess: ${scenario}`}
-          className={`w-full text-left arcane-glass p-4 rounded-xl transition-all min-h-[52px] touch-active focus-visible:outline focus-visible:outline-2 focus-visible:outline-neon-cyan/60
+          className={`w-full text-left arcane-glass p-4 rounded-xl transition-all min-h-[52px] touch-active border-l-2 border-l-neon-cyan/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-neon-cyan/60
             ${loadingIdx === idx ? 'border-neon-cyan/40 glow-subtle' : 'active:border-neon-cyan/30'}
-            ${loadingIdx !== null && loadingIdx !== idx ? 'opacity-40' : ''}`}
+            ${loadingIdx !== null && loadingIdx !== idx ? 'opacity-40' : ''}
+            ${idx === 0 && loadingIdx === null ? 'animate-[border-flash_2s_ease-in-out_infinite]' : ''}`}
         >
           {loadingIdx === idx ? (
             <span className="flex items-center gap-3">
@@ -152,9 +153,14 @@ export function TapToAnalyze() {
               <span className="font-mono text-xs text-neon-cyan">&gt;&gt; Assessing...</span>
             </span>
           ) : (
-            <p className="text-sm text-text-primary leading-relaxed">
-              &ldquo;{scenario}&rdquo;
-            </p>
+            <div className="flex items-start justify-between gap-3">
+              <p className="text-sm text-text-primary leading-relaxed flex-1">
+                &ldquo;{scenario}&rdquo;
+              </p>
+              <span className="shrink-0 mt-0.5 font-mono text-[10px] text-neon-cyan/70 uppercase tracking-wider flex items-center gap-1">
+                Analyze <span aria-hidden="true">&rarr;</span>
+              </span>
+            </div>
           )}
         </button>
       ))}
