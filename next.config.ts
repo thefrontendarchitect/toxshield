@@ -17,6 +17,17 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: process.env.BUILD_MODE === 'mobile' || process.env.BUILD_MODE === 'docker',
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.toxshield.in' }],
+        destination: 'https://toxshield.in/:path*',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
